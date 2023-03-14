@@ -1,9 +1,12 @@
-<?php include 'libs/connection.inc.php' ?>
+<?php 
+    include 'libs/connection.inc.php';
+    session_start(); ob_start(); ob_clean();
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from preschool.dreamguystech.com/html-template/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Oct 2021 11:11:58 GMT -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -22,7 +25,6 @@
 <body>
 
 <div class="main-wrapper login-body">
-<?php if(isset($report)) { echo Alert(); }  ?>
 <div class="login-wrapper">
 <div class="container">
 <div class="loginbox">
@@ -34,33 +36,30 @@
 <h1>Register</h1>
 <p class="account-subtitle">Access to our dashboard</p>
 
-<!-- <form action="https://preschool.dreamguystech.com/html-template/login.html" method="POST"> -->
-<form  method="POST">
+<form class="was-validated" method="POST">
 <div class="form-group">
-    <h4>Register as:</h4>
-    <input type="radio" name="individual" id="" value="Lecturer" required>
-    <label for="">Lecturer</label>
-    <input type="radio" name="individual" id="" value="Student" required>
-    <label for="">Student</label> 
-</div>
-
-<div class="form-group">
-<input class="form-control" type="text" placeholder="First Name" name="first_name" required>
+<input class="form-control" type="text" placeholder="Last Name" name="lastName" required>
 </div>
 <div class="form-group">
-<input class="form-control" type="text" placeholder="Last Name" name="last_name" required>
+<input class="form-control" type="text" placeholder="First Name" name="firstName" required>
 </div>
-
 <div class="form-group">
-<input class="form-control" type="text" placeholder="Email" name="email" required>
-<div style="color:red"><?= $registeredEmailErr ?></div>
+<input class="form-control" type="email" placeholder="Email" name="email" value="<?= $email ?? NULL; ?>" required>
+<div style="color:red"><?= $registeredEmailErr ?? NULL; ?></div>
+</div>
+<div class="form-group">
+<select class="form-control" name="user" required>
+    <option value="">Register as</option>
+    <option value="Student">Student</option>
+    <option value="Lecturer">Lecturer</option>
+</select>
 </div>
 <div class="form-group">
 <input class="form-control" type="password" placeholder="Password" name="password" required>
 </div>
 <div class="form-group">
-<input class="form-control" type="password" placeholder="Confirm Password" name="confirm_password" required>
-<div style="color:red"><?= $passwordErr ?></div>
+<input class="form-control" type="password" placeholder="Repeat Password" name="repeatPassword" required>
+<div style="color:red"><?= $passwordErr ?? NULL; ?></div>
 </div>
 <div class="form-group mb-0">
 <button class="btn btn-primary btn-block" type="submit" name="register">Register</button>
@@ -94,5 +93,4 @@
 <script src="assets/js/script.js"></script>
 </body>
 
-<!-- Mirrored from preschool.dreamguystech.com/html-template/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Oct 2021 11:11:58 GMT -->
 </html>

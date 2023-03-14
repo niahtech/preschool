@@ -1,2 +1,0 @@
-# preschool
-school manage appilication

@@ -1,241 +1,147 @@
 <?php
-$registeredEmailErr = $passwordErr = '';
-class New_Life
-{
-
-    function __construct()
-    {
-
-        if (isset($_POST["register"])) {
+class lecturer {
+    function __construct() {
+        if(isset($_POST['register'])) {
             $this->register();
         }
-        else if (isset($_POST['login'])) {
-            $this->Login();
+        if(isset($_POST['login'])) {
+            $this->login();
         }
-        else if (isset($_POST['submit'])) {
-            $this->Add_student();
+        if(isset($_POST['editLecturer'])) {
+            $this->editLecturer();
         }
-        else if(isset($_POST['change_pass'])){ $this->student_details();}
-        else if(isset($_POST['save_changes'])){ $this->student_details();}
-        else if(isset($_POST['deleteStudent'])){ $this->deleteStudent();}
-        else if(isset($_POST['deleteLecturer'])){ $this->deleteLecturer();}
-        else if (array_key_exists('createClass', $_POST)) { $this->createClass(); }
-        else if (array_key_exists('createDepartment', $_POST)) { $this->createDepartment(); }
-        else if (array_key_exists('createCourse', $_POST)) { $this->createCourse(); }
-    }
-    function validation($text, $fieldname)
-    {
-        global $report, $count;
-        $text = trim($text);
-        if (strlen($text) < 3) {
-            $report = $report . '<br>' . $fieldname . '   is too short';
-            $count++;
+        if(isset($_POST['changePassword'])) {
+            $this->changePassword();
         }
-        return $text;
+        if(isset($_POST['resultUpdate'])) {
+            $this->resultUpdate();
+        }
     }
 
+    function register() {
+        global $db, $registeredEmailErr, $passwordErr;
+        // sanitizing inputs
+        $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $password = $_POST['password'];
+        $repeatPassword = $_POST['repeatPassword'];
 
-    // createCourse
+        $sql = $db->query("SELECT email FROM lecturers WHERE email = '$email' LIMIT 1");
+        if(mysqli_num_rows($sql) > 0){
+            $registeredEmailErr = 'This Email has already been used';
+        }else {
+            if($password !== $repeatPassword){
+                $passwordErr = 'Passwords does not match';
+            }else {
+                $password = password_hash($password, PASSWORD_BCRYPT);
+                $name = $lastName.' '.$firstName;
+                $sql = $db->query("INSERT INTO lecturers (name, email, password) VALUES('$name', '$email', '$password')");
 
-    function createCourse()
-    {
-        global $db, $report, $count;
-        $course_title = $this->validation($_POST['course_title'], 'Course Title');
-        $unit = $_POST['unit'];
-        $code = $this->validation($_POST['course_code'], 'Course Code');
-        $department = $_POST['department'];
-        $semester = $_POST['semester'];
-        $class = $_POST['class'];
-        $comp = $_POST['compulsory'] ?? 0 ;
-
-        $ch = $db->query("SELECT course_code FROM courses");
-        if(mysqli_num_rows($ch) > 0) {
-            $report = 'This course already exists try another'; $count = 1;
-            return;
+                header('Location: login.php');
+            }
         }
-        $db->query("INSERT INTO courses (course_title,course_code,unit,semester,class_id,department_id,compulsory,created_at) VALUES('$course_title', '$code', '$unit', '$semester', '$class', '$department', '$comp', now() ) ");
-        $report = 'Course has Been added sucessfuly'; $count = 0;
-        return;
     }
 
+    function login() {
+        global $db, $loginErr;
+        // sanitizing inputs
+        $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = $_POST['password'];
 
-
-
-    //createDepartment
-
-    function createDepartment()
-    {
-        global $db, $report, $count;
-        $name = $this->validation($_POST['name'], 'Department Name');
-        $hod = $this->validation($_POST['hod'], 'Head Of Department');
-        $ch = $db->query("SELECT * FROM departments WHERE name='$name' ");
-        if(mysqli_num_rows($ch) > 0) {
-            $report = 'This Department already exists try another'; $count = 1;
-            return;
+        $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
+        $result = $sql->fetch_assoc();
+        if(mysqli_num_rows($sql) > 0){
+            if(!password_verify($password, $result['password'])) {
+                $loginErr = 'Check your Email or Password';
+            }else {
+                $_SESSION['email'] = $email;
+                header('Location: teacher-dashboard.php');
+            }
+        }else {
+            $loginErr = 'You are not a registered user';
         }
-        $db->query("INSERT INTO departments(name,head_of_department) VALUES('$name', '$hod') ");
-        $report = 'Department has Been added sucessfuly'; $count = 0;
-        return;
     }
 
+    function editLecturer() {
+        global $db, $imageErr, $updated;
+        $teacherId = filter_input(INPUT_POST, 'teacherId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $dob = filter_input(INPUT_POST, 'dob', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $mobile = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_NUMBER_INT);
+        $qualification = filter_input(INPUT_POST, 'qualification', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $experience = filter_input(INPUT_POST, 'experience', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $city = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $state = filter_input(INPUT_POST, 'state', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $zipCode = filter_input(INPUT_POST, 'zipCode', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $country = filter_input(INPUT_POST, 'country', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+        // Image handling
+        $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
+        if(!empty($_FILES['image']['name'])){
+            $fileName = $_FILES['image']['name'];
+            $fileSize = $_FILES['image']['size'];
+            $fileTmp = $_FILES['image']['tmp_name'];
+            $targetDir = "lecturer-image/$fileName";
+            $fileExt = explode('.', $fileName);
+            $fileExt = strtolower(end($fileExt));
 
-    function createClass()
-    {
-        global $db, $report, $count;
+            // check if file is an image
+            if(in_array($fileExt, $allowedExt)) {
+                if($fileSize <= 300000) {
+                    move_uploaded_file($fileTmp, $targetDir);
+                    $imageErr = '<p style="color:green;">Image Uploaded</p>';
+                    $updated = 'SUCCESSFULLY UPDATED';
 
-        $class_name = $this->validation($_POST['class_name'], 'Class Name');
-        $ch = $db->query("SELECT * FROM level WHERE name='$class_name' ");
-        if(mysqli_num_rows($ch) > 0) {
-            $report = 'This class already exists try another'; $count = 1;
-            return;
-        }
-        $db->query("INSERT INTO level(name) VALUES('$class_name') ");
-        $report = 'Class has Been created sucessfuly'; $count = 0;
-        return;
-    }
+                    // Update database
+                    $sql = $db->query("UPDATE lecturers SET teacherId='$teacherId', name='$name', gender='$gender', dob='$dob', mobile='$mobile', qualification='$qualification', experience='$experience', image='$fileName', username='$username', address='$address', city='$city', state='$state', zipCode='$zipCode', country='$country' WHERE email='$email'");
 
-    function register()
-    {
-        global $registeredEmailErr, $passwordErr;
-        global $db, $count, $report;
-        $password = $confirm_password = '';
-        $first_name = $this->validation(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS), 'First Name');
-        $last_name = $this->validation(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS), 'Last Name');
-        $email = $this->validation(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL), 'Email');
-        $password = $this->validation($_POST["password"], 'Password');
-        $hashed_password=password_hash($password,PASSWORD_DEFAULT);
-        $confirm_password = $_POST["confirm_password"];
-        if ($count > 0) {
-            return;
-        }
-        if ($_POST["individual"] == 'Lecturer') {
-            //checking for multiples emails
-            $data = $db->query("SELECT * FROM lecturer_registered WHERE email='$email'");
-            $registeredEmails = $data->fetch_assoc();
-            if (!empty($registeredEmails)) {
-                $registeredEmailErr = 'This Email has already been used';
-            } else {
-                //password confirmation
-                if (password_verify($confirm_password,$hashed_password)) {
-                    $db->query("INSERT INTO lecturer_registered (first_name,last_name,email,password) VALUES ('$first_name','$last_name','$email','$hashed_password')");
-                    //success
-                    header('Location:login.php');
-                    $_SESSION['id'] = $_POST['email'];
-                    
+                    header('Location: teacher-details.php');
                 } else {
-                    $passwordErr = "Passwords does not match";
-                }
-            }
-        }
-        if ($_POST['individual'] == 'Student') {
-            //checking for multiples emails
-            $data = $db->query("SELECT email FROM student_registered WHERE email='$email'");
-            $registeredEmails = $data->fetch_assoc();
-
-            if (!empty($registeredEmails)) {
-                $registeredEmailErr = 'This Email has already been used';
-            } else {
-                //password confirmation
-                if (password_verify($confirm_password,$hashed_password)) {
-                    $db->query("INSERT INTO student_registered (first_name,last_name,email,password) VALUES ('$first_name','$last_name','$email','$hashed_password')");
-                    // success
-                    header('Location:login.php');
-                    $_SESSION['id'] = $_POST['email'];
-                } else {
-                    $passwordErr = "Passwords does not match";
-                    return;
-                }
-            }
-        }
-        $_SESSION['person'] = $_POST['individual'];
-    }
-
-    function Login()
-    {
-        global $db, $report, $count, $user;
-        $user = $_POST['person'];
-        if ($user == "Lecturer") {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $data = $db->query("SELECT * FROM lecturer_registered WHERE email='$email' limit=1");
-            $num = mysqli_num_rows($data);
-            $result=$data->fetch_assoc();
-            if (password_verify($password,$result['password'])&& $num > 0) {
-                $row = mysqli_fetch_array($data);
-                $_SESSION['id'] = $_POST['email'];
-                header("Location: lecturer-dashboard.php");
-            } else {
-                $count++;
-                $report = "$report Invalid Input, Check your email or password <br> Or You are not a registered user";
-            }
-        }
-
-        if ($user == "Student") {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $data = $db->query("SELECT * FROM student_registered WHERE email='$email'");
-            $result=$data->fetch_assoc();
-            $num = mysqli_num_rows($data);
-            if (password_verify($password,$result['password'])&& $num > 0) {
-                $row = mysqli_fetch_array($data);
-                $_SESSION['id'] = $_POST['email'];
-                header("Location: student-dashboard.php");
-            } else {
-                $count++;
-                $report = "<br>Invalid Input!!! Check your email or password <br> Or you are not a registered user";
-            }
-        }
-    }
-    function Add_student()
-    {
-        global $db, $id, $message;
-        extract($_POST);
-        $id = $_SESSION['id'];
-        $student_image = $_FILES['student_image']['name'];
-
-        $allowed_ext = array('png', 'jpg', 'jpeg', 'gif');
-        if (!empty($_FILES['student_image']['name'])) {
-            $image_name = $_FILES['student_image']['name'];
-            $image_size = $_FILES['student_image']['size'];
-            $image_tmp = $_FILES['student_image']['tmp_name'];
-            // upload to where
-            $target_dir = "student_image/${image_name}";
-            //get file extension... th echo $image_ext;at is the end letters after . in the file name
-            //explode() creates an array from a string
-            $image_ext = explode('.', $image_name);
-            $image_ext = strtolower(end($image_ext));
-            //validate image extension
-            if (in_array($image_ext, $allowed_ext)) {
-                if ($image_size <= 1000000) {
-                    move_uploaded_file($image_tmp, $target_dir);
-                } else {
-                    $message = '<p style="color:red;">The file is too large</p>';
-                    return;
+                    $imageErr = '<p style="color:red;">File is too large</p>';
                 }
             } else {
-                $message = '<p style="color:red;">Invalid File Input</p>';
-                return;
+                $imageErr = '<p style="color:red;">Invalid file type</p>';   
             }
-        }
-        // updating student details
-        $db->query("UPDATE student_registered SET first_name='$first_name',last_name= '$last_name',student_id='$student_id',gender='$gender',dob='$dob',class='$class',religion='$religion',joining_date='$joining_date',mobile_number='$mobile_number',admission_number='$admission_number',section='$section',father_name='$father_name',father_occupation='$father_occupation',father_mobile='$father_mobile',father_email='$father_email',mother_name='$mother_name',mother_occupation='$mother_occupation',mother_mobile='$mother_mobile',mother_email='$mother_email',present_address='$present_address',permanent_address='$permanent_address',student_image='$student_image',department='$department' WHERE email='$id'");
-        header('Location:student-details.php');
-    }
-    function student_details(){
-        confirm_password();
+
+        } else{
+            $imageErr = '<p style="color:red;">Please choose a file</p>';
+        }  
     }
 
-    function deleteStudent(){
-        global $db;
-        $id=$_POST['deleteStudent'];
-        $sql=$db->query("DELETE FROM student_registered WHERE id='$id'");
+    function changePassword() {
+        global $db, $passwordErr;
+        $email = $_POST['email'];
+        $currentPassword = $_POST['currentPassword'];
+        $newPassword = $_POST['newPassword'];
+        $sql = $db->query("SELECT * FROM lecturers WHERE email='$email'");
+        $password = $sql->fetch_assoc();
+
+        if(password_verify($currentPassword, $password['password'])) {
+            $newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+            // Update the new password
+            $sql = $db->query("UPDATE lecturers SET password='$newPassword'");
+            $passwordErr = '<span style="color: green;">Password Successfully Updated</span>';
+            
+        }else {
+            $passwordErr = '<span style="color: red;">Incorrect Password</span>';
+        }
     }
-    function deleteLecturer(){
-        global $db;
-        $id=$_POST['deleteLecturer'];
-        $sql=$db->query("DELETE FROM lecturer_registered WHERE id='$id'");
+
+    function resultUpdate(){
+        // global $done;
+        // header('Location: edit-teacher.php');
+        // // $done = $_GET['bookId'];
+        // return $done;
     }
+
 }
-$New_Life = new New_Life;
+$New_Life = new lecturer;
+
 ?>

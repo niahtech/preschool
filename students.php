@@ -1,27 +1,8 @@
 <?php
-   include 'libs/connection.inc.php';
+   include 'lecturer-header.php';
+   $students = $db->query("SELECT * FROM students");
 ?>
-<?php
-   $sql= $db->query('SELECT * from student_registered');
-?>
-<!DOCTYPE html>
-<html lang="en">
-   <!-- Mirrored from preschool.dreamguystech.com/html-template/students.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Oct 2021 11:11:43 GMT -->
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-      <title>Preskool - Students</title>
-      <link rel="shortcut icon" href="assets/img/favicon.png">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap">
-      <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
-      <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-      <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-      <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
-      <link rel="stylesheet" href="assets/css/style.css">
-   </head>
-   <body>
-      <div class="main-wrapper">
-         <?php include'admin-sidebar.php';?>
+
          <div class="page-wrapper">
             <div class="content container-fluid">
                <div class="page-header">
@@ -29,7 +10,7 @@
                      <div class="col">
                         <h3 class="page-title">Students</h3>
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                           <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                            <li class="breadcrumb-item active">Students</li>
                         </ul>
                      </div>
@@ -46,49 +27,33 @@
                            <div class="table-responsive">
                               <table class="table table-hover table-center mb-0 datatable">
                                  <thead>
-                                    
                                     <tr>
-                                       <th>S/N</th>
+                                       <th>ID</th>
                                        <th>Name</th>
                                        <th>Class</th>
                                        <th>DOB</th>
                                        <th>Parent Name</th>
                                        <th>Mobile Number</th>
                                        <th>Address</th>
-                                       <th class="text-right">Action</th>
                                     </tr>
                                  </thead>
                                  <tbody>
-                                 <?php $i=1;?>
-                                    <?php while ($feedback= mysqli_fetch_array($sql)) { ?>
+                                    <?php foreach($students as $student): ?>
                                     <tr>
-                                       <td><?=$i?></td>
+                                       <td><?= $student['studentId']; ?></td>
                                        <td>
                                           <h2 class="table-avatar">
-                                             <a href="student-details.php" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="Student_image/<?= $feedback['student_image']?>" alt="User Image"></a>
-                                             <a href="student-details.php"><?= $feedback['first_name']?></a>
+                                             <a href="#" data-id="<?= $student['id']; ?>" data-toggle="modal" data-target="#student-<?= $student['id']; ?>" class="avatar avatar-sm mr-2 list"><img class="avatar-img rounded-circle" src="assets/img/profiles/<?= $student['image']; ?>" alt="User Image"></a>
+                                             <a href="#" data-id="<?= $student['id']; ?>" class="list" data-toggle="modal" data-target="#student-<?= $student['id']; ?>"><?= $student['firstName']; ?></a>
                                           </h2>
                                        </td>
-                                       <td><?= $feedback['class']?></td>
-                                       <td><?= $feedback['dob']?></td>
-                                       <td><?= $feedback['father_name']?></td>
-                                       <td><?= $feedback['mobile_number']?></td>
-                                       <td><?= $feedback['present_address']?></td>
-                                       <td class="text-right">
-                                          <div class="actions">
-                                             <form action="" method="POST">
-                                             <button
-                                             class="btn btn-sm bg-danger-light" name="deleteStudent" value="<?=$feedback['id']?>">
-                                             <i class="fas fa-trash"></i>
-                                             </button>
-
-                                             </form>
-                                             
-                                          </div>
-                                       </td>
+                                       <td><?= $student['department']; ?></td>
+                                       <td><?= $student['dob']; ?></td>
+                                       <td><?= $student['fatherName']; ?></td>
+                                       <td><?= $student['mobileNumber']; ?></td>
+                                       <td><?= $student['permanentAddress']; ?></td>
                                     </tr>
-                                    <?php $i++?>
-                                    <?php } ?>
+                                    <?php endforeach; ?>
                                  </tbody>
                               </table>
                            </div>
@@ -97,8 +62,91 @@
                   </div>
                </div>
             </div>
+
+            <footer>
+               <p>Copyright © 2020 Dreamguys.</p>
+            </footer>
          </div>
       </div>
-      <?php include 'footer.php'?>
+
+      <?php foreach($students as $student) :?>
+      <div class="modal fade" tabindex="-1" aria-labelledby="studentDetailsLabel" aria-hidden="true" id="student-<?= $student['id']; ?>">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <div class="modal-title text-center h3">Student Details</div>
+                  <button class="btn btn-danger close" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="students.php">Student</a></li>
+                     <li class="breadcrumb-item active">Student Details</li>
+                  </ul>
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="about-info">
+                                 <h4>About Me</h4>
+                                 <div class="media mt-3">
+                                    <img src="assets/img/user.jpg" class="mr-3 img-fluid w-50" alt="...">
+                                    <div class="media-body w-50">
+                                       <ul>
+                                          <li>
+                                             <span class="title-span">Full Name: </span>
+                                             <span class="info-span"><?= $student['lastName'].' '. $student['firstName'];?></span>
+                                          </li>
+                                          <li>
+                                             <span class="title-span">Department: </span>
+                                             <span class="info-span"><?= $student['department']; ?></span>
+                                          </li>
+                                          <li>
+                                             <span class="title-span">Mobile: </span>
+                                             <span class="info-span"><?= $student['mobileNumber']; ?></span>
+                                          </li>
+                                          <li>
+                                             <span class="title-span">Email: </span>
+                                             <span class="info-span"><a href="https://preschool.dreamguystech.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7216131b010b32151f131b1e5c111d1f">[email&#160;protected]</a></span>
+                                          </li>
+                                          <li>
+                                             <span class="title-span">Gender: </span>
+                                             <span class="info-span"><?= $student['gender']; ?></span>
+                                          </li>
+                                          <li>
+                                             <span class="title-span">DOB: </span>
+                                             <span class="info-span"><?= $student['dob']; ?></span>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <form method="POST" action="student-result.php">
+                     <input type="hidden" name="bookId" id="bookId" value="">
+                     <button class="btn btn-primary" type="submit" name="resultUpdate">Update Result</button>
+                  </form>
+                  
+               </div>
+            </div>
+         </div>
+      </div>
+      <?php endforeach; ?>
+
+
+      <script src="assets/js/jquery-3.6.0.min.js"></script>
+      <script src="assets/js/popper.min.js"></script>
+      <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+      <script src="assets/plugins/datatables/datatables.min.js"></script>
+      <script src="assets/js/script.js"></script>
+      <script>
+         $('.list').click(function(e) {
+            var bookId = $(this).data('id');
+            $(".modal-body #bookId").val(bookId);
+         });
+      </script>
    </body>
 </html>
