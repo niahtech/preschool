@@ -13,9 +13,12 @@ class lecturer {
         if(isset($_POST['changePassword'])) {
             $this->changePassword();
         }
-        if(isset($_POST['resultUpdate'])) {
+        if(isset($_GET['resultUpdate'])) {
             $this->resultUpdate();
         }
+        // if(isset($_POST['GPA1'])) {
+        //     $this->GPA1();
+        // }
     }
 
     function register() {
@@ -73,6 +76,7 @@ class lecturer {
         $dob = filter_input(INPUT_POST, 'dob', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mobile = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_NUMBER_INT);
         $qualification = filter_input(INPUT_POST, 'qualification', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $course= filter_input(INPUT_POST, 'course', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $experience = filter_input(INPUT_POST, 'experience', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -100,7 +104,7 @@ class lecturer {
                     $updated = 'SUCCESSFULLY UPDATED';
 
                     // Update database
-                    $sql = $db->query("UPDATE lecturers SET teacherId='$teacherId', name='$name', gender='$gender', dob='$dob', mobile='$mobile', qualification='$qualification', experience='$experience', image='$fileName', username='$username', address='$address', city='$city', state='$state', zipCode='$zipCode', country='$country' WHERE email='$email'");
+                    $sql = $db->query("UPDATE lecturers SET teacherId='$teacherId', name='$name', gender='$gender', dob='$dob', mobile='$mobile', qualification='$qualification', course='$course', experience='$experience', image='$fileName', username='$username', address='$address', city='$city', state='$state', zipCode='$zipCode', country='$country' WHERE email='$email'");
 
                     header('Location: teacher-details.php');
                 } else {
@@ -135,10 +139,17 @@ class lecturer {
     }
 
     function resultUpdate(){
-        // global $done;
-        // header('Location: edit-teacher.php');
-        // // $done = $_GET['bookId'];
-        // return $done;
+        global $department;
+        $department = str_replace(' ','',strtolower($_GET['resultUpdate']));
+    }
+
+    function GPA1(){
+        global $sum, $a;
+        $a = 0;
+        foreach($_POST['me'] as $score){
+            $sum = $a + $score;
+        }
+        return $sum;
     }
 
 }

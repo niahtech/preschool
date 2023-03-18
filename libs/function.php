@@ -28,4 +28,5 @@
         return $row[$detail];
     }
 
+
 ?>

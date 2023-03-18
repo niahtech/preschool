@@ -1,6 +1,9 @@
 <?php
     include 'lecturer-header.php';
     $image = '<p style="color:red;">Maximum Size 300KB</p>';
+    $department = getLecturer($_SESSION['email'], 'department');
+    $department = str_replace(' ', '', strtolower($department));
+    $course = $db->query("SELECT * FROM $department");
 ?>
 
 <div class="page-wrapper">
@@ -75,8 +78,25 @@
 </div>
 <div class="col-12 col-sm-6">
 <div class="form-group">
+<label>Department</label>
+<input class="form-control" type="text" placeholder="Bachelor of Engineering" value="<?= getLecturer($_SESSION['email'], 'department')?>" name="department" readonly>
+</div>
+</div>
+<div class="col-12 col-sm-6">
+<div class="form-group">
+<label>Course</label>
+<select class="form-control" name="course">
+    <option value=""></option>
+    <?php foreach($course as $cou): ?>
+        <option value="<?= $cou['courseCode'];?>"><?= $cou['courseCode'];?></option>
+    <?php endforeach; ?>
+</select>
+</div>
+</div>
+<div class="col-12 col-sm-6">
+<div class="form-group">
 <label>Experience</label>
-<input class="form-control" type="text" placeholder="5" value="<?= getLecturer($_SESSION['email'], 'experience')?>" name="experience" required>
+<input class="form-control" type="number" placeholder="5" value="<?= getLecturer($_SESSION['email'], 'experience')?>" name="experience" required>
 </div>
 </div>
 <div class="col-12 col-sm-6">
