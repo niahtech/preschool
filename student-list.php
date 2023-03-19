@@ -1,5 +1,6 @@
 <?php
    include 'lecturer-header.php';
+   $course = getLecturer($_SESSION['email'], 'course');
    $students = $db->query("SELECT * FROM students");
 ?>
 
@@ -38,7 +39,13 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <?php foreach($students as $student): ?>
+                                    <?php
+                                       if(empty($course)){
+                                          echo '<h2 style="color:red">Update your profile</h2>';
+                                       }
+                                    ?>
+                                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered'])?> 
+                                    <?php if(in_array($course, $studentCourses)): ?>
                                     <tr>
                                        <td><?= $student['studentId']; ?></td>
                                        <td>
@@ -53,6 +60,7 @@
                                        <td><?= $student['mobileNumber']; ?></td>
                                        <td><?= $student['permanentAddress']; ?></td>
                                     </tr>
+                                    <?php endif; ?>
                                     <?php endforeach; ?>
                                  </tbody>
                               </table>
@@ -124,10 +132,10 @@
                         </div>
                      </div>
                   </div>
-                  <form method="GET" action="student-result.php">
+                  <!-- <form method="GET" action="student-result.php">
                      <input type="hidden" name="bookId" id="bookId" value="">
                      <button class="btn btn-primary" type="submit" name="resultUpdate" value="<?= $student['department']; ?>">Update Result</button>
-                  </form>
+                  </form> -->
                   
                </div>
             </div>

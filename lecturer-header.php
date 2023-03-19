@@ -174,8 +174,7 @@
 <a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="student-list.php">Student List</a></li>
-<li><a href="student-details.html">Student View</a></li>
-<li><a href="edit-student.html">Student Edit</a></li>
+<li><a href="student-result.php">Student Result</a></li>
 </ul>
 </li>
 <li class="submenu">

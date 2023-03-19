@@ -1,5 +1,7 @@
 <?php 
     include('lecturer-header.php');
+    $course = getLecturer($_SESSION['email'], 'course');
+    $students = $db->query("SELECT * FROM students");
 ?>
 
 <style>
@@ -15,7 +17,7 @@
 <div class="col-sm-12">
 <h3 class="page-title">Student Results</h3>
 <ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="#">Student</a></li>
+<li class="breadcrumb-item"><a href="student-list.php">Student</a></li>
 <li class="breadcrumb-item active">Student Results</li>
 </ul>
 </div>
@@ -26,45 +28,46 @@
 <div class="row">
 <div class="col-md-12">
 <div class="about-info">
-    <div class="text-center bg-dark text-white">100Level</div>
+    <div class="text-center bg-dark text-white">CSC 101</div>
     <br>
-    <div class="d-flex justify-content-between container">
+    <div class="container">
         <div>
-            <div class="text-center bg-dark text-white">First Semester</div>
-            <br>
             <?php
-                $sql = $db->query("SELECT * FROM $department WHERE classId = '1' AND semester = 'First'");
+               if(empty($course)){
+                  echo '<h2 style="color:red">Update your profile</h2>';
+               }
             ?>
+            <table style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Student Name</td>
+                        <th>Student Id</td>
+                        <th>Score</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                       if(empty($course)){
+                          echo '<h2 style="color:red">Update your profile</h2>';
+                       }
+                    ?>
+                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered'])?> 
+                    <?php if(in_array($course, $studentCourses)): ?>
+                    <tr>
+                        <td><?= $student['lastName'].' '.$student['firstName'] ?></td>
+                        <td><?= $student['studentId']; ?></td>
+                        <td><input type="number" class="score" name="me" style="width:40px" required></td>
+                        <td><input type="text" class="grade" style="width:30px" disabled></td>
+                        <td><input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>"></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                                    
+                </tbody>
+            </table>
             <form method="POST">
-                <?php while($result = $sql->fetch_assoc()): ?>
-                    <label for="course"><?= $result['courseCode'];?></label>
-                    <input type="number" class="score" name="me" style="width:40px" required>
-                    <input type="text" class="grade" style="width:30px" disabled>
-                    <input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>">
-                    <br>
-                <?php endwhile; ?>
                 <input type="button" name="GPA1" value="Submit" class="btn btn-warning GPA">
             </form>
-            <p style="display:flex; align-items:center">Current GPA: <input type="number" style="width:50px; border:none" class="currentGPA"></p>
-            <p style="display:flex; align-items:center">Cummulative GPA: <input type="number" style="width:50px; border:none" class="cummulativeGPA"></p>
-        </div>
-        <div>
-            <div class="text-center bg-dark text-white">Second Semester</div>
-            <br>
-            <?php
-                $sql = $db->query("SELECT * FROM $department WHERE classId = '1' AND semester = 'Second'");
-            ?>
-            <form method="POST">
-                <?php while($result = $sql->fetch_assoc()): ?>
-                    <label for="course"><?= $result['courseCode'];?></label>
-                    <input type="number" class="score" style="width:40px" required>
-                    <input type="text" class="grade" style="width:30px" disabled>
-                    <br>
-                <?php endwhile; ?>
-                <input type="button" name="GPA2"  value="Submit" class="btn btn-warning">
-            </form>
-            <p>Current GPA: </p>
-            <P>Cummulative GPA: </P>
         </div>
     </div>
 </div>
