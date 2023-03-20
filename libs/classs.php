@@ -13,12 +13,9 @@ class lecturer {
         if(isset($_POST['changePassword'])) {
             $this->changePassword();
         }
-        if(isset($_GET['resultUpdate'])) {
+        if(isset($_POST['resultUpdate'])) {
             $this->resultUpdate();
         }
-        // if(isset($_POST['GPA1'])) {
-        //     $this->GPA1();
-        // }
     }
 
     function register() {
@@ -139,17 +136,22 @@ class lecturer {
     }
 
     function resultUpdate(){
-        global $department;
-        $department = str_replace(' ','',strtolower($_GET['resultUpdate']));
-    }
-
-    function GPA1(){
-        global $sum, $a;
-        $a = 0;
-        foreach($_POST['me'] as $score){
-            $sum = $a + $score;
+        global $db, $course, $score;
+        session_start();
+        
+        $course = getLecturer($_SESSION['email'], 'course');
+        // Check if the column exists in the table
+        $sql = $db->query("SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'preskool' AND TABLE_NAME = 'students';");
+        $result = $sql->fetch_assoc();
+        $result = $result["group_concat(COLUMN_NAME)"];
+        $result = explode(',', $result);
+        if(in_array($course, $result)) {
+            insertScore();
+        } else{
+            $sql = $db->query("ALTER TABLE students ADD $course int(3)");
+            insertScore();
         }
-        return $sum;
+        // header('Location: student-list.php');
     }
 
 }

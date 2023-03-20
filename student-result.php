@@ -28,7 +28,7 @@
 <div class="row">
 <div class="col-md-12">
 <div class="about-info">
-    <div class="text-center bg-dark text-white">CSC 101</div>
+    <div class="text-center bg-dark text-white"><?= $course;?></div>
     <br>
     <div class="container">
         <div>
@@ -37,36 +37,32 @@
                   echo '<h2 style="color:red">Update your profile</h2>';
                }
             ?>
-            <table style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Student Name</td>
-                        <th>Student Id</td>
-                        <th>Score</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                       if(empty($course)){
-                          echo '<h2 style="color:red">Update your profile</h2>';
-                       }
-                    ?>
-                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered'])?> 
-                    <?php if(in_array($course, $studentCourses)): ?>
-                    <tr>
-                        <td><?= $student['lastName'].' '.$student['firstName'] ?></td>
-                        <td><?= $student['studentId']; ?></td>
-                        <td><input type="number" class="score" name="me" style="width:40px" required></td>
-                        <td><input type="text" class="grade" style="width:30px" disabled></td>
-                        <td><input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>"></td>
-                    </tr>
-                    <?php endif; ?>
-                    <?php endforeach; ?>
-                                    
-                </tbody>
-            </table>
             <form method="POST">
-                <input type="button" name="GPA1" value="Submit" class="btn btn-warning GPA">
+                <table style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Student Name</td>
+                            <th>Student Id</td>
+                            <th>Score</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(!empty($course)): $i = 1;?>
+                            <?php while($student = mysqli_fetch_array($students)): $studentCourses = explode(',', $student['courseRegistered'])?>
+                                <?php if(in_array($course, $studentCourses)): ?>
+                                    <tr>
+                                        <td><?= $student['lastName'].' '.$student['firstName'] ?></td>
+                                        <td><?= $student['studentId']; ?></td>
+                                        <td><input type="number" class="score" name="score[]" style="width:40px" required></td>
+                                        <td><input type="text" class="grade" style="width:30px" disabled></td>
+                                        <td><input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>"></td>
+                                    </tr>
+                                <?php endif; $i++;?>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+                <input type="submit" name="resultUpdate" value="Submit" class="btn btn-warning GPA">
             </form>
         </div>
     </div>

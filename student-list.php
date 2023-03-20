@@ -44,6 +44,7 @@
                                           echo '<h2 style="color:red">Update your profile</h2>';
                                        }
                                     ?>
+                                    <?php if(!empty($course)):?>
                                     <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered'])?> 
                                     <?php if(in_array($course, $studentCourses)): ?>
                                     <tr>
@@ -62,6 +63,7 @@
                                     </tr>
                                     <?php endif; ?>
                                     <?php endforeach; ?>
+                                    <?php endif; ?>
                                  </tbody>
                               </table>
                            </div>

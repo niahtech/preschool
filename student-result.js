@@ -33,30 +33,30 @@ for(let i=0; i<grade.length; i++){
     })
 }
 
-var TQP = 0, TLU = 0, QP;
-document.querySelector('.GPA').addEventListener('click', (e) => {
-    for(let i=0; i<grade.length; i++){
-        switch(grade[i].value){
-            case 'F':
-                QP = parseInt(unit[i].value) * 0;
-                break;
-            case 'D':
-                QP = parseInt(unit[i].value) * 2;
-                break;
-            case 'C':
-                QP = parseInt(unit[i].value) * 3;
-                break;
-            case 'B':
-                QP = parseInt(unit[i].value) * 4;
-                break;
-            case 'A':
-                QP = parseInt(unit[i].value) * 5;
-                break;
-        }
-        TQP += QP;
-        TLU += parseInt(unit[i].value);
-    }
-    var GPA = TQP/TLU;
-    document.querySelector('.currentGPA').value = GPA.toFixed(2);
-    // var CGPA = 
-})
+// var TQP = 0, TLU = 0, QP;
+// document.querySelector('.GPA').addEventListener('click', (e) => {
+//     for(let i=0; i<grade.length; i++){
+//         switch(grade[i].value){
+//             case 'F':
+//                 QP = parseInt(unit[i].value) * 0;
+//                 break;
+//             case 'D':
+//                 QP = parseInt(unit[i].value) * 2;
+//                 break;
+//             case 'C':
+//                 QP = parseInt(unit[i].value) * 3;
+//                 break;
+//             case 'B':
+//                 QP = parseInt(unit[i].value) * 4;
+//                 break;
+//             case 'A':
+//                 QP = parseInt(unit[i].value) * 5;
+//                 break;
+//         }
+//         TQP += QP;
+//         TLU += parseInt(unit[i].value);
+//     }
+//     var GPA = TQP/TLU;
+//     document.querySelector('.currentGPA').value = GPA.toFixed(2);
+//     // var CGPA = 
+// })
