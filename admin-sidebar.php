@@ -136,8 +136,8 @@
                      <li class="submenu">
                         <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
                         <ul>
-                           <li><a href="teachers.html">Teacher List</a></li>
-                           <li><a href="teacher-details.html">Teacher View</a></li>
+                           <li><a href="lecturers.php">Teacher List</a></li>
+                           <li><a href="teacher-details.php">Teacher View</a></li>
                         </ul>
                      </li>
                      <li class="submenu">
