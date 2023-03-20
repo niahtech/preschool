@@ -60,20 +60,12 @@
                                                     <tr>
                                                         <th>Students</th>
                                                         <th>Courses</th>
-                                                        <th class="text-right"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><?= leveldetails('1') ?></td>
+                                                        <td><?= countStudentsLevel('1') ?></td>
                                                         <td>0</td>
-                                                        <td class="text-right">
-                                                            <div class="actions">
-                                                                <a href="#" class="btn btn-sm bg-success-light mr-2">
-                                                                    <i class="fas fa-pen"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -99,20 +91,13 @@
                                                 <tr>
                                                     <th>Students</th>
                                                     <th>Courses</th>
-                                                    <th class="text-right"></th>
+                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><?= leveldetails('2') ?></td>
+                                                    <td><?= countStudentsLevel('2') ?></td>
                                                     <td>0</td>
-                                                    <td class="text-right">
-                                                        <div class="actions">
-                                                            <a href="#" class="btn btn-sm bg-success-light mr-2">
-                                                                <i class="fas fa-pen"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -142,15 +127,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?= leveldetails('3') ?></td>
+                                                <td><?= countStudentsLevel('3') ?></td>
                                                 <td>0</td>
-                                                <td class="text-right">
-                                                    <div class="actions">
-                                                        <a href="#" class="btn btn-sm bg-success-light mr-2">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -180,15 +159,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?= leveldetails('4') ?></td>
+                                                <td><?= countStudentsLevel('4') ?></td>
                                                 <td>0</td>
-                                                <td class="text-right">
-                                                    <div class="actions">
-                                                        <a href="#" class="btn btn-sm bg-success-light mr-2">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -217,15 +190,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?= leveldetails('5') ?></td>
+                                                <td><?= countStudentsLevel('5') ?></td>
                                                 <td>0</td>
-                                                <td class="text-right">
-                                                    <div class="actions">
-                                                        <a href="#" class="btn btn-sm bg-success-light mr-2">
-                                                            <i class="fas fa-pen"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>

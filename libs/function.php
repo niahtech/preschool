@@ -57,3 +57,40 @@ function countStudents()
     $check= mysqli_fetch_array($sql);
     return $check;
 }
+
+function countAllStudents()
+{
+    global $db;
+    $sql = $db->query("SELECT * FROM student_registered");
+    $check= mysqli_num_rows($sql);
+    return $check;
+}
+function countAllDepartments()
+{
+    global $db;
+    $sql = $db->query("SELECT * FROM departments");
+    $check= mysqli_num_rows($sql);
+    return $check;
+}
+function countStudentsDept($id)
+{
+    global $db;
+    $sql = $db->query("SELECT * FROM student_registered WHERE department='$id'");
+    $check= mysqli_num_rows($sql);
+    return $check;
+}
+
+function countStudentsLevel($id)
+{
+    global $db;
+    $sql = $db->query("SELECT * FROM student_registered WHERE class='$id'");
+    $check=mysqli_num_rows($sql);
+    return $check;
+}
+function countCoursesLevel($id)
+{
+    global $db;
+    $sql = $db->query("SELECT * FROM student_registered WHERE class='$id'");
+    $check=mysqli_num_rows($sql);
+    return $check;
+}
