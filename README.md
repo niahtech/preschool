@@ -1,2 +1,2 @@
 # preschool
-school manage appilication
+school management application
