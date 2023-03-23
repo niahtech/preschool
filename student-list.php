@@ -1,7 +1,7 @@
 <?php
    include 'lecturer-header.php';
    $course = getLecturer($_SESSION['email'], 'course');
-   $students = $db->query("SELECT * FROM students");
+   $students = $db->query("SELECT * FROM students ORDER BY department");
 ?>
 
          <div class="page-wrapper">

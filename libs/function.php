@@ -29,10 +29,10 @@
     }
 
     function insertScore(){
-        global $students, $db, $course;
+        global $students, $db, $course, $scores, $student, $id;
         $students = $db->query("SELECT * FROM students");
         $scores = $_POST['score'];
-
+        $i = 0;
         while($student = mysqli_fetch_array($students)){ 
             $studentCourses = explode(',', $student['courseRegistered']);
             if(in_array($course, $studentCourses)){
@@ -41,16 +41,15 @@
                 $stmt = $db->prepare($sql);
                 if($stmt){
                     $stmt->bind_param('i', $score);
-                    foreach($scores as $index => $score){
-                        $score = $scores[$index];
-                        $stmt->execute();
-                    }
+                    $score = $scores[$i];
+                    $stmt->execute();
                 }
                 else{
                     exit('error: failed to prepare sql query');
                 }
                 $stmt->close();
             }
+            $i++;
         }
     }
 

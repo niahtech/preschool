@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if(!empty($course)): $i = 1;?>
+                        <?php if(!empty($course)): $i=1?>
                             <?php while($student = mysqli_fetch_array($students)): $studentCourses = explode(',', $student['courseRegistered'])?>
                                 <?php if(in_array($course, $studentCourses)): ?>
                                     <tr>
@@ -57,7 +57,7 @@
                                         <td><input type="text" class="grade" style="width:30px" disabled></td>
                                         <td><input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>"></td>
                                     </tr>
-                                <?php endif; $i++;?>
+                                <?php endif; $i++?>
                             <?php endwhile; ?>
                         <?php endif; ?>
                     </tbody>

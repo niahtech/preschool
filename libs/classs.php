@@ -151,7 +151,7 @@ class lecturer {
             $sql = $db->query("ALTER TABLE students ADD $course int(3)");
             insertScore();
         }
-        // header('Location: student-list.php');
+        header('Location: student-list.php');
     }
 
 }
