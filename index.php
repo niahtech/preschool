@@ -47,7 +47,7 @@
                   </div>
                </div>
                <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                  <div class="card bg-three w-100">
+                  <div class="card bg-two w-100">
                      <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                            <div class="db-icon">
@@ -56,6 +56,21 @@
                            <div class="db-info">
                               <h3><?php echo countAllDepartments()?></h3>
                               <h6>Department</h6>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                  <div class="card bg-three w-100">
+                     <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                           <div class="db-icon">
+                              <i class="fas fa-user-graduate"></i>
+                           </div>
+                           <div class="db-info">
+                              <h3><?php echo countAllStudents()?></h3>
+                              <h6>Lecturers</h6>
                            </div>
                         </div>
                      </div>
