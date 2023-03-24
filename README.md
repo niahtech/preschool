@@ -1,2 +1,0 @@
-# preschool
-school management application
