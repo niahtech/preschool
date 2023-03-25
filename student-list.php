@@ -133,12 +133,7 @@
                            </div>
                         </div>
                      </div>
-                  </div>
-                  <!-- <form method="GET" action="student-result.php">
-                     <input type="hidden" name="bookId" id="bookId" value="">
-                     <button class="btn btn-primary" type="submit" name="resultUpdate" value="<?= $student['department']; ?>">Update Result</button>
-                  </form> -->
-                  
+                  </div>     
                </div>
             </div>
          </div>
