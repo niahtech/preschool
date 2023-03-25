@@ -51,29 +51,45 @@ class lecturer {
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
 
-        $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
-        $result = $sql->fetch_assoc();
-        if(mysqli_num_rows($sql) > 0){
-            if(!password_verify($password, $result['password'])) {
-                $loginErr = 'Check your Email or Password';
+        if($user == 'Lecturer'){
+            $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
+            $result = $sql->fetch_assoc();
+            if(mysqli_num_rows($sql) > 0){
+                if(!password_verify($password, $result['password'])) {
+                    $loginErr = 'Check your Email or Password';
+                }else {
+                    $_SESSION['email'] = $email;
+                    header('Location: teacher-dashboard.php');
+                }
             }else {
-                $_SESSION['email'] = $email;
-                header('Location: teacher-dashboard.php');
+                $loginErr = 'You are not a registered user';
             }
-        }else {
-            $loginErr = 'You are not a registered user';
+        }
+        else{
+            $sql = $db->query("SELECT email,password FROM students WHERE email = '$email' LIMIT 1");
+            $result = $sql->fetch_assoc();
+            if(mysqli_num_rows($sql) > 0){
+                if(!password_verify($password, $result['password'])) {
+                    $loginErr = 'Check your Email or Password';
+                }else {
+                    $_SESSION['email'] = $email;
+                    header('Location: teacher-dashboard.php');
+                }
+            }else {
+                $loginErr = 'You are not a registered user';
+            } 
         }
     }
 
     function editLecturer() {
-        global $db, $imageErr, $updated;
+        global $db, $imageErr, $updated, $courseErr;
         $teacherId = filter_input(INPUT_POST, 'teacherId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $dob = filter_input(INPUT_POST, 'dob', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mobile = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_NUMBER_INT);
         $qualification = filter_input(INPUT_POST, 'qualification', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $course= filter_input(INPUT_POST, 'course', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $course= implode(',', $_POST['course']);
         $experience = filter_input(INPUT_POST, 'experience', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -82,6 +98,10 @@ class lecturer {
         $state = filter_input(INPUT_POST, 'state', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $zipCode = filter_input(INPUT_POST, 'zipCode', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $country = filter_input(INPUT_POST, 'country', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if(empty($course)){
+            $courseErr = 'Please select a course';
+        }
 
         // Image handling
         $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];

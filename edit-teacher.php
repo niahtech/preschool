@@ -84,13 +84,11 @@
 </div>
 <div class="col-12 col-sm-6">
 <div class="form-group">
-<label>Course</label>
-<select class="form-control" name="course">
-    <option value=""></option>
-    <?php foreach($course as $cou): ?>
-        <option value="<?= $cou['courseCode'];?>"><?= $cou['courseCode'];?></option>
-    <?php endforeach; ?>
-</select>
+<label>Select Course(s)</label>
+<div><?php foreach($course as $cou): ?>
+    <?= $cou['courseCode'];?><input class="mr-1" type="checkbox" value="<?= $cou['courseCode'];?>" name="course[]">
+<?php endforeach; ?></div>
+<div><?=$courseErr ?? NULL;?></div>
 </div>
 </div>
 <div class="col-12 col-sm-6">
