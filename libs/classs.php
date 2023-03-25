@@ -89,7 +89,7 @@ class lecturer {
         $dob = filter_input(INPUT_POST, 'dob', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mobile = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_NUMBER_INT);
         $qualification = filter_input(INPUT_POST, 'qualification', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $course= implode(',', filter_input(INPUT_POST, 'course', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $course= implode(',', $_POST['course']);
         $experience = filter_input(INPUT_POST, 'experience', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -118,7 +118,7 @@ class lecturer {
                 if($fileSize <= 300000) {
                     move_uploaded_file($fileTmp, $targetDir);
                     $imageErr = '<p style="color:green;">Image Uploaded</p>';
-                    $updated = 'SUCCESSFULLY UPDATED';
+                    $updated = '<p style="color:green;">SUCESSFULLY UPDATED</p>';
 
                     // Update database
                     $sql = $db->query("UPDATE lecturers SET teacherId='$teacherId', name='$name', gender='$gender', dob='$dob', mobile='$mobile', qualification='$qualification', course='$course', experience='$experience', image='$fileName', username='$username', address='$address', city='$city', state='$state', zipCode='$zipCode', country='$country' WHERE email='$email'");

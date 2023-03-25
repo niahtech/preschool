@@ -10,6 +10,9 @@
 <div class="content container-fluid">
 
 <div class="page-header">
+    
+<?= $updated ?? NULL ?>
+
 <div class="row align-items-center">
 <div class="col">
 <h3 class="page-title">Edit Lecturers</h3>

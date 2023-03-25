@@ -1,6 +1,7 @@
 <?php 
     include('lecturer-header.php');
     $course = getLecturer($_SESSION['email'], 'course');
+    $courses = explode(',', $course);
     $students = $db->query("SELECT * FROM students");
 ?>
 
@@ -28,7 +29,7 @@
 <div class="row">
 <div class="col-md-12">
 <div class="about-info">
-    <div class="text-center bg-dark text-white"><?= $course;?></div>
+    <div class="text-center bg-dark text-white"></div>
     <br>
     <div class="container">
         <div>
@@ -37,6 +38,22 @@
                   echo '<h2 style="color:red">Update your profile</h2>';
                }
             ?>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <?php for($i=0; $i<count($courses); $i++): ?>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#<?= $courses[$i];?>" aria-expanded="false" aria-controls="flush-collapseOne">
+                    <?= $courses[$i];?>
+                    </button>
+                    </h2>
+                    <div id="<?= $courses[$i];?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                    </div>
+                    </div>
+                </div>
+                <?php endfor; ?>
+            </div>
+            
             <form method="POST">
                 <table style="width:100%">
                     <thead>

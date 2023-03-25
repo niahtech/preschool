@@ -26,6 +26,8 @@
                      <div class="card card-table">
                         <div class="card-body">
                            <div class="table-responsive">
+                              <?php $courses = explode(',', $course)?>
+                              <?php for($i=0; $i<count($courses); $i++): echo "<h2 class=text-center>$courses[$i] students</h2>"?>
                               <table class="table table-hover table-center mb-0 datatable">
                                  <thead>
                                     <tr>
@@ -45,8 +47,8 @@
                                        }
                                     ?>
                                     <?php if(!empty($course)):?>
-                                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered'])?> 
-                                    <?php if(in_array($course, $studentCourses)): ?>
+                                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered']); ?>
+                                    <?php if(in_array($courses[$i], $studentCourses)):?>
                                     <tr>
                                        <td><?= $student['studentId']; ?></td>
                                        <td>
@@ -66,6 +68,9 @@
                                     <?php endif; ?>
                                  </tbody>
                               </table>
+                              <br>
+                              <br>
+                              <?php endfor; ?>
                            </div>
                         </div>
                      </div>
