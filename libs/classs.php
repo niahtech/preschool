@@ -159,7 +159,7 @@ class lecturer {
         global $db, $course, $score;
         session_start();
         
-        $course = getLecturer($_SESSION['email'], 'course');
+        $course = $_GET['course'];
         // Check if the column exists in the table
         $sql = $db->query("SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'preskool' AND TABLE_NAME = 'students';");
         $result = $sql->fetch_assoc();
@@ -171,7 +171,7 @@ class lecturer {
             $sql = $db->query("ALTER TABLE students ADD $course int(3)");
             insertScore();
         }
-        header('Location: student-list.php');
+        header('Location: student-result.php');
     }
 
 }

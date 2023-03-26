@@ -25,6 +25,11 @@
 <link rel="stylesheet" href="assets/plugins/simple-calendar/simple-calendar.css">
 
 <link rel="stylesheet" href="assets/css/style.css">
+<style>
+    input::-webkit-inner-spin-button, input::-webkit-outer-spin-button{
+        -webkit-appearance: none;
+    }
+</style>
 </head>
 <body>
 

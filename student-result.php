@@ -3,6 +3,7 @@
     $course = getLecturer($_SESSION['email'], 'course');
     $courses = explode(',', $course);
     $students = $db->query("SELECT * FROM students");
+    $departments = $db->query("SELECT * FROM departments ORDER BY name");
 ?>
 
 <style>
@@ -40,47 +41,29 @@
             ?>
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <?php for($i=0; $i<count($courses); $i++): ?>
-                <div class="accordion-item">
+                <div class="accordion-item" style="width: 100%;">
                     <h2 class="accordion-header">
-                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#<?= $courses[$i];?>" aria-expanded="false" aria-controls="flush-collapseOne">
-                    <?= $courses[$i];?>
-                    </button>
+                        <button class="accordion-button collapsed bg-dark text-white" type="button" style="width: 100%;" data-toggle="collapse" data-target="#<?= $courses[$i];?>" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <?= $courses[$i];?>
+                        </button>
                     </h2>
-                    <div id="<?= $courses[$i];?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
+                    <div id="<?= $courses[$i];?>" class="accordion-collapse collapse" data-parent="#accordionFlushExample">
+                        <div class="accordion-body" style="width:100%">
+                            <?php foreach($departments as $dept):
+                                $deptName = strtolower(str_replace(' ','',$dept['name']));
+                                $sql = $db->query("SELECT courseCode from $deptName"); ?>
+                                <?php while($result = $sql->fetch_assoc()): ?>
+                                    <?php if(in_array($courses[$i], $result)): ?>
+                                        <a href="result.php?name=<?= $dept['name']?>&course=<?= $courses[$i]?>"><?= $dept['name']?></a>
+                                        <br>
+                                    <?php endif; ?>
+                                <?php endwhile; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
                 <?php endfor; ?>
             </div>
-            
-            <form method="POST">
-                <table style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Student Name</td>
-                            <th>Student Id</td>
-                            <th>Score</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if(!empty($course)): $i=1?>
-                            <?php while($student = mysqli_fetch_array($students)): $studentCourses = explode(',', $student['courseRegistered'])?>
-                                <?php if(in_array($course, $studentCourses)): ?>
-                                    <tr>
-                                        <td><?= $student['lastName'].' '.$student['firstName'] ?></td>
-                                        <td><?= $student['studentId']; ?></td>
-                                        <td><input type="number" class="score" name="score[]" style="width:40px" required></td>
-                                        <td><input type="text" class="grade" style="width:30px" disabled></td>
-                                        <td><input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>"></td>
-                                    </tr>
-                                <?php endif; $i++?>
-                            <?php endwhile; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-                <input type="submit" name="resultUpdate" value="Submit" class="btn btn-warning GPA">
-            </form>
         </div>
     </div>
 </div>
