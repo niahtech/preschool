@@ -73,6 +73,4 @@
 </div>
 </div>
 
-<script src="student-result.js"></script>
-
 <?php include('lecturer-footer.php');?>

@@ -38,10 +38,10 @@
 <div class="header">
 
 <div class="header-left">
-<a href="index.html" class="logo">
+<a href="teacher-dashboard.php" class="logo">
 <img src="assets/img/logo.png" alt="Logo">
 </a>
-<a href="index.html" class="logo logo-small">
+<a href="teacher-dashboard.php" class="logo logo-small">
 <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
 </a>
 </div>
@@ -151,7 +151,7 @@
 <p class="text-muted mb-0">Lecturer</p>
 </div>
 </div>
-<a class="dropdown-item" href="profile.html">My Profile</a>
+<a class="dropdown-item" href="teacher-dashboard.php">My Profile</a>
 <a class="dropdown-item" href="inbox.html">Inbox</a>
 <a class="dropdown-item" href="logout.php">Logout</a>
 </div>
@@ -198,11 +198,9 @@
 </ul>
 </li>
 <li class="submenu">
-<a href="#"><i class="fas fa-book-reader"></i> <span> Subjects</span> <span class="menu-arrow"></span></a>
+<a href="#"><i class="fas fa-book-reader"></i> <span> Classes</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="subjects.html">Subject List</a></li>
-<li><a href="add-subject.html">Subject Add</a></li>
-<li><a href="edit-subject.html">Subject Edit</a></li>
+<li><a href="schedule-class.php">Schedule Class</a></li>
 </ul>
 </li>
 <li class="menu-title">

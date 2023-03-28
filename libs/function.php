@@ -29,8 +29,9 @@
     }
 
     function insertScore(){
-        global $students, $db, $course, $scores, $student, $id;
-        $students = $db->query("SELECT * FROM students");
+        global $db, $course;
+        $name = $_GET['name'];
+        $students = $db->query("SELECT * FROM students WHERE department='$name'");
         $scores = $_POST['score'];
         $i = 0;
         while($student = mysqli_fetch_array($students)){ 

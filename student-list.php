@@ -94,7 +94,7 @@
                </div>
                <div class="modal-body">
                   <ul class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="students.php">Student</a></li>
+                     <li class="breadcrumb-item"><a href="student-list.php">Student</a></li>
                      <li class="breadcrumb-item active">Student Details</li>
                   </ul>
                   <div class="card">

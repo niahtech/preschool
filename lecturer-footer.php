@@ -22,6 +22,9 @@
 
 <script src="assets/js/circle-progress.min.js"></script>
 
+
+<script src="assets/plugins/datatables/datatables.min.js"></script>
+
 <script src="assets/js/script.js"></script>
 </body>
 

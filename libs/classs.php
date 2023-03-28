@@ -16,6 +16,9 @@ class lecturer {
         if(isset($_POST['resultUpdate'])) {
             $this->resultUpdate();
         }
+        if(isset($_POST['scheduleClass'])) {
+            $this->scheduleClass();
+        }
     }
 
     function register() {
@@ -168,10 +171,29 @@ class lecturer {
         if(in_array($course, $result)) {
             insertScore();
         } else{
-            $sql = $db->query("ALTER TABLE students ADD $course int(3)");
+            $sql = $db->query("ALTER TABLE students ADD $course varchar(4)");
             insertScore();
         }
         header('Location: student-result.php');
+    }
+
+    function scheduleClass(){
+        global $db, $real;
+
+        $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $endTime = filter_input(INPUT_POST, 'endTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $course = filter_input(INPUT_POST, 'course', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $month = ['January','February','March','April','May','June','July','August','September','Octpber','November','December'];
+        $dat = explode('-', $date);
+        $index = $dat[1]-1;
+        $str = "$dat[2] $dat[1], $dat[0]";
+        $real = str_replace("$dat[1]", "$month[$index]", $str);
+
+        $sql = $db->query("INSERT INTO schedule (date, startTime, endTime, course) VALUES ('$real', '$startTime', '$endTime', '$course')");
+
+        header('Location: schedule-class.php');
     }
 
 }

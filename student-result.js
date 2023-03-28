@@ -3,8 +3,18 @@ var grade = document.querySelectorAll('.grade');
 var unit = document.querySelectorAll('.unit');
 
 var sum = 0;
-for(let i=0; i<grade.length; i++){
+
+for(let i=0; i<score.length; i++){
     score[i].addEventListener('keyup', (e) => {
+        result();
+    })
+}
+window.addEventListener('load', (e) => {
+    result();
+})
+
+function result(){
+    for(let i=0; i<grade.length; i++){
         let value = score[i].value;
         if(score[i].value.length !== 0){
             switch(true) {
@@ -30,7 +40,7 @@ for(let i=0; i<grade.length; i++){
         else{
             grade[i].value = '';
         }
-    })
+    }
 }
 
 // var TQP = 0, TLU = 0, QP;
