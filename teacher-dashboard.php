@@ -1,5 +1,10 @@
 <?php
     include 'lecturer-header.php';
+    $today = explode('T', date("c"));
+    $tod = $today[0];
+    $schedule = $db->query("SELECT * FROM schedule WHERE date='$tod'");
+    $courses = getLecturer($_SESSION['email'], 'course');
+    $course = explode(',', $courses);
 ?>
 
 
@@ -9,7 +14,7 @@
 <div class="page-header">
 <div class="row">
 <div class="col-sm-12">
-<h3 class="page-title">Welcome <?= getLecturer($_SESSION['email'], 'username') ?? getLecturer($_SESSION['email'], 'name');?>!</h3>
+<h3 class="page-title">Welcome <?= getLecturer($_SESSION['email'], 'name');?>!</h3>
 <ul class="breadcrumb">
 <li class="breadcrumb-item"><a href="teacher-dashboard.php">Dashboard</a></li>
 <li class="breadcrumb-item active">Lecturer Dashboard</li>
@@ -91,10 +96,10 @@
 <div class="card-header">
 <div class="row align-items-center">
 <div class="col-6">
-<h5 class="card-title">Upcoming Lesson</h5>
+<h5 class="card-title">Today's Lesson</h5>
 </div>
 <div class="col-6">
-<span class="float-right view-link"><a href="#">View All Courses</a></span>
+<span class="float-right view-link"><a href="schedule-class.php">View All Scheduled Classes</a></span>
 </div>
 </div>
 </div>
@@ -102,54 +107,23 @@
 <div class="table-responsive lesson">
 <table class="table table-center">
 <tbody>
+<?php foreach($schedule as $sch):?>
 <tr>
 <td>
 <div class="date">
-<b>Aug 4, Tuesday</b>
-<p>2.30pm - 3.30pm (60min)</p>
+<b><?= changeDate($sch['date'])?><div class="day" style="display:inline"><?= changeDate($sch['date'])?></div></b>
+<p><?= $sch['startTime']?> - <?= $sch['endTime']?> (<?= timeDifference($sch['startTime'], $sch['endTime']);?>)</p>
 </div>
 </td>
 <td>
 <div class="date">
-<b>Lessons 30</b>
-<p>3.1 Ipsuum dolor</p>
+<b><?= $sch['course']?></b>
 </div>
 </td>
-<td><a href="#">Confirmed</a></td>
-<td><button type="submit" class="btn btn-info">Reschedule</button></td>
+<td><a href="#" class="time"><?php status($sch['startTime'], $sch['endTime']);?></a></td>
+<td><button type="submit" class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id'];?>">Reschedule</button></td>
 </tr>
-<tr>
-<td>
-<div class="date">
-<b>Aug 5, Wednesday</b>
-<p>3.00pm - 4.30pm (90min)</p>
-</div>
-</td>
-<td>
-<div class="date">
-<b>Lessons 31</b>
-<p>3.2 Ipsuum dolor</p>
-</div>
-</td>
-<td><a href="#">Confirmed</a></td>
-<td><button type="submit" class="btn btn-info">Reschedule</button></td>
-</tr>
-<tr>
-<td>
-<div class="date">
-<b>Aug 6, Thursday</b>
-<p>11.00am - 12.00pm (20min)</p>
-</div>
-</td>
-<td>
-<div class="date">
-<b>Lessons 32</b>
-<p>3.3 Ipsuum dolor</p>
-</div>
-</td>
-<td><a href="#">Confirmed</a></td>
-<td><button type="submit" class="btn btn-info">Reschedule</button></td>
-</tr>
+<?php endforeach;?>
 </tbody>
 </table>
 </div>
@@ -282,4 +256,71 @@
 
 </div>
 
+<?php foreach($schedule as $sch): ?>
+      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id'];?>">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <div class="modal-title text-center h3">Schedule New Class</div>
+                  <button class="btn btn-danger close" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="schedule-class.php">Classes</a></li>
+                     <li class="breadcrumb-item active">Schedule Class</li>
+                  </ul>
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="about-info">
+                                 <form method="POST">
+                                    <div><label for="date">Date</label>
+                                    <input type="date" name="date" value="<?= $sch['date'];?>" required></div>
+                                    <br>
+                                    <div><label for="date">Start Time</label>
+                                    <input type="time" name="startTime" value="<?= $sch['startTime'];?>" required></div>
+                                    <br>
+                                    <div><label for="date">End Time</label>
+                                    <input type="time" name="endTime" value="<?= $sch['endTime'];?>" required></div>
+                                    <br>
+                                    <div><label for="date">Course</label>
+                                    <select name="course">
+                                       <?php foreach($course as $cou):?>
+                                          <option value="<?= $cou;?>"><?= $cou;?></option>
+                                       <?php endforeach; ?>
+                                    </select></div>
+                                    <br>
+                                    <input type="submit" class="btn btn-primary" name="reschedule" value="Reschedule">
+                                    <input type="hidden" name="id" value="<?= $sch['id'];?>">
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>     
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   <?php endforeach; ?>
+
+<script src="change-date.js"></script>
+
+
+
 <?php include ('lecturer-footer.php'); ?>
+<script>
+    let times = [...document.querySelectorAll(".time")];
+   
+        
+        console.log(times);
+        times.map((i,el)=>{
+            setInterval(()=>{
+                $("el").load(location.href + "el")
+            },1000)
+        })
+    
+
+</script>

@@ -54,5 +54,36 @@
         }
     }
 
+    function changeDate($detail){
+        $month = ['January','February','March','April','May','June','July','August','September','Octpber','November','December'];
+        $dat = explode('-', $detail);
+        $index = $dat[1]-1;
+        $str = "$dat[2] -$dat[1], $dat[0]";
+        $real = str_replace("-$dat[1]", "$month[$index]", $str);
+
+        echo $real;
+    }
+
+    function timeDifference($start, $end){
+        $difference = strtotime($start) - strtotime($end);
+
+        echo round(abs($difference)/60,2).' minutes';
+    }
+
+    function status($start, $end){
+        $currentTime = strtotime(date("c"));
+        if(strtotime($start) <= $currentTime && $currentTime < strtotime($end)){
+            echo 'Ongoing';
+        }
+        elseif(strtotime($start) > $currentTime){
+            echo 'Upcoming';
+        }
+        else{
+            echo 'Completed';
+        }
+        echo time();
+    }
+
+
 
 ?>

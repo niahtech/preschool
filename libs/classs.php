@@ -19,6 +19,12 @@ class lecturer {
         if(isset($_POST['scheduleClass'])) {
             $this->scheduleClass();
         }
+        if(isset($_POST['reschedule'])) {
+            $this->reschedule();
+        }
+        if(isset($_POST['deleteSchedule'])) {
+            $this->deleteSchedule();
+        }
     }
 
     function register() {
@@ -80,7 +86,7 @@ class lecturer {
                 }
             }else {
                 $loginErr = 'You are not a registered user';
-            } 
+            }
         }
     }
 
@@ -178,20 +184,37 @@ class lecturer {
     }
 
     function scheduleClass(){
-        global $db, $real;
+        global $db;
 
         $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $endTime = filter_input(INPUT_POST, 'endTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $course = filter_input(INPUT_POST, 'course', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $month = ['January','February','March','April','May','June','July','August','September','Octpber','November','December'];
-        $dat = explode('-', $date);
-        $index = $dat[1]-1;
-        $str = "$dat[2] $dat[1], $dat[0]";
-        $real = str_replace("$dat[1]", "$month[$index]", $str);
+        $sql = $db->query("INSERT INTO schedule (date, startTime, endTime, course) VALUES ('$date', '$startTime', '$endTime', '$course')");
 
-        $sql = $db->query("INSERT INTO schedule (date, startTime, endTime, course) VALUES ('$real', '$startTime', '$endTime', '$course')");
+        header('Location: schedule-class.php');
+    }
+
+    function reschedule(){
+        global $db;
+        $id=$_POST['id'];
+
+        $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $endTime = filter_input(INPUT_POST, 'endTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $course = filter_input(INPUT_POST, 'course', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $sql = $db->query("UPDATE schedule SET date='$date', startTime='$startTime', endTime='$endTime', course='$course' WHERE id='$id'");
+
+        header('Location: schedule-class.php');
+    }
+
+    function deleteSchedule(){
+        global $db;
+
+        $id = $_POST['deleteSchedule'];
+        $sql = $db->query("DELETE FROM schedule WHERE id='$id'");
 
         header('Location: schedule-class.php');
     }
