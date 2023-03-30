@@ -11,7 +11,7 @@ window.addEventListener('load', (e) => {
 })
 
 // set the status of each scheduled lecture
-var second = document.querySelectorAll('.time');
+var second = document.querySelectorAll('.status');
 var startTime = document.querySelectorAll('.startTime');
 var endTime = document.querySelectorAll('.endTime');
 function currentTime(){
@@ -28,29 +28,41 @@ function currentTime(){
         }
         if((currentHour == end[0] && currentMinute >= end[1]) || currentHour > end[0]){
             second[i].textContent = 'Completed';
+            second[i].style.color = 'green';
         }
         if((currentHour == start[0] && currentMinute < start[1]) || currentHour < start[0]){
             second[i].textContent = 'Upcoming';
+            second[i].style.color = 'red';
         }
     }
 }
 
 setInterval(currentTime, 1000);
 
-
+// change the color of ongoing status
+var colors = ["yellow", "blue"];
+var currentColor = 0;
 function ongoing() {
+    --currentColor;
+    if(currentColor<0) currentColor = colors.length - 1;
     for(let i=0; i<second.length; i++){
         if(second[i].textContent == 'Ongoing'){
-            console.log('red');
-            setTimeout(changeColor, 1000)
+            second[i].style.color = colors[(currentColor + i) % colors.length]
         }
     }
 }
 
-function changeColor(){
-    for(let i=0; i<second.length; i++){
-        second[i].textContent.style.color = 'red';
-    }
-}
-
 setInterval(ongoing, 1000);
+
+// calculate the number of completed classes
+// const completed = document.querySelector('.completed');
+
+var comp=0;
+for(let i=0; i<second.length; i++){
+    if(second[i].textContent == 'Completed'){
+        comp++;
+        alert(comp);
+        document.querySelector('.completed').textContent = comp;
+    }
+    
+}

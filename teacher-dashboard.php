@@ -2,7 +2,8 @@
     include 'lecturer-header.php';
     $today = explode('T', date("c"));
     $tod = $today[0];
-    $schedule = $db->query("SELECT * FROM schedule WHERE date='$tod'");
+    $schedule = $db->query("SELECT * FROM schedule WHERE date='$tod' ORDER BY startTime");
+    $schedules = mysqli_fetch_all($schedule);
     $courses = getLecturer($_SESSION['email'], 'course');
     $course = explode(',', $courses);
 ?>
@@ -63,7 +64,7 @@
 <i class="fas fa-book-open"></i>
 </div>
 <div class="db-info">
-<h3>30/50</h3>
+<h3><span class="completed"></span>/<?= count($schedules)?></h3>
 <h6>Total Lessons</h6>
 </div>
 </div>
@@ -120,7 +121,7 @@
 <b><?= $sch['course']?></b>
 </div>
 </td>
-<td><a href="#" class="time"></a></td>
+<td><a href="#" class="status"></a></td>
 <td><button type="submit" class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id'];?>">Reschedule</button></td>
 </tr>
 <?php endforeach;?>
