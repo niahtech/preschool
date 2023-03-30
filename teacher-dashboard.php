@@ -112,7 +112,7 @@
 <td>
 <div class="date">
 <b><?= changeDate($sch['date'])?><div class="day" style="display:inline"><?= changeDate($sch['date'])?></div></b>
-<p><?= $sch['startTime']?> - <?= $sch['endTime']?> (<?= timeDifference($sch['startTime'], $sch['endTime']);?>)</p>
+<p><span class="startTime"><?= $sch['startTime']?></span> - <span class="endTime"><?= $sch['endTime']?></span> (<?= timeDifference($sch['startTime'], $sch['endTime']);?>)</p>
 </div>
 </td>
 <td>
@@ -120,7 +120,7 @@
 <b><?= $sch['course']?></b>
 </div>
 </td>
-<td><a href="#" class="time"><?php status($sch['startTime'], $sch['endTime']);?></a></td>
+<td><a href="#" class="time"></a></td>
 <td><button type="submit" class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id'];?>">Reschedule</button></td>
 </tr>
 <?php endforeach;?>
@@ -256,6 +256,8 @@
 
 </div>
 
+<?php include ('lecturer-footer.php'); ?>
+
 <?php foreach($schedule as $sch): ?>
       <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id'];?>">
          <div class="modal-dialog">
@@ -307,11 +309,7 @@
    <?php endforeach; ?>
 
 <script src="change-date.js"></script>
-
-
-
-<?php include ('lecturer-footer.php'); ?>
-<script>
+<!-- <script>
     let times = [...document.querySelectorAll(".time")];
    
         
@@ -323,4 +321,4 @@
         })
     
 
-</script>
+</script> -->
