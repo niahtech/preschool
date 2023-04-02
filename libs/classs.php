@@ -213,7 +213,7 @@ class lecturer {
     function deleteSchedule(){
         global $db;
 
-        $id = $_POST['deleteSchedule'];
+        $id = $_POST['id'];
         $sql = $db->query("DELETE FROM schedule WHERE id='$id'");
 
         header('Location: schedule-class.php');

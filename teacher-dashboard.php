@@ -182,39 +182,6 @@
 </div>
 </div>
 </div>
-<div class="col-12 col-lg-6 col-xl-4 d-flex">
-<div class="card flex-fill">
-<div class="card-header">
- <h5 class="card-title">Teaching History</h5>
-</div>
-<div class="card-body">
-<div class="teaching-card">
-<ul class="activity-feed">
-<li class="feed-item">
-<div class="feed-date1">Sep 05, 9 am - 10 am (60min)</div>
-<span class="feed-text1"><a>Lorem ipsum dolor</a></span>
-<p><span>In Progress</span></p>
-</li>
-<li class="feed-item">
-<div class="feed-date1">Sep 04, 2 pm - 3 pm (70min)</div>
-<span class="feed-text1"><a>Et dolore magna</a></span>
-<p>Completed</p>
-</li>
-<li class="feed-item">
-<div class="feed-date1">Sep 02, 1 pm - 2 am (80min)</div>
-<span class="feed-text1"><a>Exercitation ullamco</a></span>
-<p>Completed</p>
-</li>
-<li class="feed-item">
-<div class="feed-date1">Aug 30, 10 am - 12 pm (90min)</div>
-<span class="feed-text1"><a>Occaecat cupidatat</a></span>
-<p>Completed</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="col-12 col-lg-12 col-xl-3 d-flex">

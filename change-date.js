@@ -58,11 +58,11 @@ setInterval(ongoing, 1000);
 // const completed = document.querySelector('.completed');
 
 var comp=0;
-for(let i=0; i<second.length; i++){
-    if(second[i].textContent == 'Completed'){
+Array.from(second).forEach((el)=> {
+    console.log(comp);
+    if(el.style.innerText == 'Completed'){
         comp++;
-        alert(comp);
-        document.querySelector('.completed').textContent = comp;
+        console.log(comp);
+        document.querySelector('.completed').style.textContent = comp;
     }
-    
-}
+})

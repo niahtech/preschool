@@ -151,7 +151,7 @@
 <p class="text-muted mb-0">Lecturer</p>
 </div>
 </div>
-<a class="dropdown-item" href="teacher-dashboard.php">My Profile</a>
+<a class="dropdown-item" href="teacher-details.php">My Profile</a>
 <a class="dropdown-item" href="inbox.html">Inbox</a>
 <a class="dropdown-item" href="logout.php">Logout</a>
 </div>

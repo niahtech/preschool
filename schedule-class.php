@@ -3,7 +3,7 @@
    
    $courses = getLecturer($_SESSION['email'], 'course');
    $course = explode(',', $courses);
-   $schedule = $db->query("SELECT * FROM schedule ORDER BY date");
+   $schedule = $db->query("SELECT * FROM schedule ORDER BY date DESC");
 ?>
 <div class="page-wrapper">
    <div class="content container-fluid">
@@ -52,9 +52,9 @@
                                     <a href="#" class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id'];?>" id="<?= $sch['id'];?>">
                                     <i class="fas fa-pen"></i>
                                     </a>
-                                    <form method="POST"><button class="btn btn-sm bg-danger-light" value="<?= $sch['id']?>" name="deleteSchedule">
+                                    <button class="btn btn-sm bg-danger-light" data-toggle="modal" data-target="#delete-schedule-<?= $sch['id'];?>">
                                     <i class="fas fa-trash"></i>
-                                    </button></form>
+                                    </button>
                                  </div>
                               </td>
                            </tr>
@@ -151,6 +151,42 @@
                                     </select></div>
                                     <br>
                                     <input type="submit" class="btn btn-primary" name="reschedule" value="Reschedule">
+                                    <input type="hidden" name="id" value="<?= $sch['id'];?>">
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>     
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   <?php endforeach; ?>
+
+   <?php foreach($schedule as $sch): ?>
+      <div class="modal fade" tabindex="-1" aria-labelledby="deleteSchedule" aria-hidden="true" id="delete-schedule-<?= $sch['id'];?>">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <div class="modal-title text-center h3">Delete Class</div>
+                  <button class="btn btn-danger close" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="schedule-class.php">Classes</a></li>
+                     <li class="breadcrumb-item active">Delete Class</li>
+                  </ul>
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="about-info">
+                                 <h4>Are you sure you want to delete this class?</h4>
+                                 <form method="POST" class="d-flex justify-content-between">
+                                    <input type="submit" class="btn btn-primary" name="deleteSchedule" value="Yes">
+                                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="No">
                                     <input type="hidden" name="id" value="<?= $sch['id'];?>">
                                  </form>
                               </div>
