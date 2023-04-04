@@ -34,7 +34,7 @@ $course = explode(',', $courses);
                         <i class="fas fa-chalkboard"></i>
                      </div>
                      <div class="db-info">
-                        <h3>04/06</h3>
+                        <h3><span class="completed"></span>/<span class="totalClass"><?= count($schedules) ?></span></h3>
                         <h6>Total Classes</h6>
                      </div>
                   </div>
@@ -57,21 +57,6 @@ $course = explode(',', $courses);
             </div>
          </div>
          <div class="col-xl-3 col-sm-6 col-12 d-flex">
-            <div class="card bg-seven w-100">
-               <div class="card-body">
-                  <div class="db-widgets d-flex justify-content-between align-items-center">
-                     <div class="db-icon">
-                        <i class="fas fa-book-open"></i>
-                     </div>
-                     <div class="db-info">
-                        <h3><span class="completed"></span>/<span class="totalClass"><?= count($schedules) ?></span></h3>
-                        <h6>Total Lessons</h6>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div class="col-xl-3 col-sm-6 col-12 d-flex">
             <div class="card bg-eight w-100">
                <div class="card-body">
                   <div class="db-widgets d-flex justify-content-between align-items-center">
@@ -79,7 +64,7 @@ $course = explode(',', $courses);
                         <i class="fas fa-clock"></i>
                      </div>
                      <div class="db-info">
-                        <h3>15/20</h3>
+                        <h3> <span class="completedHour"></span>/<span class="totalHours"></span></h3>
                         <h6>Total Hours</h6>
                      </div>
                   </div>
@@ -113,7 +98,7 @@ $course = explode(',', $courses);
                                        <td>
                                           <div class="date">
                                              <b><?= changeDate($sch['date']) ?><div class="day" style="display:inline"><?= changeDate($sch['date']) ?></div></b>
-                                             <p><span class="startTime"><?= $sch['startTime'] ?></span> - <span class="endTime"><?= $sch['endTime'] ?></span> (<?= timeDifference($sch['startTime'], $sch['endTime']); ?>)</p>
+                                             <p><span class="startTime"><?= $sch['startTime'] ?></span> - <span class="endTime"><?= $sch['endTime'] ?></span> (<span class="minutes"><?= timeDifference($sch['startTime'], $sch['endTime']); ?></span> minutes)</p>
                                           </div>
                                        </td>
                                        <td>

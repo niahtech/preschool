@@ -23,7 +23,7 @@ function currentTime() {
         var start = startTime[i].textContent.split(':');
         var end = endTime[i].textContent.split(':');
 
-        if ((currentHour >= start[0] && currentMinute >= start[1]) && ((currentHour == end[0] && currentMinute < end[1]) || currentHour < end[0])) {
+        if ((currentHour >= start[0] && currentMinute >= start[1] || currentMinute < start[1]) && ((currentHour == end[0] && currentMinute < end[1]) || currentHour < end[0])) {
             second[i].textContent = 'Ongoing';
         }
         if ((currentHour == end[0] && currentMinute >= end[1]) || currentHour > end[0]) {
@@ -55,21 +55,25 @@ function ongoing() {
 
 setInterval(ongoing, 1000);
 
+
 // calculate the number of completed classes
-// const completed = document.querySelector('.completed');
 
 var comp = 0;
-
+document.querySelector('.completed').textContent = comp;
+document.querySelector('.complete').textContent = comp;
 
 const interval = setInterval(() => {
     let secs = [...document.querySelectorAll("td>a.status")];
     secs.forEach((el) => {
         if (el.dataset['status'] == 'Completed') {
+            // setting the completed class and lessons
             comp++;
             document.querySelector('.completed').textContent = comp;
             document.querySelector('.complete').textContent = comp;
 
-            const progress = document.querySelector('.completed').textContent / document.querySelector(".totalClass").textContent * 100;
+            
+            // working on the progress bar
+            var progress = document.querySelector('.completed').textContent / document.querySelector(".totalClass").textContent * 100;
 
             document.querySelector(".prog").dataset["percent"] = progress;
             document.querySelector(".perc").textContent = progress.toFixed(1) + '%';
@@ -98,5 +102,26 @@ const interval = setInterval(() => {
     })
 }, 100)
 
+// Calculating the total hours of the daily scheduled class
+var hour = 0;
+var minutes = [...document.querySelectorAll(".minutes")];
+var hours = setInterval(() => {
+    minutes.forEach((el) => {
+        hour += parseInt(el.textContent);
+    })
+    document.querySelector(".totalHours").textContent = (hour/60).toFixed(1)
+    
+    // working on the completed hours
+    var date = new Date();
+    var completedHour = 0;
+    for(let i=0; i<endTime.length; i++){
+        var end = endTime[i].textContent.split(':');
+        if((date.getHours() == end[0] && date.getMinutes() >= end[1]) || date.getHours() > end[0]){
+            completedHour += parseInt(minutes[i].textContent);
+        }
+    }
+    document.querySelector(".completedHour").textContent = (completedHour/60).toFixed(1);
 
 
+    clearInterval(hours);
+}, 100);

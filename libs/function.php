@@ -67,7 +67,7 @@
     function timeDifference($start, $end){
         $difference = strtotime($start) - strtotime($end);
 
-        echo round(abs($difference)/60,2).' minutes';
+        echo round(abs($difference)/60,2);
     }
 
     function status($start, $end){
