@@ -6,9 +6,7 @@ class New_Life
     function __construct()
     {
 
-        if (isset($_POST["register"])) {
-            $this->register();
-        } else if (isset($_POST['login'])) {
+        if (isset($_POST['login'])) {
             $this->Login();
         } else if (isset($_POST['submit'])) {
             $this->Add_student();
@@ -28,6 +26,8 @@ class New_Life
             $this->createCourse();
         } else if (array_key_exists('registerCourse', $_POST)) {
             $this->registerCourse();
+        } else if (array_key_exists('notifications', $_POST)) {
+            $this->notifications();
         }
     }
     function validation($text, $fieldname)
@@ -111,62 +111,6 @@ class New_Life
         $report = 'Class has Been created sucessfuly';
         $count = 0;
         return;
-    }
-
-    function register()
-    {
-        global $registeredEmailErr, $passwordErr;
-        global $db, $count, $report;
-        $password = $confirm_password = '';
-        $first_name = $this->validation(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS), 'First Name');
-        $last_name = $this->validation(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS), 'Last Name');
-        $department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = $this->validation(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL), 'Email');
-        $password = $this->validation($_POST["password"], 'Password');
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $confirm_password = $_POST["confirm_password"];
-        if ($count > 0) {
-            return;
-        }
-        if ($_POST["individual"] == 'Lecturer') {
-            //checking for multiples emails
-            $data = $db->query("SELECT * FROM lecturer_registered WHERE email='$email'");
-            $registeredEmails = $data->fetch_assoc();
-            if (!empty($registeredEmails)) {
-                $registeredEmailErr = 'This Email has already been used';
-            } else {
-                //password confirmation
-                if (password_verify($confirm_password, $hashed_password)) {
-                    $db->query("INSERT INTO lecturer_registered (first_name,last_name,email,department, password) VALUES ('$first_name','$last_name','$email','department','$hashed_password')");
-                    //success
-                    header('Location:lecturers.php');
-                    $_SESSION['id'] = $_POST['email'];
-                } else {
-                    $passwordErr = "Passwords does not match";
-                }
-            }
-        }
-        if ($_POST['individual'] == 'Student') {
-            //checking for multiples emails
-            $data = $db->query("SELECT email FROM student_registered WHERE email='$email'");
-            $registeredEmails = $data->fetch_assoc();
-
-            if (!empty($registeredEmails)) {
-                $registeredEmailErr = 'This Email has already been used';
-            } else {
-                //password confirmation
-                if (password_verify($confirm_password, $hashed_password)) {
-                    $db->query("INSERT INTO student_registered (first_name,last_name,email,password) VALUES ('$first_name','$last_name','$email','$hashed_password')");
-                    // success
-                    header('Location:login.php');
-                    $_SESSION['id'] = $_POST['email'];
-                } else {
-                    $passwordErr = "Passwords does not match";
-                    return;
-                }
-            }
-        }
-        $_SESSION['person'] = $_POST['individual'];
     }
 
     function Login()
@@ -255,7 +199,7 @@ class New_Life
     {
         global $db;
         $id = $_POST['deleteLecturer'];
-        $sql = $db->query("DELETE FROM lecturer_registered WHERE id='$id'");
+        $sql = $db->query("DELETE FROM lecturers WHERE id='$id'");
     }
     function registerCourse()
     {
@@ -263,18 +207,30 @@ class New_Life
         $id = $_SESSION['id'];
         $sql = $db->query("SELECT * FROM student_registered where email='$id'");
         $result = $sql->fetch_assoc();
-        $studentId=$result['id'];
-        $studentColumn='STUD'.$studentId;
-        $departmentName=$result['department'];
-        $department=getDept($departmentName)['name'];
+        $studentId = $result['id'];
+        $studentColumn = 'STUD' . $studentId;
+        $departmentName = $result['department'];
+        $department = getDept($departmentName)['name'];
         $trimmedDept = strtolower(str_replace(' ', '', $department));
         error_reporting(0);
-        $db->query("ALTER TABLE $trimmedDept ADD $studentColumn int(11)");     
-        $deptCourses=$db->query("SELECT * FROM $trimmedDept WHERE semester='First'");
-        while($regCourses=$deptCourses->fetch_assoc()){
+        $db->query("ALTER TABLE $trimmedDept ADD $studentColumn int(11)");
+        $deptCourses = $db->query("SELECT * FROM $trimmedDept WHERE semester='First'");
+        while ($regCourses = $deptCourses->fetch_assoc()) {
             $db->query("UPDATE $trimmedDept SET $studentColumn='$studentId' WHERE semester='First'");
         }
         header("location:add-subject.php");
+    }
+    function notifications()
+    {
+        global $db, $report, $status;
+        extract($_POST);
+        $sql = $db->query("SELECT * FROM notifications WHERE message='$message'");
+        if (mysqli_num_rows($sql) > 0) {
+            return;
+        } else {
+            $db->query("INSERT INTO notifications(message,recipient) VALUES ('$message','$recipient') ");
+            return;
+        }
     }
 }
 $New_Life = new New_Life;

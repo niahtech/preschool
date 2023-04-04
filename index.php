@@ -1,4 +1,26 @@
 <?php include 'libs/connection.inc.php' ?>
+<?php
+$sql = $db->query("SELECT DISTINCT section FROM student_registered");
+$result = mysqli_fetch_all($sql);
+// var_dump($result);
+
+for ($i = 0; $i < count($result); $i++) {
+   $section = ($result[$i][0]);
+   // echo $section;
+   $check = $db->query("SELECT gender,section FROM student_registered WHERE section='$section' AND gender='Male'");
+   $male[] = mysqli_num_rows($check);
+   $explode_year = explode('/', $section);
+   $year[] = $explode_year[0];
+}
+
+for ($i = 0; $i < count($result); $i++) {
+   $section = ($result[$i][0]);
+   // echo $section;
+   $check = $db->query("SELECT gender,section FROM student_registered WHERE section='$section' AND gender='Female'");
+   $Female[] = mysqli_num_rows($check);
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +31,7 @@
    <title>Preskool - Dashboard</title>
    <link rel="shortcut icon" href="assets/img/favicon.png">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
@@ -39,7 +62,7 @@
                               <i class="fas fa-user-graduate"></i>
                            </div>
                            <div class="db-info">
-                              <h3><?php echo countAllStudents()?></h3>
+                              <h3><?php echo countAllStudents() ?></h3>
                               <h6>Students</h6>
                            </div>
                         </div>
@@ -51,10 +74,10 @@
                      <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                            <div class="db-icon">
-                              <i class="fas fa-building"></i>
+                              <i class="fas fa-crown"></i>
                            </div>
                            <div class="db-info">
-                              <h3><?php echo countAllDepartments()?></h3>
+                              <h3><?php echo countAllDepartments() ?></h3>
                               <h6>Department</h6>
                            </div>
                         </div>
@@ -66,11 +89,26 @@
                      <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                            <div class="db-icon">
-                              <i class="fas fa-user-graduate"></i>
+                              <i class="fas fa-building"></i>
                            </div>
                            <div class="db-info">
-                              <h3><?php echo countAllStudents()?></h3>
+                              <h3><?php echo countAllStudents() ?></h3>
                               <h6>Lecturers</h6>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                  <div class="card bg-four w-100">
+                     <div class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                           <div class="db-icon">
+                              <i class="fas fa-file-invoice-dollar"></i>
+                           </div>
+                           <div class="db-info">
+                              <h3><?php echo countLevel() ?></h3>
+                              <h6>Level</h6>
                            </div>
                         </div>
                      </div>
@@ -276,12 +314,86 @@
                </div>
             </div>
          </div>
-         <footer>
-            <p>Copyright © 2020 Dreamguys.</p>
-         </footer>
       </div>
    </div>
-   <?php include "footer.php" ?>
+   <script src="assets/js/jquery-3.6.0.min.js"></script>
+   <script src="assets/js/popper.min.js"></script>
+   <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+   <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+   <script src="assets/plugins/apexchart/chart-data.js"></script>
+   <script>
+      // Bar chart
+
+      if ($('#bar').length > 0) {
+         var optionsBar = {
+            chart: {
+               type: 'bar',
+               height: 350,
+               width: '100%',
+               stacked: true,
+               toolbar: {
+                  show: false
+               },
+            },
+            dataLabels: {
+               enabled: false
+            },
+            plotOptions: {
+               bar: {
+                  columnWidth: '45%',
+               }
+            },
+            series: [{
+               name: "Males",
+               color: '#fdbb38',
+               data: <?php echo json_encode($male) ?>,
+
+            }, {
+               name: "Females",
+               color: '#19affb',
+               data: <?php echo json_encode($Female) ?>,
+            }],
+            labels: <?php echo json_encode($year) ?>,
+            xaxis: {
+               labels: {
+                  show: false
+               },
+               axisBorder: {
+                  show: false
+               },
+               axisTicks: {
+                  show: false
+               },
+            },
+            yaxis: {
+               axisBorder: {
+                  show: false
+               },
+               axisTicks: {
+                  show: false
+               },
+               labels: {
+                  style: {
+                     colors: '#777'
+                  }
+               }
+            },
+            title: {
+               text: '',
+               align: 'left',
+               style: {
+                  fontSize: '18px'
+               }
+            }
+
+         }
+
+         var chartBar = new ApexCharts(document.querySelector('#bar'), optionsBar);
+         chartBar.render();
+      }
+   </script>
+   <script src="assets/js/script.js"></script>
 </body>
 
 </html>

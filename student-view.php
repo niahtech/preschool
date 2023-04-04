@@ -3,8 +3,7 @@
 if(isset($_GET['id'])){
     $id=$_GET['id'];
 }
-$sql = $db->query("SELECT * FROM student_registered where id='$id'");
-$result = $sql->fetch_assoc();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +51,10 @@ $result = $sql->fetch_assoc();
                                 <div class="about-info">
                                     <h4>About Me</h4>
                                     <div class="media mt-3">
+                                        <?php
+                                        $sql = $db->query("SELECT * FROM student_registered where id='$id'");
+                                        $result = $sql->fetch_assoc();
+                                        ?>
                                         <img src="student_image/<?= $result['student_image'] ?>" class="mr-3" alt="...">
                                         <div class="media-body">
                                             <ul>

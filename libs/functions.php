@@ -94,3 +94,17 @@ function countCoursesLevel($id)
     $check=mysqli_num_rows($sql);
     return $check;
 }
+function countLevel()
+{
+    global $db;
+    $sql = $db->query("SELECT * FROM level");
+    $check= mysqli_num_rows($sql);
+    return $check;
+}
+function countGender($gender,$section){
+    global $db;
+    $sql= $db->query("SELECT * FROM student_registered WHERE gender='$gender' AND section ='$section'");
+    $check= mysqli_num_rows($sql);
+    return $check;
+
+}
