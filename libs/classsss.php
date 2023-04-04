@@ -33,11 +33,10 @@ class lecturer {
         $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $password = $_POST['password'];
         $repeatPassword = $_POST['repeatPassword'];
 
-        $sql = $db->query("SELECT email FROM lecturers WHERE email = '$email' LIMIT 1");
+        $sql = $db->query("SELECT email FROM bio WHERE Email = '$email' LIMIT 1");
         if(mysqli_num_rows($sql) > 0){
             $registeredEmailErr = 'This Email has already been used';
         }else {
@@ -45,8 +44,7 @@ class lecturer {
                 $passwordErr = 'Passwords does not match';
             }else {
                 $password = password_hash($password, PASSWORD_BCRYPT);
-                $name = $lastName.' '.$firstName;
-                $sql = $db->query("INSERT INTO lecturers (name, email, password) VALUES('$name', '$email', '$password')");
+                $sql = $db->query("INSERT INTO bio (FirstName, LastName, Email, Password) VALUES('$firstName', '$lastName', '$email', '$password')");
 
                 header('Location: login.php');
             }
@@ -75,13 +73,14 @@ class lecturer {
             }
         }
         else{
-            $sql = $db->query("SELECT email,password FROM students WHERE email = '$email' LIMIT 1");
+            $sql = $db->query("SELECT email,password FROM bio WHERE Email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
             if(mysqli_num_rows($sql) > 0){
-                if(!password_verify($password, $result['password'])) {
+                if(!password_verify($password, $result['Password'])) {
                     $loginErr = 'Check your Email or Password';
                 }else {
                     $_SESSION['email'] = $email;
+                    $_SESSION['id'] = $email;
                     header('Location: student-dashboard.php');
                 }
             }else {

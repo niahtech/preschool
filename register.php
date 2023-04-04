@@ -48,13 +48,6 @@
 <div style="color:red"><?= $registeredEmailErr ?? NULL; ?></div>
 </div>
 <div class="form-group">
-<select class="form-control" name="user" required>
-    <option value="">Register as</option>
-    <option value="Student">Student</option>
-    <option value="Lecturer">Lecturer</option>
-</select>
-</div>
-<div class="form-group">
 <input class="form-control" type="password" placeholder="Password" name="password" required>
 </div>
 <div class="form-group">
@@ -71,10 +64,6 @@
 <span class="span-or">or</span>
 </div>
 
-<div class="social-login">
-<span>Register with</span>
-<a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a><a href="#" class="google"><i class="fab fa-google"></i></a>
-</div>
 
 <div class="text-center dont-have">Already have an account? <a href="login.php">Login</a></div>
 </div>
