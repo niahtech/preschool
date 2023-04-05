@@ -62,7 +62,7 @@ class lecturer {
             $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
             if(mysqli_num_rows($sql) > 0){
-                if(!password_verify($password, $result['Password'])) {
+                if(!password_verify($password, $result['password'])) {
                     $loginErr = 'Check your Email or Password';
                 }else {
                     $_SESSION['email'] = $email;
