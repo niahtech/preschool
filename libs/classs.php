@@ -6,17 +6,7 @@ class New_Life
     function __construct()
     {
 
-        if (isset($_POST["register"])) {
-            $this->register();
-        } else if (isset($_POST['login'])) {
-            $this->Login();
-        } else if (isset($_POST['submit'])) {
-            $this->Add_student();
-        } else if (isset($_POST['change_pass'])) {
-            $this->student_details();
-        } else if (isset($_POST['save_changes'])) {
-            $this->student_details();
-        } else if (isset($_POST['deleteStudent'])) {
+        if (isset($_POST['deleteStudent'])) {
             $this->deleteStudent();
         } else if (isset($_POST['deleteLecturer'])) {
             $this->deleteLecturer();
@@ -115,100 +105,7 @@ class New_Life
         return;
     }
 
-    function register()
-    {
-        global $registeredEmailErr, $passwordErr;
-        global $db, $count, $report;
-        $password = $confirm_password = '';
-        $first_name = $this->validation(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS), 'First Name');
-        $last_name = $this->validation(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS), 'Last Name');
-        $department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = $this->validation(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL), 'Email');
-        $password = $this->validation($_POST["password"], 'Password');
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $confirm_password = $_POST["confirm_password"];
-        if ($count > 0) {
-            return;
-        }
-        //checking for multiples emails
-        $data = $db->query("SELECT * FROM student_registered WHERE email='$email'");
-        $registeredEmails = $data->fetch_assoc();
-        if (!empty($registeredEmails)) {
-            $registeredEmailErr = 'This Email has already been used';
-        } else {
-            //password confirmation
-            if (password_verify($confirm_password, $hashed_password)) {
-                $db->query("INSERT INTO student_registered (first_name,last_name,email,department, password) VALUES ('$first_name','$last_name','$email','$department','$hashed_password')");
-                //success
-                header('Location:student-dashboard.php');
-                $_SESSION['id'] = $_POST['email'];
-            } else {
-                $passwordErr = "Passwords does not match";
-            }
-        }
-    }
-
-    function Login()
-    {
-        global $db, $report, $count, $user;
-        $user = $_POST['person'];
-        if ($user == "Student") {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $data = $db->query("SELECT * FROM student_registered WHERE email='$email'");
-            $result = $data->fetch_assoc();
-            $num = mysqli_num_rows($data);
-            if (password_verify($password, $result['password']) && $num > 0) {
-                $row = mysqli_fetch_array($data);
-                $_SESSION['id'] = $_POST['email'];
-                header("Location: student-dashboard.php");
-            } else {
-                $count++;
-                $report = "<br>Invalid Input!!! Check your email or password <br> Or you are not a registered user";
-            }
-            
-        }
-    }
-    function Add_student()
-    {
-        global $db, $id, $message;
-        extract($_POST);
-        $id = $_SESSION['id'];
-        $student_image = $_FILES['student_image']['name'];
-
-        $allowed_ext = array('png', 'jpg', 'jpeg', 'gif');
-        if (!empty($_FILES['student_image']['name'])) {
-            $image_name = $_FILES['student_image']['name'];
-            $image_size = $_FILES['student_image']['size'];
-            $image_tmp = $_FILES['student_image']['tmp_name'];
-            // upload to where
-            $target_dir = "student_image/${image_name}";
-            //get file extension... th echo $image_ext;at is the end letters after . in the file name
-            //explode() creates an array from a string
-            $image_ext = explode('.', $image_name);
-            $image_ext = strtolower(end($image_ext));
-            //validate image extension
-            if (in_array($image_ext, $allowed_ext)) {
-                if ($image_size <= 1000000) {
-                    move_uploaded_file($image_tmp, $target_dir);
-                } else {
-                    $message = '<p style="color:red;">The file is too large</p>';
-                    return;
-                }
-            } else {
-                $message = '<p style="color:red;">Invalid File Input</p>';
-                return;
-            }
-        }
-        // updating student details
-        $db->query("UPDATE student_registered SET first_name='$first_name',last_name= '$last_name',student_id='$student_id',gender='$gender',dob='$dob',class='$class',religion='$religion',joining_date='$joining_date',mobile_number='$mobile_number',admission_number='$admission_number',section='$section',father_name='$father_name',father_occupation='$father_occupation',father_mobile='$father_mobile',father_email='$father_email',mother_name='$mother_name',mother_occupation='$mother_occupation',mother_mobile='$mother_mobile',mother_email='$mother_email',present_address='$present_address',permanent_address='$permanent_address',student_image='$student_image',department='$department' WHERE email='$id'");
-        header('Location:student-details.php');
-    }
-    function student_details()
-    {
-        confirm_password();
-    }
-
+    
     function deleteStudent()
     {
         global $db;
