@@ -1,6 +1,6 @@
-
 <?php 
 session_start();
+include 'libs/connection.inc.php';
 print_r($_SESSION['id']) ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,36 +160,34 @@ print_r($_SESSION['id']) ?>
 <li class="menu-title">
 <span>Main Menu</span>
 </li>
-<li class="submenu active">
-<a href="#"><i class="fas fa-user-graduate"></i> <span> Student Dashboard</span> <span class="menu-arrow"></span></a>
+<li class="submenu">
+<a href="#"><i class="fas fa-user-graduate"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 <ul>
 
-<li><a href="student-details-add.php" class="active">Student Details</a></li>
-<li><a href="viewprofile.php" class="active">View Profile</a></li>
-<li><a href="student-reg.php" class="active">Student Registration</a></li>
-<li><a href="student-res.php" class="active">Student Result</a></li>
+<li><a href="student-dashboard.php">Student Dashboard</a></li>
+<li><a href="add-details.php">Student Biodata</a></li>
+<li><a href="student-details.php">Profile</a></li>
+<li><a href="student-reg.php">Course Registration</a></li>
+<li><a href="student-res.php">Result Checking</a></li>
 </ul>
-</li>
 
 
 
 
 
 
-<li class="menu-title">
-<span>Pages</span>
-</li>
+
 <li class="submenu">
 <a href="#"><i class="fas fa-shield-alt"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="login.html">Login</a></li>
-<li><a href="register.html">Register</a></li>
-<li><a href="forgot-password.html">Forgot Password</a></li>
-<li><a href="error-404.html">Error Page</a></li>
+<li><a href="login.php">Login</a></li>
+<li><a href="register.php">Register</a></li>
+<li><a href="forgot-password.php">Forgot Password</a></li>
+<li><a href="error-404.php">Error Page</a></li>
 </ul>
 </li>
 <li>
-<a href="blank-page.html"><i class="fas fa-file"></i> <span>Blank Page</span></a>
+<a href="blank-page.php"><i class="fas fa-file"></i> <span>Blank Page</span></a>
 </li>
 <li class="menu-title">
 <span>Others</span>
