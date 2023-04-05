@@ -1,6 +1,21 @@
-<?php 
+<?php
 session_start();
 include 'libs/connection.inc.php'?>
+<?php
+
+ $id = isset($_SESSION['id']) ? $_SESSION['id']: "it is not set";
+ echo $id;
+ $students =$db->query("SELECT * FROM bio WHERE Email='$id' "); 
+ $student=$students->fetch_assoc();
+ 
+
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -164,56 +179,14 @@ include 'libs/connection.inc.php'?>
 <a href="#"><i class="fas fa-user-graduate"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 <ul>
 
-<li><a href="student-dashboard.html">Student Dashboard</a></li>
-
-
+<li><a href="student-dashboard.php">Student Dashboard</a></li>
+</ul>
+</li>
 <li><a href="student-details-add.php" class="active">Student Details</a></li>
 <li><a href="viewprofile.php" class="active">View Profile</a></li>
 <li><a href="student-reg.php" class="active">Student Registration</a></li>
 <li><a href="student-res.php" class="active">Student Result</a></li>
 <li><a href="student-details.php" class="active">Full Profile</a></li>
-</ul>
-</li>
-
-<li class="submenu">
-<a href="#"><i class="fas fa-building"></i> <span> Departments</span> <span class="menu-arrow"></span></a>
-
-
-<li class="menu-title">
-<span>Management</span>
-</li>
-<li class="submenu">
-<a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Accounts</span> <span class="menu-arrow"></span></a>
-<ul>
-<li><a href="fees-collections.html">Fees Collection</a></li>
-<li><a href="expenses.html">Expenses</a></li>
-<li><a href="salary.html">Salary</a></li>
-<li><a href="add-fees-collection.html">Add Fees</a></li>
-<li><a href="add-expenses.html">Add Expenses</a></li>
-<li><a href="add-salary.html">Add Salary</a></li>
-</ul>
-</li>
-<li>
-<a href="holiday.html"><i class="fas fa-holly-berry"></i> <span>Holiday</span></a>
-</li>
-<li>
-<a href="fees.html"><i class="fas fa-comment-dollar"></i> <span>Fees</span></a>
-</li>
-<li>
-<a href="exam.html"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
-</li>
-<li>
-<a href="event.html"><i class="fas fa-calendar-day"></i> <span>Events</span></a>
-</li>
-<li>
-<a href="time-table.html"><i class="fas fa-table"></i> <span>Time Table</span></a>
-</li>
-<li>
-<a href="library.html"><i class="fas fa-book"></i> <span>Library</span></a>
-</li>
-<li class="menu-title">
-<span>Pages</span>
-</li>
 <li class="submenu">
 <a href="#"><i class="fas fa-shield-alt"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
 <ul>
@@ -230,14 +203,7 @@ include 'libs/connection.inc.php'?>
 <span>Others</span>
 </li>
 <li>
-<a href="sports.html"><i class="fas fa-baseball-ball"></i> <span>Sports</span></a>
-</li>
-<li>
-<a href="hostel.html"><i class="fas fa-hotel"></i> <span>Hostel</span></a>
-</li>
-<li>
-<a href="transport.html"><i class="fas fa-bus"></i> <span>Transport</span></a>
-</li>
+
 <li class="menu-title">
 <span>UI Interface</span>
 </li>
@@ -296,200 +262,136 @@ include 'libs/connection.inc.php'?>
 <div class="row">
 <div class="col-sm-12">
 <h3 class="page-title">Student Details</h3>
-<ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="students.html">Student</a></li>
-<li class="breadcrumb-item active">Student Details</li>
-</ul>
+
 </div>
 </div>
 </div>
+<div class="page-wrapper">
+<div class="content container-fluid">
 
-<?php 
-$id=$_SESSION['id'];
-
-$sql =$db->query("SELECT * FROM bio  where Email='$id' ") ;
-$item =$sql->fetch_assoc()
-
-?>
-
-<div class="card">
-<div class="card-body">
+<div class="page-header">
 <div class="row">
-<div class="col-md-12">
-<div class="about-info">
-<h4>About Me</h4>
-<div class="media mt-3">
-<img src="assets/img/user.jpg" class="mr-3" alt="...">
-<div class="media-body">
-<ul>
-<li>
-<span class="title-span">FirstName  : </span>
-<span class="info-span"><?php echo $item['FirstName'];?></span>
-</li>
+<div class="col">
 
-<li>
-<span class="title-span">LastName : </span>
-<span class="info-span"><?php echo $item['LastName'];?> </span>
-</li>
-<li>
-<span class="title-span">Email : </span>
-<span class="info-span"><?php echo $item['Email'];?> </span>
-</li>
-<li>
-<span class="title-span">DOB : </span>
-<span class="info-span"><?php echo $item['DOB'];?></span>
-</li>
-<li>
-<span class="title-span">Religion : </span>
-<span class="info-span"><?php echo $item['Religion'];?></span>
-</li>
-<li>
-<span class="title-span">PhoneNumber : </span>
-<span class="info-span"><?php echo $item['PhoneNumber'];?></span>
-</li>
-<li>
-<span class="title-span">Gender : </span>
-<span class="info-span"><?php echo $item['Gender'];?></span>
-</li>
-<span class="title-span">Department : </span>     
-<span class="info-span"><?php echo $item['Department'];?></span>
-</li>
-<li>
-<span class="title-span">State : </span>
-<span class="info-span"><?php echo $item['State'];?></span>
-</li>
-<li>
-<span class="title-span">Country : </span>
-<span class="info-span"><?php echo $item['Country'];?></span>
-</li>
-<li>
-<span class="title-span">Address : </span>
-<span class="info-span"><?php echo $item['Address'];?></span>
-</li>
-<li>
-
-
+<ul class="breadcrumb">
 
 
 </ul>
 </div>
 </div>
+</div>
+
+<div class="row">
+<div class="col-xl-6 d-flex">
+<div class="card flex-fill">
+<div class="card-header">
 
 </div>
-</div> 
-<div class="row follow-sec">
-<div class="col-md-4 mb-3">
-<div class="blue-box">
-<h3>2850</h3>
-<p>Followers</p>
+<div class="card-body">
+<form method="post">
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">First Name</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="FirstName" value="<?= $student['FirstName'];?>" required>
+
+</div>
+
+</div>
+
+
+</div>
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Last Name</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="LastName" value="<?=$student['LastName'];?>"    required>
+
+</div>
+
+</div>
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Email Address</label>
+<div class="col-lg-9">
+<input type="email" class="form-control"  name="Email" value="<?= $student['Email'];?>"    required>
+
+</div>
+
+</div>
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Date of Birth</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="DOB" value="<?=$student['DOB'];?>"    required>
+
+</div>
+
+</div>
+<div class="form-group row">
+<label class="col-lg-3 col-form-label" >Religion</label>
+<div class="col-lg-9">
+<input type="text" class="form-control"  name="Religion"  value="<?= $student['Religion']; ?>"   required>
+
+</div>
+
+</div>
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Phone Number</label>
+<div class="col-lg-9">
+<input type="number" class="form-control" name="PhoneNumber" required value="<?= $student['PhoneNumber']; ?>" >
+
+</div>
+
+</div>
+
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Gender</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="Gender"required  value="<?=$student['Gender'];?>" >
+</div>
+
+</div>
+
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Department</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="Department" required value="<?=$student['Department'];?>" >
+</div>
+
+</div>
+
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">State</label>
+<div class="col-lg-9">
+<input type="text" class="form-control"  name="State" value="<?=$student['State'];?>" >
+</div>
+
+</div>
+
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Country</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="Country" required value="<?=$student['Country'];?>" >
+
+</div>
+
+</div>
+<div class="form-group row">
+<label class="col-lg-3 col-form-label">Home Address</label>
+<div class="col-lg-9">
+<input type="text" class="form-control" name="Address" required value="<?=$student['Address'];?>" >
+
+</div>
+
+
+
+</div>
+<div class="text-right">
+<button type="submit" class="btn btn-primary" name="submit">Submit</button>
+</div>
+</form>
+
 </div>
 </div>
-<div class="col-md-4 mb-3">
-<div class="blue-box">
-<h3>2050</h3>
-<p>Following</p>
 </div>
-</div>
-<div class="col-md-4 mb-3">
-<div class="blue-box">
-<h3>2950</h3>
-<p>Friends</p>
-</div>
-</div>
-</div>
-<div class="row mt-2">
-<div class="col-md-12">
-<h5>Permanent Address</h5>
-<p>480, Estern Avenue, Courtage area, New York</p>
-</div>
-</div>
-<div class="row mt-2">
-<div class="col-md-12">
-<h5>Present Address</h5>
-<p>480, Estern Avenue, Courtage area, New York</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row mt-2">
-<div class="col-md-12">
-<div class="skill-info">
-<h4>Skills</h4>
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry, simply dummy text of the printing and typesetting industry</p>
-<ul>
-<li>
-<label>Lorem Ipsum is simply</label>
-<div class="progress">
-<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-</div>
-</li>
-<li>
-<label>Lorem Ipsum is simply</label>
-<div class="progress">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100" style="width: 69%"></div>
-</div>
-</li>
-<li>
-<label>Lorem Ipsum is simply</label>
-<div class="progress">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="86" aria-valuemin="0" aria-valuemax="100" style="width: 86%"></div>
-</div>
-</li>
-<li>
- <label>Lorem Ipsum is simply</label>
-<div class="progress">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%"></div>
-</div>
-</li>
-</ul>
-<div class="row mt-3">
-<div class="col-md-12">
-<h5>Education</h5>
-<p class="mt-3">Secondary Schooling at xyz school of secondary education, Mumbai.</p>
-<p>Higher Secondary Schooling at xyz school of higher secondary education, Mumbai.</p>
-<p>Bachelor of Science at Abc College of Art and Science, Chennai.</p>
-<p>Master of Science at Cdm College of Engineering and Technology, Pune.</p>
-</div>
-</div>
-<div class="row mt-3">
-<div class="col-md-12">
-<h5>Certificates</h5>
-<p class="mt-3">1st Prise in Running Competition.</p>
-<p>Lorem Ipsum is simply dummy text.</p>
-<p>Won overall star student in higher secondary education.</p>
-<p>Lorem Ipsum is simply dummy text.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="row mt-2">
-<div class="col-md-12">
-<div class="skill-info">
-<h4>Settings</h4>
-<form>
-<div class="row mt-3">
-<div class="col-12 col-sm-6">
-<div class="form-group">
-<label>Username</label>
-<input type="text" class="form-control">
-</div>
-</div>
-<div class="col-12 col-sm-6">
-<div class="form-group">
-<label>Current Password</label>
-<input type="password" class="form-control">
-</div>
-</div>
-<div class="col-12 col-sm-6">
-<div class="form-group">
-<label>New Password</label>
-<input type="password" class="form-control">
-</div>
-</div>
-<div class="col-12">
-<button type="submit" class="btn btn-primary">Submit</button>
+
 </div>
 </div>
 </form>
@@ -500,9 +402,7 @@ $item =$sql->fetch_assoc()
 </div>
 </div>
 
-<footer>
-<p>Copyright © 2020 Dreamguys.</p>
-</footer>
+
 
 </div>
 

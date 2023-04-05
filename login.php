@@ -1,10 +1,14 @@
-<?php include 'libs/connection.inc.php'?>
+<?php
+   session_start(); ob_start(); ob_clean();
+   include 'libs/connection.inc.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-      <title><?= APP_NAME ?></title>
+      <title>Preskool - Login</title>
       <link rel="shortcut icon" href="assets/img/favicon.png">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap">
       <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
@@ -15,7 +19,6 @@
    <body>
       <div class="main-wrapper login-body">
          <div class="login-wrapper">
-         <?php if(isset($report)) { echo Alert(); }  ?>
             <div class="container">
                <div class="loginbox">
                   <div class="login-left">
@@ -25,22 +28,24 @@
                      <div class="login-right-wrap">
                         <h1>Login</h1>
                         <p class="account-subtitle">Access to our dashboard</p>
-                        <form method="POST">
+                        <form class="was-validated" method="POST">
                            <div class="form-group">
-                              <select name="person" id="" class="form-control" required>
-                                       <option value="">Login as</option>
-                                       <option value="Lecturer">Lecturer</option>
-                                       <option value="Student">Student</option>
+                              <select class="form-control" name="user" required>
+                                 <option value="">Login as</option>
+                                 <option value="Student">Student</option>
+                                 <option value="Lecturer">Lecturer</option>
                               </select>
                            </div>
                            <div class="form-group">
-                              <input class="form-control" type="email" placeholder="Email" name="email">
+                              <input class="form-control" type="text" placeholder="Email" name="email" required>
                            </div>
                            <div class="form-group">
-                              <input class="form-control" type="password" placeholder="Password" name="password">
+                              <input class="form-control" type="password" placeholder="Password" name="password" required>
                            </div>
+                           <div style="color:red"><?= $loginErr ?? NULL; ?></div>
+                           
                            <div class="form-group">
-                              <button class="btn btn-primary btn-block" type="submit" name="login" value="5">Login</button>
+                              <button class="btn btn-primary btn-block" type="submit" name="login">Login</button>
                            </div>
                         </form>
                         <div class="text-center forgotpass"><a href="forgot-password.html">Forgot Password?</a></div>
@@ -59,6 +64,9 @@
             </div>
          </div>
       </div>
-      <?php include 'footer.php' ?>
+      <script src="assets/js/jquery-3.6.0.min.js"></script>
+      <script src="assets/js/popper.min.js"></script>
+      <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+      <script src="assets/js/script.js"></script>
    </body>
 </html>
