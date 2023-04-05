@@ -2,7 +2,7 @@
     include('lecturer-header.php');
     $name = $_GET['name'];
     $course = $_GET['course'];
-    $students = $db->query("SELECT * FROM students WHERE department='$name'");
+    $students = $db->query("SELECT * FROM bio WHERE department='$name'");
     if(!isset($_GET['name']) || !isset($_GET['course'])){
         header('Location: student-list.php');
     }
@@ -41,14 +41,13 @@
                     </thead>
                     <tbody>
                         <?php if(isset($_GET['name'])):?>
-                            <?php while($student = mysqli_fetch_array($students)): $studentCourses = explode(',', $student['courseRegistered'])?>
+                            <?php while($student = mysqli_fetch_array($students)): $studentCourses = explode(',', $student['courses'])?>
                                 <?php if(in_array($course, $studentCourses)): ?>
                                     <tr>
-                                        <td><?= $student['lastName'].' '.$student['firstName'] ?></td>
+                                        <td><?= $student['LastName'].' '.$student['FirstName'] ?></td>
                                         <td><?= $student['studentId']; ?></td>
                                         <td><input type="number" class="score" name="score[]" value="<?= $student[$course] ?? NULL; ?>" style="width:40px" required></td>
                                         <td><input type="text" class="grade" style="width:30px" disabled></td>
-                                        <td><input type="hidden" class="unit" style="width:30px" value="<?= $result['unit'];?>"></td>
                                     </tr>
                                 <?php endif;?>
                             <?php endwhile; ?>
