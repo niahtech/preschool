@@ -62,7 +62,7 @@ class lecturer {
             $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
             if(mysqli_num_rows($sql) > 0){
-                if(!password_verify($password, $result['password'])) {
+                if(!password_verify($password, $result['Password'])) {
                     $loginErr = 'Check your Email or Password';
                 }else {
                     $_SESSION['email'] = $email;
@@ -73,7 +73,7 @@ class lecturer {
             }
         }
         else{
-            $sql = $db->query("SELECT email,password FROM bio WHERE Email = '$email' LIMIT 1");
+            $sql = $db->query("SELECT Email,Password FROM bio WHERE Email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
             if(mysqli_num_rows($sql) > 0){
                 if(!password_verify($password, $result['Password'])) {
