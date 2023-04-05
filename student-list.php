@@ -1,7 +1,7 @@
 <?php
    include 'lecturer-header.php';
    $course = getLecturer($_SESSION['email'], 'course');
-   $students = $db->query("SELECT * FROM students ORDER BY department");
+   $students = $db->query("SELECT * FROM bio ORDER BY Department");
 ?>
 
          <div class="page-wrapper">
@@ -47,21 +47,21 @@
                                        }
                                     ?>
                                     <?php if(!empty($course)):?>
-                                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courseRegistered']); ?>
+                                    <?php foreach($students as $student): $studentCourses = explode(',', $student['courses']); ?>
                                     <?php if(in_array($courses[$i], $studentCourses)):?>
                                     <tr>
                                        <td><?= $student['studentId']; ?></td>
                                        <td>
                                           <h2 class="table-avatar">
                                              <a href="#" data-id="<?= $student['id']; ?>" data-toggle="modal" data-target="#student-<?= $student['id']; ?>" class="avatar avatar-sm mr-2 list"><img class="avatar-img rounded-circle" src="assets/img/profiles/<?= $student['image']; ?>" alt="User Image"></a>
-                                             <a href="#" data-id="<?= $student['id']; ?>" class="list" data-toggle="modal" data-target="#student-<?= $student['id']; ?>"><?= $student['firstName']; ?></a>
+                                             <a href="#" data-id="<?= $student['id']; ?>" class="list" data-toggle="modal" data-target="#student-<?= $student['id']; ?>"><?= $student['FirstName']; ?></a>
                                           </h2>
                                        </td>
-                                       <td><?= $student['department']; ?></td>
-                                       <td><?= $student['dob']; ?></td>
-                                       <td><?= $student['fatherName']; ?></td>
-                                       <td><?= $student['mobileNumber']; ?></td>
-                                       <td><?= $student['permanentAddress']; ?></td>
+                                       <td><?= $student['Department']; ?></td>
+                                       <td><?= $student['DOB']; ?></td>
+                                       <td><?= $student['FatherName']; ?></td>
+                                       <td><?= $student['MobileNumber']; ?></td>
+                                       <td><?= $student['Address']; ?></td>
                                     </tr>
                                     <?php endif; ?>
                                     <?php endforeach; ?>
@@ -109,11 +109,11 @@
                                        <ul>
                                           <li>
                                              <span class="title-span">Full Name: </span>
-                                             <span class="info-span"><?= $student['lastName'].' '. $student['firstName'];?></span>
+                                             <span class="info-span"><?= $student['LastName'].' '. $student['FirstName'];?></span>
                                           </li>
                                           <li>
                                              <span class="title-span">Department: </span>
-                                             <span class="info-span"><?= $student['department']; ?></span>
+                                             <span class="info-span"><?= $student['Department']; ?></span>
                                           </li>
                                           <li>
                                              <span class="title-span">Mobile: </span>
@@ -125,11 +125,11 @@
                                           </li>
                                           <li>
                                              <span class="title-span">Gender: </span>
-                                             <span class="info-span"><?= $student['gender']; ?></span>
+                                             <span class="info-span"><?= $student['Gender']; ?></span>
                                           </li>
                                           <li>
                                              <span class="title-span">DOB: </span>
-                                             <span class="info-span"><?= $student['dob']; ?></span>
+                                             <span class="info-span"><?= $student['DOB']; ?></span>
                                           </li>
                                        </ul>
                                     </div>

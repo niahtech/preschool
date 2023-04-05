@@ -2,7 +2,7 @@
     include('lecturer-header.php');
     $course = getLecturer($_SESSION['email'], 'course');
     $courses = explode(',', $course);
-    $students = $db->query("SELECT * FROM students");
+    $students = $db->query("SELECT * FROM bio");
     $departments = $db->query("SELECT * FROM departments ORDER BY name");
 ?>
 
