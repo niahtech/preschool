@@ -61,5 +61,4 @@
       </div>
       <?php include 'footer.php' ?>
    </body>
-   <!-- Mirrored from preschool.dreamguystech.com/html-template/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 28 Oct 2021 11:11:40 GMT -->
 </html>

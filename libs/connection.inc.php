@@ -1,5 +1,6 @@
 <?php
+    session_start();
     include ('constant.php');
-    include ('function.php');
+    include ('functions.php');
     include ('classs.php');
 ?>

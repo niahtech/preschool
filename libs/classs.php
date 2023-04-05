@@ -6,7 +6,9 @@ class New_Life
     function __construct()
     {
 
-        if (isset($_POST['login'])) {
+        if (isset($_POST["register"])) {
+            $this->register();
+        } else if (isset($_POST['login'])) {
             $this->Login();
         } else if (isset($_POST['submit'])) {
             $this->Add_student();
@@ -113,26 +115,43 @@ class New_Life
         return;
     }
 
+    function register()
+    {
+        global $registeredEmailErr, $passwordErr;
+        global $db, $count, $report;
+        $password = $confirm_password = '';
+        $first_name = $this->validation(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS), 'First Name');
+        $last_name = $this->validation(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS), 'Last Name');
+        $department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = $this->validation(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL), 'Email');
+        $password = $this->validation($_POST["password"], 'Password');
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $confirm_password = $_POST["confirm_password"];
+        if ($count > 0) {
+            return;
+        }
+        //checking for multiples emails
+        $data = $db->query("SELECT * FROM student_registered WHERE email='$email'");
+        $registeredEmails = $data->fetch_assoc();
+        if (!empty($registeredEmails)) {
+            $registeredEmailErr = 'This Email has already been used';
+        } else {
+            //password confirmation
+            if (password_verify($confirm_password, $hashed_password)) {
+                $db->query("INSERT INTO student_registered (first_name,last_name,email,department, password) VALUES ('$first_name','$last_name','$email','$department','$hashed_password')");
+                //success
+                header('Location:student-dashboard.php');
+                $_SESSION['id'] = $_POST['email'];
+            } else {
+                $passwordErr = "Passwords does not match";
+            }
+        }
+    }
+
     function Login()
     {
         global $db, $report, $count, $user;
         $user = $_POST['person'];
-        if ($user == "Lecturer") {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $data = $db->query("SELECT * FROM lecturer_registered WHERE email='$email' limit=1");
-            $num = mysqli_num_rows($data);
-            $result = $data->fetch_assoc();
-            if (password_verify($password, $result['password']) && $num > 0) {
-                $row = mysqli_fetch_array($data);
-                $_SESSION['id'] = $_POST['email'];
-                header("Location: lecturer-dashboard.php");
-            } else {
-                $count++;
-                $report = "$report Invalid Input, Check your email or password <br> Or You are not a registered user";
-            }
-        }
-
         if ($user == "Student") {
             $password = $_POST['password'];
             $email = $_POST['email'];
@@ -147,6 +166,7 @@ class New_Life
                 $count++;
                 $report = "<br>Invalid Input!!! Check your email or password <br> Or you are not a registered user";
             }
+            
         }
     }
     function Add_student()

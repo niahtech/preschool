@@ -1,8 +1,3 @@
-
-<?php
-	session_start();
-
-?>
 <?php if (isset($report)) {
    echo Alert();
 } ?>
