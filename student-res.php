@@ -1,6 +1,6 @@
 <?php 
 session_start();
-include 'libs/connection.inc.php' ?>
+include 'body.php' ?>
 <?php
 $id=$_SESSION['id'];
 $sql = $db->query("SELECT * FROM bio where Email='$id'");
