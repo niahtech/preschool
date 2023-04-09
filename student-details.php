@@ -1,10 +1,5 @@
 <?php 
-session_start();
-include 'libs/connection.inc.php'?>
-
-
-
-
+include 'body.php'?>
 <div class="page-wrapper">
 <div class="content container-fluid">
 <div class="page-header">
@@ -21,7 +16,6 @@ include 'libs/connection.inc.php'?>
 
 <?php 
 $id=$_SESSION['id'];
-
 $sql =$db->query("SELECT * FROM bio  where Email='$id' ") ;
 $item =$sql->fetch_assoc()
 
@@ -70,17 +64,10 @@ $item =$sql->fetch_assoc()
 <span class="info-span"><?php echo $item['Department'];?></span>
 </li>
 <li>
-<span class="title-span">State : </span>
-<span class="info-span"><?php echo $item['State'];?></span>
-</li>
-<li>
 <span class="title-span">Country : </span>
 <span class="info-span"><?php echo $item['Country'];?></span>
 </li>
-<li>
-<span class="title-span">Address : </span>
-<span class="info-span"><?php echo $item['Address'];?></span>
-</li>
+
 <li>
 
 
