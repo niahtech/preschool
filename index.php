@@ -1,13 +1,13 @@
 <?php include 'libs/connection.inc.php' ?>
 <?php
-$sql = $db->query("SELECT DISTINCT section FROM student_registered");
+$sql = $db->query("SELECT DISTINCT section FROM bio");
 $result = mysqli_fetch_all($sql);
 // var_dump($result);
 
 for ($i = 0; $i < count($result); $i++) {
    $section = ($result[$i][0]);
    // echo $section;
-   $check = $db->query("SELECT gender,section FROM student_registered WHERE section='$section' AND gender='Male'");
+   $check = $db->query("SELECT gender,section FROM bio WHERE section='$section' AND gender='Male'");
    $male[] = mysqli_num_rows($check);
    $explode_year = explode('/', $section);
    $year[] = $explode_year[0];
