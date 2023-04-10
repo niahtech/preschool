@@ -6,7 +6,7 @@ $courses = getLecturer($_SESSION['email'], 'course');
 $course = explode(',', $courses);
 $schedule = $db->query("SELECT * FROM schedule WHERE date='$tod' AND course IN (" . implode(', ', array_map('intval', $course)) .") ORDER BY startTime");
 $schedules = mysqli_fetch_all($schedule);
-$sql=$db->query("SELECT id FROM bio"); 
+$sql=$db->query("SELECT id FROM bio");
 $student= mysqli_fetch_all($sql);
 ?>
 
@@ -214,12 +214,15 @@ $student= mysqli_fetch_all($sql);
    $schedule = $db->query("SELECT DISTINCT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
    $result = mysqli_fetch_all($schedule);
 
+   // selecting the dates for each day
    for($i=0; $i<count($result); $i++){
       $date = $result[$i][0];
       $daily[] = $date;
       $check = $db->query("SELECT date FROM schedule WHERE date='$date'");
       $day[] = mysqli_num_rows($check);
    }
+
+   // selecting the date for each week
 ?>
 
 
@@ -324,4 +327,6 @@ var chart = new ApexCharts(
 chart.render();
 }
 });
+
+
 </script>
