@@ -1,15 +1,10 @@
 <?php 
-session_start();
-include 'body.php' ?>
-<?php
+include 'body.php';
+
 $id=$_SESSION['id'];
 $sql = $db->query("SELECT * FROM bio where Email='$id'");
 $result = $sql->fetch_assoc();
 ?>
-
-
-
-<body>
    <div class="main-wrapper">
       
       <div class="page-wrapper">
@@ -27,11 +22,11 @@ $result = $sql->fetch_assoc();
             <a>Name :<?=$result['FirstName'].   '  ' . $result['LastName']?> </a>
 <br>
 <br>
-<a>Department :<?=$result['Department']?> </a>
+<a>Department :<?=$result['department']?> </a>
 <br>
 <br>
 <?php
-$courses="Courses registered :" . $result['courses']; 
+$courses="Courses registered : " . $result['courses']; 
 ?>
 
 
@@ -66,30 +61,40 @@ $sq =explode(',',$sql);
                                     <th>Remark</th>
                                  </tr>
                               </thead>
-                              <tbody>   
+                              <tbody>
+                                <?php if(!empty($result['department'])):?>  
                                  <?php
-                                    $Department=$result['Department'];
+                                    $Department=$result['department'];
 
                                     $dept = strtolower(str_replace(' ','',$Department));
                                     $input = $db->query("SELECT courseTitle FROM $dept where classId ='1' and semester ='First'");
                                     $course = mysqli_fetch_all($input);
                                     
                                  ?>
+                                 <?php if(!empty($result['courses'])):?>
                                  <?php for($i=0; $i<count($sq); $i++): $c=$sq[$i]; $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'"); $grade=mysqli_fetch_all($grades);
-                                 ?>      
+                                 ?>
                                  
+                           
                                  
                                  <tr>
                                  
                                        <td><?= $sq[$i]?></td>
                                        <td><?=$course[$i][0]?></td>
-                                       <td><?= $grade[0][0];?></td>
+                                       <!-- <td><?= $grade[0][0];?></td> -->
+                                       <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0];?>  style="width:40px" disabled></td>
+                                        <td><input type="text" class="Remark" style="width:30px" disabled></td>
                                     
                                  </tr>
                                  <?php endfor;?>
+                                 <?php endif;?>
+                                 <?php endif;?>
                                  </tbody>    
                            </table>
-                           
+                           <br>
+                           <div class="col-auto text-right float-left mx-auto">
+                               <button type="submit" name="print" class="btn btn-outline-primary mr-2 w-100"><i class="fas fa-plus"></i> Print</button>
+                           </div>
                            </form> 
                         </div>
                      </div>
@@ -108,15 +113,8 @@ $sq =explode(',',$sql);
    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
    <script src="assets/plugins/datatables/datatables.min.js"></script>
    <script src="assets/js/script.js"></script>
+   <script src="myfunction.js"></script>
+
 </body>
 
-</html>
-<?php 
-session_start();
-include 'libs/connection.inc.php' ?>
-<?php
-$id=$_SESSION['id'];
-$sql = $db->query("SELECT * FROM bio where Email='$id'");
-$result = $sql->fetch_assoc();
-?>
 

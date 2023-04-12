@@ -45,7 +45,7 @@ function getClass($id)
 function getDept($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM departments WHERE id='$id' ");
+    $sql = $db->query("SELECT * FROM departments WHERE name='$id' ");
     return mysqli_fetch_array($sql);
 }
 
@@ -132,7 +132,7 @@ function getPaymentType($paymenttype,$level){
     {
         global $db;
 
-        $sql = $db->query("SELECT * FROM students WHERE email='$email' ");
+        $sql = $db->query("SELECT * FROM bio WHERE Email='$email' ");
         $row = mysqli_fetch_array($sql);
 
         return $row[$detail] ?? NULL;
@@ -141,7 +141,7 @@ function getPaymentType($paymenttype,$level){
     function getStudentById($detail, $id) {
         global $db;
 
-        $sql = $db->query("SELECT * FROM students WHERE id='$id' ");
+        $sql = $db->query("SELECT * FROM bio WHERE id='$id' ");
         $row = mysqli_fetch_array($sql);
 
         return $row[$detail];
@@ -150,26 +150,27 @@ function getPaymentType($paymenttype,$level){
     function insertScore(){
         global $db, $course;
         $name = $_GET['name'];
-        $students = $db->query("SELECT * FROM students WHERE department='$name'");
+        $students = $db->query("SELECT * FROM bio WHERE Department='$name'");
         $scores = $_POST['score'];
-        $i = 0;
-        while($student = mysqli_fetch_array($students)){ 
-            $studentCourses = explode(',', $student['courseRegistered']);
+        while($student = mysqli_fetch_array($students)){
+            $studentCourses = explode(',', $student['courses']);
             if(in_array($course, $studentCourses)){
-                $id = $student['studentId'];
-                $sql = "UPDATE students SET $course = ? WHERE studentId = '$id'";
-                $stmt = $db->prepare($sql);
-                if($stmt){
-                    $stmt->bind_param('i', $score);
-                    $score = $scores[$i];
-                    $stmt->execute();
-                }
-                else{
-                    exit('error: failed to prepare sql query');
-                }
-                $stmt->close();
+                $stu[] = $student['studentId'];
             }
-            $i++;
+        }
+        for($i=0; $i<count($stu); $i++){
+            $id = $stu[$i];
+            $sql = "UPDATE bio SET $course = ? WHERE studentId = '$id'";
+            $stmt = $db->prepare($sql);
+            if($stmt){
+                $stmt->bind_param('i', $score);
+                $score = $scores[$i];
+                $stmt->execute();
+            }
+            else{
+                exit('error: failed to prepare sql query');
+            }
+            $stmt->close(); 
         }
     }
 

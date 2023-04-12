@@ -1,5 +1,9 @@
 <?php
 include 'body.php';
+
+$id = $_SESSION['id'];
+$sql = $db->query("SELECT * FROM bio where Email='$id' ");
+$item = $sql->fetch_assoc()
 ?>
 <div class="page-wrapper">
     <div class="content container-fluid">
@@ -22,16 +26,11 @@ include 'body.php';
                         <div class="about-info">
                             <h4>About Me</h4>
                             <div class="media mt-3">
-                                <img src="assets/img/user.jpg" class="mr-3" alt="...">
+
+                                <img src="student_img/<?= $item['image'];?>" class="mr-3" alt="...">
                                 <div class="media-body">
                                     <ul>
                                         <li>
-                                            <?php
-                                            $id = $_SESSION['id'];
-                                            $sql = $db->query("SELECT * FROM bio  where Email='$id' ");
-                                            $item = $sql->fetch_assoc()
-
-                                            ?>
                                             <span class="title-span">FirstName : </span>
                                             <span class="info-span"><?php echo $item['FirstName']; ?></span>
                                         </li>
@@ -62,7 +61,7 @@ include 'body.php';
                                         </li>
                                         <li>
                                             <span class="title-span">Department : </span>
-                                            <span class="info-span"><?php echo $item['Department']; ?></span>
+                                            <span class="info-span"><?php echo $item['department']; ?></span>
                                         </li>
                                         <li>
                                             <span class="title-span">Country : </span>
@@ -93,21 +92,22 @@ include 'body.php';
                                 <p>Friends</p>
                             </div>
                         </div>
-                    </div></div>
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <h5>Permanent Address</h5>
-                            <p>480, Estern Avenue, Courtage area, New York</p>
-                        </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <h5>Present Address</h5>
-                            <p>480, Estern Avenue, Courtage area, New York</p>
-                        </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <h5>Permanent Address</h5>
+                        <p>480, Estern Avenue, Courtage area, New York</p>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <h5>Present Address</h5>
+                        <p>480, Estern Avenue, Courtage area, New York</p>
                     </div>
                 </div>
             </div>
+        </div>
         <div class="row mt-2">
             <div class="col-md-12">
                 <div class="skill-info">
