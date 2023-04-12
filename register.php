@@ -1,6 +1,5 @@
 <?php 
     include 'libs/connection.inc.php';
-    ob_start(); ob_clean();
 ?>
 
 

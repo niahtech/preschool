@@ -8,7 +8,6 @@ $sq=explode(',',$sd);
 $ss=count($sq);
 ?>
 
-
 <div class="page-wrapper">
 <div class="content container-fluid">
 
