@@ -24,7 +24,7 @@ class student
 
   function studentdet()
   {
-    global $db,$id;
+    global $db, $id, $imageErr;
     extract($_POST);
 
     $id = $_SESSION['id'];
@@ -48,16 +48,16 @@ class student
 
     $session = $this->validate(filter_input(INPUT_POST, 'session', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'session');
 
-    
+
     $Country = $this->validate(filter_input(INPUT_POST, 'Country', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Country');
 
-    
+
     $fathersName = $this->validate(filter_input(INPUT_POST, 'fathersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersName');
 
 
     $fathersOccupation = $this->validate(filter_input(INPUT_POST, 'fathersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
 
-    
+
     $fathersMobile = $this->validate(filter_input(INPUT_POST, 'fathersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersMobile');
 
     $fathersEmail = $this->validate(filter_input(INPUT_POST, 'fathersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersEmail');
@@ -68,7 +68,7 @@ class student
 
     $mothersMobile = $this->validate(filter_input(INPUT_POST, 'mothersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersMobile');
 
-    
+
 
     $mothersEmail = $this->validate(filter_input(INPUT_POST, 'mothersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersEmail');
 
@@ -78,38 +78,33 @@ class student
 
 
 
-    
-    // $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
-    // if(!empty($_FILES['image']['name'])){
-    //   $image = $_FILES['image']['name'];
-    //   $fileSize = $_FILES['image']['size'];
-    //   $fileTmp = $_FILES['image']['tmp_name'];
-    //   $targetDir = "student_image/$image";
-    //   $fileExt = explode('.', $image);
-    //   $fileExt = strtolower(end($fileExt));
 
-    //         // check if file is an image
-    //   if(in_array($fileExt, $allowedExt)) {
-    //     if($fileSize <= 300000) {
-    //     move_uploaded_file($fileTmp,$targetDir);
-    //     $imageErr = '<p style="color:green;">Image Uploaded</p>';
-    //     $updated = '<p style="color:green;">Successfuly Updloaded</p>';
+    $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
+    if (!empty($_FILES['image']['name'])) {
+      $image = $_FILES['image']['name'];
+      $fileSize = $_FILES['image']['size'];
+      $fileTmp = $_FILES['image']['tmp_name'];
+      $targetDir = "/student_img/$image";
+      $fileExt = explode('.', $image);
+      $fileExt = strtolower(end($fileExt));
 
-        $db->query("UPDATE bio set studentId='$studentId', DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber',Gender='$Gender',department ='$department',session='$session',Country='$Country',fathersName='$fathersName',fathersOccupation='$fathersOccupation',fathersMobile='$fathersMobile',fathersEmail='$fathersEmail',mothersName='$mothersName',mothersOccupation='$mothersOccupation',mothersMobile='$mothersMobile',mothersEmail='$mothersEmail',permanentAddress='$permanentAddress',presentAddress='$presentAddress' WHERE Email='$id' ");
-             header('Location:student-details.php');
-          // }
-    //       else {
-    //       $imageErr = '<p style="color:red;">File is too large</p>';
-    //       }
-    //     } else {
-    //       $imageErr = '<p style="color:red;">Invalid file type</p>';   
-    //       }
+      // check if file is an image
+      if (in_array($fileExt, $allowedExt)) {
+        if ($fileSize <= 3000000) {
+          move_uploaded_file($fileTmp, $targetDir);
+          $imageErr = '<p style="color:green;">Image Uploaded</p>';
 
-    // }     else {
-    //       $imageErr = '<p style="color:red;">Please choose a file</p>';
-    //    }  
-    
-    // $_SESSION['id'] = $Email;
+          $db->query("UPDATE bio set studentId='$studentId', DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber',Gender='$Gender',department ='$department',session='$session',Country='$Country',fathersName='$fathersName',fathersOccupation='$fathersOccupation',fathersMobile='$fathersMobile',fathersEmail='$fathersEmail',mothersName='$mothersName',mothersOccupation='$mothersOccupation',mothersMobile='$mothersMobile',mothersEmail='$mothersEmail', image='$image',permanentAddress='$permanentAddress',presentAddress='$presentAddress' WHERE Email='$id' ");
+          header('Location:student-details.php');
+        } else {
+          $imageErr = '<p style="color:red;">File is too large</p>';
+        }
+      } else {
+        $imageErr = '<p style="color:red;">Invalid file type</p>';
+      }
+    } else {
+      $imageErr = '<p style="color:red;">Please choose a file</p>';
+    }
   }
 
   function registerCourse()
@@ -120,7 +115,6 @@ class student
     $cou = implode(',', $courses);
     $ql  = $db->query("UPDATE bio SET courses = '$cou' WHERE Email = '$id'");
     header('Location:student-dashboard.php');
-    
   }
 }
 
