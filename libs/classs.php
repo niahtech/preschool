@@ -20,6 +20,8 @@ class New_Life
             $this->registerCourse();
         } else if (array_key_exists('notifications', $_POST)) {
             $this->notifications();
+        } else if (array_key_exists('makePayment', $_POST)) {
+            $this->makePayment();
         }
     }
     function validation($text, $fieldname)
@@ -105,7 +107,7 @@ class New_Life
         return;
     }
 
-    
+
     function deleteStudent()
     {
         global $db;
@@ -148,6 +150,63 @@ class New_Life
             $db->query("INSERT INTO notifications(message,recipient) VALUES ('$message','$recipient') ");
             return;
         }
+    }
+
+    function makePayment()
+    {
+        global $db;
+        $id = $_SESSION['id'];
+        $sql = $db->query("SELECT * FROM bio WHERE Email='$id'");
+        $result = $sql->fetch_assoc();
+        extract($_POST);
+        $name = $result['FirstName'];
+        $fees = getPaymentType($paymenttype, $level);
+        $email = $_SESSION['id'];
+
+        $curl = curl_init();
+
+        $email = $email;
+        $amount = $fees.'00';  //the amount in kobo. This value is actually NGN 300
+
+        // url to go to after payment
+        $callback_url = 'http://localhost/preschool/process.php';
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.paystack.co/transaction/initialize',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode([
+                'amount' => $amount,
+                'email' => $email,
+                'callback_url' => $callback_url
+            ]),
+            CURLOPT_HTTPHEADER => [
+                'authorization: Bearer sk_test_ed2f8a4d5bac302506e5cad60bd399a5076495a5', //replace this with your own test key
+                "content-type: application/json",
+                "cache-control: no-cache"
+            ],
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        if ($err) {
+            // there was an error contacting the Paystack API
+            die('Curl returned error: ' . $err);
+        }
+
+        $tranx = json_decode($response, true);
+
+        if (!$tranx['status']) {
+            // there was an error from the API
+            print_r('API returned error: ' . $tranx['message']);
+        }
+
+        // comment out this line if you want to redirect the user to the payment page
+        print_r($tranx);
+        // redirect to page so User can pay
+        // uncomment this line to allow the user redirect to the payment page
+        header('Location: ' . $tranx['data']['authorization_url']);
     }
 }
 $New_Life = new New_Life;

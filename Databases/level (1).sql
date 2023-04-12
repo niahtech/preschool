@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2023 at 10:49 AM
+-- Generation Time: Apr 12, 2023 at 10:34 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_life_school`
+-- Database: `preskool`
 --
 
 -- --------------------------------------------------------
@@ -29,19 +29,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `level` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL
+  `name` varchar(20) NOT NULL,
+  `SchoolFees` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `level`
 --
 
-INSERT INTO `level` (`id`, `name`) VALUES
-(1, '100 level'),
-(2, '200 level'),
-(3, '300 level'),
-(4, '400 level'),
-(5, '500 level');
+INSERT INTO `level` (`id`, `name`, `SchoolFees`) VALUES
+(1, '100 level', 50000),
+(2, '200 level', 20000),
+(3, '300 level', 25000),
+(4, '400 level', 21000),
+(5, '500 level', 20000);
 
 --
 -- Indexes for dumped tables
