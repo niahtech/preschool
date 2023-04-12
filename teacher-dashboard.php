@@ -2,10 +2,12 @@
 include 'lecturer-header.php';
 $today = explode('T', date("c"));
 $tod = $today[0];
-$schedule = $db->query("SELECT * FROM schedule WHERE date='$tod' ORDER BY startTime");
-$schedules = mysqli_fetch_all($schedule);
 $courses = getLecturer($_SESSION['email'], 'course');
 $course = explode(',', $courses);
+$schedule = $db->query("SELECT * FROM schedule WHERE date='$tod' AND course IN (" . implode(', ', array_map('intval', $course)) .") ORDER BY startTime");
+$schedules = mysqli_fetch_all($schedule);
+$sql=$db->query("SELECT id FROM bio");
+$student= mysqli_fetch_all($sql);
 ?>
 
 
@@ -26,7 +28,7 @@ $course = explode(',', $courses);
 
 
       <div class="row">
-         <div class="col-xl-3 col-sm-6 col-12 d-flex">
+         <div class="col-xl-4 col-sm-6 col-12 d-flex">
             <div class="card bg-five w-100">
                <div class="card-body">
                   <div class="db-widgets d-flex justify-content-between align-items-center">
@@ -41,7 +43,7 @@ $course = explode(',', $courses);
                </div>
             </div>
          </div>
-         <div class="col-xl-3 col-sm-6 col-12 d-flex">
+         <div class="col-xl-4 col-sm-6 col-12 d-flex">
             <div class="card bg-six w-100">
                <div class="card-body">
                   <div class="db-widgets d-flex justify-content-between align-items-center">
@@ -49,14 +51,14 @@ $course = explode(',', $courses);
                         <i class="fas fa-user-graduate"></i>
                      </div>
                      <div class="db-info">
-                        <h3>40/60</h3>
+                        <h3><?= count($student)?></h3>
                         <h6>Total Students</h6>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="col-xl-3 col-sm-6 col-12 d-flex">
+         <div class="col-xl-4 col-sm-6 col-12 d-flex">
             <div class="card bg-eight w-100">
                <div class="card-body">
                   <div class="db-widgets d-flex justify-content-between align-items-center">
@@ -152,9 +154,9 @@ $course = explode(',', $courses);
                                  <li class="list-inline-item">
                                     <div class="form-group mb-0 amount-spent-select">
                                        <select class="form-control form-control-sm">
+                                          <option>Daily</option>
                                           <option>Weekly</option>
                                           <option>Monthly</option>
-                                          <option>Yearly</option>
                                        </select>
                                     </div>
                                  </li>
@@ -208,6 +210,24 @@ $course = explode(',', $courses);
       </div>
 
    </div>
+   <?php
+   $schedule = $db->query("SELECT DISTINCT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
+   $result = mysqli_fetch_all($schedule);
+
+   // selecting the dates for each day
+   for($i=0; $i<count($result); $i++){
+      $date = $result[$i][0];
+      $daily[] = $date;
+      $check = $db->query("SELECT date FROM schedule WHERE date='$date'");
+      $day[] = mysqli_num_rows($check);
+
+      // selecting the dates for each week
+      $sameDate=[];
+   }
+
+   
+?>
+
 
    <?php include('lecturer-footer.php'); ?>
 
@@ -265,17 +285,51 @@ $course = explode(',', $courses);
 </div>
 <?php endforeach; ?>
 
-<script src="change-date.js"></script>
-<!-- <script>
-    let times = [...document.querySelectorAll(".time")];
-   
-        
-        console.log(times);
-        times.map((i,el)=>{
-            setInterval(()=>{
-                $("el").load(location.href + "el")
-            },1000)
-        })
-    
 
-</script> -->
+<script src="change-date.js"></script>
+<script>
+   $(document).ready(function() {
+
+// Area chart
+
+if ($('#apexcharts-area').length > 0) {
+var options = {
+   chart: {
+      height: 350,
+      type: "area",
+      toolbar: {
+         show: false
+      },
+      options: {
+         scales: {
+            y: {
+               beginAtZero: true
+            }
+         }
+      }
+   },
+   dataLabels: {
+      enabled: false
+   },
+   stroke: {
+      curve: "smooth"
+   },
+   series: [{
+      name: "Classes",
+      color: '#FFBC53',
+      data: <?php echo json_encode($day) ?>,
+   }],
+   xaxis: {
+      categories: <?php echo json_encode($daily) ?>,
+   }
+}
+var chart = new ApexCharts(
+   document.querySelector("#apexcharts-area"),
+   options
+);
+chart.render();
+}
+});
+
+
+</script>
