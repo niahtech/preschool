@@ -2,8 +2,8 @@
 include 'libs/connection.inc.php';
 ?>
 
-<?php 
-if (!isset($_SESSION['id'])){
+<?php
+if (!isset($_SESSION['id'])) {
     header('location:login.php');
 }
 ?>
@@ -26,6 +26,7 @@ if (!isset($_SESSION['id'])){
 
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/plugins/simple-calendar/simple-calendar.css">
 
     <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
 
@@ -248,3 +249,4 @@ if (!isset($_SESSION['id'])){
                 </div>
             </div>
         </div>
+        

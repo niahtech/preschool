@@ -2,7 +2,7 @@
     include('lecturer-header.php');
     $name = $_GET['name'];
     $course = $_GET['course'];
-    $students = $db->query("SELECT * FROM bio WHERE department='$name'");
+    $students = $db->query("SELECT * FROM bio WHERE Department='$name'");
     if(!isset($_GET['name']) || !isset($_GET['course'])){
         header('Location: student-list.php');
     }

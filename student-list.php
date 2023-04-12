@@ -53,15 +53,15 @@
                                        <td><?= $student['studentId']; ?></td>
                                        <td>
                                           <h2 class="table-avatar">
-                                             <a href="#" data-id="<?= $student['id']; ?>" data-toggle="modal" data-target="#student-<?= $student['id']; ?>" class="avatar avatar-sm mr-2 list"><img class="avatar-img rounded-circle" src="assets/img/profiles/<?= $student['image']; ?>" alt="User Image"></a>
+                                             <a href="#" data-id="<?= $student['id']; ?>" data-toggle="modal" data-target="#student-<?= $student['id']; ?>" class="avatar avatar-sm mr-2 list"><img class="avatar-img rounded-circle" src="assets/img/profiles/<?= $student['studentImage']; ?>" alt="User Image"></a>
                                              <a href="#" data-id="<?= $student['id']; ?>" class="list" data-toggle="modal" data-target="#student-<?= $student['id']; ?>"><?= $student['FirstName']; ?></a>
                                           </h2>
                                        </td>
                                        <td><?= $student['Department']; ?></td>
                                        <td><?= $student['DOB']; ?></td>
-                                       <td><?= $student['FatherName']; ?></td>
-                                       <td><?= $student['MobileNumber']; ?></td>
-                                       <td><?= $student['Address']; ?></td>
+                                       <td><?= $student['fathersName']; ?></td>
+                                       <td><?= $student['PhoneNumber']; ?></td>
+                                       <td><?= $student['presentAddress']; ?></td>
                                     </tr>
                                     <?php endif; ?>
                                     <?php endforeach; ?>
@@ -117,11 +117,11 @@
                                           </li>
                                           <li>
                                              <span class="title-span">Mobile: </span>
-                                             <span class="info-span"><?= $student['mobileNumber']; ?></span>
+                                             <span class="info-span"><?= $student['PhoneNumber']; ?></span>
                                           </li>
                                           <li>
                                              <span class="title-span">Email: </span>
-                                             <span class="info-span"><a href="https://preschool.dreamguystech.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7216131b010b32151f131b1e5c111d1f">[email&#160;protected]</a></span>
+                                             <span class="info-span"><?= $student['Email']; ?></span>
                                           </li>
                                           <li>
                                              <span class="title-span">Gender: </span>
