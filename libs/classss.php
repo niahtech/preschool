@@ -1,5 +1,5 @@
 <?php
-class preskool
+class student
 {
   public function __construct()
   {
@@ -24,7 +24,7 @@ class preskool
 
   function studentdet()
   {
-    global $db, $id;
+    global $db,$id;
     extract($_POST);
 
     $id = $_SESSION['id'];
@@ -33,6 +33,7 @@ class preskool
 
     $LastName = $this->validate(filter_input(INPUT_POST, 'LastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'LastName');
 
+    $studentId = $this->validate(filter_input(INPUT_POST, 'studentId', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'studentId');
     $Email = $this->validate(filter_input(INPUT_POST, 'Email', FILTER_SANITIZE_EMAIL), 'Email');
 
     $DOB = $this->validate(filter_input(INPUT_POST, 'DOB', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'DOB');
@@ -43,34 +44,72 @@ class preskool
 
     $Gender = $this->validate(filter_input(INPUT_POST, 'Gender', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Gender');
 
-    $Department = $this->validate(filter_input(INPUT_POST, 'Department', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Department');
+    $department = $this->validate(filter_input(INPUT_POST, 'department', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'department');
+
+    $session = $this->validate(filter_input(INPUT_POST, 'session', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'session');
+
+    
     $Country = $this->validate(filter_input(INPUT_POST, 'Country', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Country');
+
+    
+    $fathersName = $this->validate(filter_input(INPUT_POST, 'fathersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersName');
+
+
+    $fathersOccupation = $this->validate(filter_input(INPUT_POST, 'fathersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
+
+    
+    $fathersMobile = $this->validate(filter_input(INPUT_POST, 'fathersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersMobile');
+
+    $fathersEmail = $this->validate(filter_input(INPUT_POST, 'fathersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersEmail');
+
+    $mothersName = $this->validate(filter_input(INPUT_POST, 'mothersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersName');
+
+    $mothersOccupation = $this->validate(filter_input(INPUT_POST, 'mothersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersOccupation');
+
+    $mothersMobile = $this->validate(filter_input(INPUT_POST, 'mothersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersMobile');
+
+    
+
+    $mothersEmail = $this->validate(filter_input(INPUT_POST, 'mothersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersEmail');
+
     $permanentAddress = $this->validate(filter_input(INPUT_POST, 'permanentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'permanentAddress');
 
     $presentAddress = $this->validate(filter_input(INPUT_POST, 'presentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'presentAddress');
-    $fathersName = $this->validate(filter_input(INPUT_POST, 'fatherName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersName');
-    $mothersName = $this->validate(filter_input(INPUT_POST, 'mothersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersName');
-    $fathersOccupation = $this->validate(filter_input(INPUT_POST, 'fathersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
-    $mothersOccupation = $this->validate(filter_input(INPUT_POST, 'mothersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
-    $fathersMobile = $this->validate(filter_input(INPUT_POST, 'fathersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersMobile');
-    $mothersMobile = $this->validate(filter_input(INPUT_POST, 'mothersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersMobile');
-    $fathersEmail = $this->validate(filter_input(INPUT_POST, 'fathersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersEmail');
-    $mothersEmail = $this->validate(filter_input(INPUT_POST, 'mothersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersEmail');
-    $session = $this->validate(filter_input(INPUT_POST, 'session', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'session');
-    $studentId = $this->validate(filter_input(INPUT_POST, 'studentId', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'studentId');
 
 
-    $db->query("UPDATE bio set DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber' ,Gender= '$Gender',Department ='$Department',Country='$Country',permanentAddress='$permanentAddress',presentAddress='$presentAddress',studentId='$studentId',session='$session',mothersEmail='$mothersEmail',fathersEmail='$fathersEmail',mothersMobile='$mothersMobile',fathersMobile='$fathersMobile',mothersOccupation='$mothersOccupation',mothersName='$mothersName',fathersName='$fathersName'WHERE Email='$id' ");
 
-    //     //     // Success
-    header('Location:student-details.php');
-    //     //     echo 'created';
-    //     // } else {
-    //     //     // Error
-    //     //     echo 'Error: ' . mysqli_error($db);
-    //     // }
+    
+    // $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
+    // if(!empty($_FILES['image']['name'])){
+    //   $image = $_FILES['image']['name'];
+    //   $fileSize = $_FILES['image']['size'];
+    //   $fileTmp = $_FILES['image']['tmp_name'];
+    //   $targetDir = "student_image/$image";
+    //   $fileExt = explode('.', $image);
+    //   $fileExt = strtolower(end($fileExt));
 
-    $_SESSION['id'] = $Email;
+    //         // check if file is an image
+    //   if(in_array($fileExt, $allowedExt)) {
+    //     if($fileSize <= 300000) {
+    //     move_uploaded_file($fileTmp,$targetDir);
+    //     $imageErr = '<p style="color:green;">Image Uploaded</p>';
+    //     $updated = '<p style="color:green;">Successfuly Updloaded</p>';
+
+        $db->query("UPDATE bio set studentId='$studentId', DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber',Gender='$Gender',department ='$department',session='$session',Country='$Country',fathersName='$fathersName',fathersOccupation='$fathersOccupation',fathersMobile='$fathersMobile',fathersEmail='$fathersEmail',mothersName='$mothersName',mothersOccupation='$mothersOccupation',mothersMobile='$mothersMobile',mothersEmail='$mothersEmail',permanentAddress='$permanentAddress',presentAddress='$presentAddress' WHERE Email='$id' ");
+             header('Location:student-details.php');
+          // }
+    //       else {
+    //       $imageErr = '<p style="color:red;">File is too large</p>';
+    //       }
+    //     } else {
+    //       $imageErr = '<p style="color:red;">Invalid file type</p>';   
+    //       }
+
+    // }     else {
+    //       $imageErr = '<p style="color:red;">Please choose a file</p>';
+    //    }  
+    
+    // $_SESSION['id'] = $Email;
   }
 
   function registerCourse()
@@ -81,7 +120,8 @@ class preskool
     $cou = implode(',', $courses);
     $ql  = $db->query("UPDATE bio SET courses = '$cou' WHERE Email = '$id'");
     header('Location:student-dashboard.php');
+    
   }
 }
 
-$preskool = new preskool;
+$preskool = new student;
