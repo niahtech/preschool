@@ -1,9 +1,9 @@
 <?php
 include 'body.php';
-$id = $_SESSION['id'];
-$sql = $db->query("SELECT * FROM bio  where Email='$id' ");
-$item = $sql->fetch_assoc()
 
+$id = $_SESSION['id'];
+$sql = $db->query("SELECT * FROM bio where Email='$id' ");
+$item = $sql->fetch_assoc()
 ?>
 <div class="page-wrapper">
     <div class="content container-fluid">
@@ -26,11 +26,11 @@ $item = $sql->fetch_assoc()
                         <div class="about-info">
                             <h4>About Me</h4>
                             <div class="media mt-3">
+
                                 <img src="student_img/<?= $item['image'];?>" class="mr-3" alt="...">
                                 <div class="media-body">
                                     <ul>
                                         <li>
-
                                             <span class="title-span">FirstName : </span>
                                             <span class="info-span"><?php echo $item['FirstName']; ?></span>
                                         </li>

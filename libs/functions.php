@@ -14,7 +14,7 @@ function confirm_password()
     global $db, $message, $wrongConfirmation, $success, $profile_error, $profile_success;
     extract($_POST);
     $id = $_SESSION['id'];
-    $sql = $db->query("SELECT * FROM student_registered where email='$id'");
+    $sql = $db->query("SELECT * FROM bio where email='$id'");
     $result = $sql->fetch_assoc();
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
     if (password_verify($current_password, $result['password'])) {
@@ -53,7 +53,7 @@ function getDept($id)
 function countStudents()
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered");
+    $sql = $db->query("SELECT * FROM bio");
     $check= mysqli_fetch_array($sql);
     return $check;
 }
@@ -61,7 +61,7 @@ function countStudents()
 function countAllStudents()
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered");
+    $sql = $db->query("SELECT * FROM bio");
     $check= mysqli_num_rows($sql);
     return $check;
 }
@@ -75,7 +75,7 @@ function countAllDepartments()
 function countStudentsDept($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered WHERE department='$id'");
+    $sql = $db->query("SELECT * FROM bio WHERE department='$id'");
     $check= mysqli_num_rows($sql);
     return $check;
 }
@@ -83,14 +83,14 @@ function countStudentsDept($id)
 function countStudentsLevel($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered WHERE class='$id'");
+    $sql = $db->query("SELECT * FROM bio WHERE class='$id'");
     $check=mysqli_num_rows($sql);
     return $check;
 }
 function countCoursesLevel($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered WHERE class='$id'");
+    $sql = $db->query("SELECT * FROM bio WHERE class='$id'");
     $check=mysqli_num_rows($sql);
     return $check;
 }
@@ -103,9 +103,18 @@ function countLevel()
 }
 function countGender($gender,$section){
     global $db;
-    $sql= $db->query("SELECT * FROM student_registered WHERE gender='$gender' AND section ='$section'");
+    $sql= $db->query("SELECT * FROM bio WHERE gender='$gender' AND session ='$section'");
     $check= mysqli_num_rows($sql);
     return $check;
+
+}
+function getPaymentType($paymenttype,$level){
+    global $db;
+    if($paymenttype=='1'){
+        $sql=$db->query("SELECT * FROM level WHERE id='$level'");
+        $fees= mysqli_fetch_array($sql);
+        return $fees['SchoolFees'];
+    }
 
 }
 

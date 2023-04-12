@@ -6,9 +6,7 @@ $result=$sql->fetch_assoc();
 $sd =$result['courses'];
 $sq=explode(',',$sd);
 $ss=count($sq);
-
 ?>
-
 
 <div class="page-wrapper">
 <div class="content container-fluid">

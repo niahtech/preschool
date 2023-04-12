@@ -77,8 +77,6 @@ class student
     $presentAddress = $this->validate(filter_input(INPUT_POST, 'presentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'presentAddress');
 
 
-
-
     $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
     if (!empty($_FILES['image']['name'])) {
       $image = $_FILES['image']['name'];
