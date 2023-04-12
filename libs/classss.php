@@ -48,7 +48,7 @@ class preskool
     $permanentAddress = $this->validate(filter_input(INPUT_POST, 'permanentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'permanentAddress');
 
     $presentAddress = $this->validate(filter_input(INPUT_POST, 'presentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'presentAddress');
-    $fathersName = $this->validate(filter_input(INPUT_POST, 'fatherName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersName');
+    $fathersName = $this->validate(filter_input(INPUT_POST, 'fathersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersName');
     $mothersName = $this->validate(filter_input(INPUT_POST, 'mothersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersName');
     $fathersOccupation = $this->validate(filter_input(INPUT_POST, 'fathersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
     $mothersOccupation = $this->validate(filter_input(INPUT_POST, 'mothersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
@@ -60,7 +60,7 @@ class preskool
     $studentId = $this->validate(filter_input(INPUT_POST, 'studentId', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'studentId');
 
 
-    $db->query("UPDATE bio set DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber' ,Gender= '$Gender',Department ='$Department',Country='$Country',permanentAddress='$permanentAddress',presentAddress='$presentAddress',studentId='$studentId',session='$session',mothersEmail='$mothersEmail',fathersEmail='$fathersEmail',mothersMobile='$mothersMobile',fathersMobile='$fathersMobile',mothersOccupation='$mothersOccupation',mothersName='$mothersName',fathersName='$fathersName'WHERE Email='$id' ");
+    $db->query("UPDATE bio set DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber' ,Gender= '$Gender',Department ='$Department',Country='$Country',permanentAddress='$permanentAddress',presentAddress='$presentAddress',studentId='$studentId',session='$session',mothersEmail='$mothersEmail',fathersEmail='$fathersEmail',mothersMobile='$mothersMobile',fathersMobile='$fathersMobile',mothersOccupation='$mothersOccupation',mothersName='$mothersName',fathersName='$fathersName',fathersOccupation='$fathersOccupation'WHERE Email='$id' ");
 
     //     //     // Success
     header('Location:student-details.php');
@@ -69,8 +69,6 @@ class preskool
     //     //     // Error
     //     //     echo 'Error: ' . mysqli_error($db);
     //     // }
-
-    $_SESSION['id'] = $Email;
   }
 
   function registerCourse()

@@ -1,5 +1,6 @@
 <?php
-include 'body.php' ?>
+include 'body.php' 
+?>
 
 <div class="page-wrapper">
    <div class="content container-fluid">
@@ -49,7 +50,7 @@ include 'body.php' ?>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Student Id</label>
-                              <input type="text" class="form-control" name="studentId" value="<?= $result['studentId'] ?>">
+                              <input type="text" class="form-control" name="studentId" value="<?= $result['studentId'] ?>" required>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6" name="gender">
@@ -66,27 +67,27 @@ include 'body.php' ?>
                            <div class="form-group">
                               <label>Date of Birth</label>
                               <div>
-                                 <input type="date" class="form-control" name="DOB" value="<?= $result['DOB'] ?>">
+                                 <input type="date" class="form-control" name="DOB" value="<?= $result['DOB'] ?>"required>
                               </div>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Religion</label>
-                              <input type="text" class="form-control" name="Religion" value="<?= $result['Religion'] ?>">
+                              <input type="text" class="form-control" name="Religion" value="<?= $result['Religion'] ?>"required>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Country</label>
-                              <input type="text" class="form-control" name="Country" value="<?= $result['Country'] ?>">
+                              <input type="text" class="form-control" name="Country" value="<?= $result['Country'] ?>"required>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Joining Date</label>
                               <div>
-                                 <input type="date" class="form-control" name="JoiningDate" value="<?= $result['joiningDate'] ?>" readonly>
+                                 <input type="text" class="form-control" name="JoiningDate" value="<?= $result['joiningDate'] ?>" readonly>
                               </div>
 
                            </div>
@@ -110,14 +111,21 @@ include 'body.php' ?>
                            <div class="form-group">
                               <label>session</label>
                               <div>
-                                 <input type="text" class="form-control" name="session" value="<?= $result['session'] ?>">
+                              <select name="session" class="form-control" required>
+                                    <option selected disabled>Select your session...</option>
+                                    <?php $sql=$db->query("SELECT * FROM session");
+                                    while($session = mysqli_fetch_array($sql)){
+                                       ?>
+                                       <option value="<?= $session['name']?>"><?=$session['name']?></option>
+                                    <?php }?>
+                                </select>
                               </div>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Mobile Number</label>
-                              <input type="tel" class="form-control" name="PhoneNumber" value="<?= $result['PhoneNumber'] ?>">
+                              <input type="tel" class="form-control" name="PhoneNumber" value="<?= $result['PhoneNumber'] ?>"required>
                            </div>
                         </div>
 
@@ -134,54 +142,54 @@ include 'body.php' ?>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Fathers Name</label>
-                              <input type="text" class="form-control" name="fathersName"value="<?= $result['fathersName'] ?>">
+                              <input type="text" class="form-control" name="fathersName"value="<?= $result['fathersName'] ?>"required>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Fathers Occupation</label>
-                              <input type="text" class="form-control" name="fathersOccupation"value="<?= $result['fathersOccupation'] ?>">
+                              <input type="text" class="form-control" name="fathersOccupation"value="<?= $result['fathersOccupation'] ?>"required>
 
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Fathers Mobile</label>
-                              <input type="tel" class="form-control" name="fathersMobile"value="<?= $result['fathersMobile'] ?>">
+                              <input type="tel" class="form-control" name="fathersMobile"value="<?= $result['fathersMobile'] ?>"required>
                               
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Fathers Email</label>
-                              <input type="email" class="form-control" name="fathersEmail"value="<?= $result['fathersEmail'] ?>">
+                              <input type="email" class="form-control" name="fathersEmail"value="<?= $result['fathersEmail'] ?>"required>
                              
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Mothers Name</label>
-                              <input type="text" class="form-control" name="mothersName"value="<?= $result['mothersName'] ?>">
+                              <input type="text" class="form-control" name="mothersName"value="<?= $result['mothersName'] ?>"required>
                               
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Mothers Occupation</label>
-                              <input type="text" class="form-control" name="mothersOccupation"value="<?= $result['mothersOccupation'] ?>">
+                              <input type="text" class="form-control" name="mothersOccupation"value="<?= $result['mothersOccupation'] ?>"required>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Mothers Mobile</label>
-                              <input type="tel" class="form-control" name="mothersMobile" value="<?= $result['mothersMobile'] ?>">
+                              <input type="tel" class="form-control" name="mothersMobile" value="<?= $result['mothersMobile'] ?>"required>
                              
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Mothers Email</label>
-                              <input type="email" class="form-control" name="mothersEmail"value="<?= $result['mothersEmail'] ?>">
+                              <input type="email" class="form-control" name="mothersEmail"value="<?= $result['mothersEmail'] ?>"required>
                            </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -194,7 +202,7 @@ include 'body.php' ?>
                         <div class="col-12 col-sm-6">
                            <div class="form-group">
                               <label>Present Address</label>
-                              <textarea class="form-control" name="preentAddress"value="<?= $result['presentAddress'] ?>"></textarea>
+                              <textarea class="form-control" name="presentAddress"value="<?= $result['presentAddress'] ?>"></textarea>
                               
                            </div>
                         </div>
