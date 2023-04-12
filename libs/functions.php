@@ -45,7 +45,7 @@ function getClass($id)
 function getDept($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM departments WHERE id='$id' ");
+    $sql = $db->query("SELECT * FROM departments WHERE name='$id' ");
     return mysqli_fetch_array($sql);
 }
 
