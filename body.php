@@ -1,17 +1,15 @@
 <?php
-session_start();
 include 'libs/connection.inc.php';
-
 ?>
 
-<?php 
-if (!isset($_SESSION['id'])){
+<?php
+if (!isset($_SESSION['id'])) {
     header('location:login.php');
 }
 ?>
 
 
-<!-- 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +26,7 @@ if (!isset($_SESSION['id'])){
 
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/plugins/simple-calendar/simple-calendar.css">
 
     <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
 
@@ -184,9 +183,9 @@ if (!isset($_SESSION['id'])){
                             </ul>
 
                         <li class="submenu">
-                            <a href="#"><i class="fas fa-shield-alt"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fas fa-shield-alt"></i> <span> Payment </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="login.php">Login</a></li>
+                                <li><a href="payment.php">Generate Invoice</a></li>
                                 <li><a href="register.php">Register</a></li>
                                 <li><a href="forgot-password.php">Forgot Password</a></li>
                                 <li><a href="error-404.php">Error Page</a></li>
@@ -249,4 +248,5 @@ if (!isset($_SESSION['id'])){
                     </ul>
                 </div>
             </div>
-        </div> -->
+        </div>
+        
