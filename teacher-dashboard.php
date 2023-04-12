@@ -220,9 +220,12 @@ $student= mysqli_fetch_all($sql);
       $daily[] = $date;
       $check = $db->query("SELECT date FROM schedule WHERE date='$date'");
       $day[] = mysqli_num_rows($check);
+
+      // selecting the dates for each week
+      $sameDate=[];
    }
 
-   // selecting the date for each week
+   
 ?>
 
 
