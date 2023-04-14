@@ -203,7 +203,3 @@ function getPaymentType($paymenttype,$level){
         }
         echo time();
     }
-
-
-
- ?>
