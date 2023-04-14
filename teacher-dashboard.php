@@ -4,10 +4,10 @@ $today = explode('T', date("c"));
 $tod = $today[0];
 $courses = getLecturer($_SESSION['email'], 'course');
 $course = explode(',', $courses);
-$schedule = $db->query("SELECT * FROM schedule WHERE date='$tod' AND course IN (" . implode(', ', array_map('intval', $course)) .") ORDER BY startTime");
+$schedule = $db->query("SELECT * FROM schedule WHERE date='$tod' AND course IN (" . implode(', ', array_map('intval', $course)) . ") ORDER BY startTime");
 $schedules = mysqli_fetch_all($schedule);
-$sql=$db->query("SELECT id FROM bio");
-$student= mysqli_fetch_all($sql);
+$sql = $db->query("SELECT id FROM bio");
+$student = mysqli_fetch_all($sql);
 ?>
 
 
@@ -51,7 +51,7 @@ $student= mysqli_fetch_all($sql);
                         <i class="fas fa-user-graduate"></i>
                      </div>
                      <div class="db-info">
-                        <h3><?= count($student)?></h3>
+                        <h3><?= count($student) ?></h3>
                         <h6>Total Students</h6>
                      </div>
                   </div>
@@ -215,18 +215,31 @@ $student= mysqli_fetch_all($sql);
    $result = mysqli_fetch_all($schedule);
 
    // selecting the dates for each day
-   for($i=0; $i<count($result); $i++){
+   for ($i = 0; $i < count($result); $i++) {
       $date = $result[$i][0];
       $daily[] = $date;
       $check = $db->query("SELECT date FROM schedule WHERE date='$date'");
       $day[] = mysqli_num_rows($check);
 
       // selecting the dates for each week
-      $sameDate=[];
+      $day_of_week = date('N', strtotime($date));
+
+      $given_date = strtotime("$date");
+
+      $first_of_week =  date('Y-m-d', strtotime("- {$day_of_week} day", $given_date));
+
+      $first_of_week = strtotime($first_of_week);
+
+      for ($x = 0; $x < 7; $x++) {
+         $week_array_.$i = [];
+         $week_array_.$i = date('Y-m-d', strtotime("+ {$x} day", $first_of_week));
+      }
+
+      var_dump("$week_array_.$i");
    }
 
-   
-?>
+
+   ?>
 
 
    <?php include('lecturer-footer.php'); ?>
@@ -290,46 +303,44 @@ $student= mysqli_fetch_all($sql);
 <script>
    $(document).ready(function() {
 
-// Area chart
+      // Area chart
 
-if ($('#apexcharts-area').length > 0) {
-var options = {
-   chart: {
-      height: 350,
-      type: "area",
-      toolbar: {
-         show: false
-      },
-      options: {
-         scales: {
-            y: {
-               beginAtZero: true
+      if ($('#apexcharts-area').length > 0) {
+         var options = {
+            chart: {
+               height: 350,
+               type: "area",
+               toolbar: {
+                  show: false
+               },
+               options: {
+                  scales: {
+                     y: {
+                        beginAtZero: true
+                     }
+                  }
+               }
+            },
+            dataLabels: {
+               enabled: false
+            },
+            stroke: {
+               curve: "smooth"
+            },
+            series: [{
+               name: "Classes",
+               color: '#FFBC53',
+               data: <?php echo json_encode($day) ?>,
+            }],
+            xaxis: {
+               categories: <?php echo json_encode($daily) ?>,
             }
          }
+         var chart = new ApexCharts(
+            document.querySelector("#apexcharts-area"),
+            options
+         );
+         chart.render();
       }
-   },
-   dataLabels: {
-      enabled: false
-   },
-   stroke: {
-      curve: "smooth"
-   },
-   series: [{
-      name: "Classes",
-      color: '#FFBC53',
-      data: <?php echo json_encode($day) ?>,
-   }],
-   xaxis: {
-      categories: <?php echo json_encode($daily) ?>,
-   }
-}
-var chart = new ApexCharts(
-   document.querySelector("#apexcharts-area"),
-   options
-);
-chart.render();
-}
-});
-
-
+   });
 </script>
