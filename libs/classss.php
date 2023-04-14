@@ -114,6 +114,13 @@ class student
     $ql  = $db->query("UPDATE bio SET courses = '$cou' WHERE Email = '$id'");
     header('Location:student-dashboard.php');
   }
+
+
+//   function print(){
+
+// }
+
 }
 
 $preskool = new student;
+
