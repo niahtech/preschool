@@ -82,7 +82,7 @@ class student
       $image = $_FILES['image']['name'];
       $fileSize = $_FILES['image']['size'];
       $fileTmp = $_FILES['image']['tmp_name'];
-      $targetDir = "/student_img/$image";
+      $targetDir = "student_img/$image";
       $fileExt = explode('.', $image);
       $fileExt = strtolower(end($fileExt));
 
