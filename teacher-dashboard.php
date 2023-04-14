@@ -222,21 +222,32 @@ $student = mysqli_fetch_all($sql);
       $day[] = mysqli_num_rows($check);
 
       // selecting the dates for each week
-      $day_of_week = date('N', strtotime($date));
+      $dateTime = new DateTime($date);
+      $weekNumber[] = $dateTime->format('W');
+      // $day_of_week = date('N', strtotime($date));
 
-      $given_date = strtotime("$date");
+      // $given_date = strtotime("$date");
 
-      $first_of_week =  date('Y-m-d', strtotime("- {$day_of_week} day", $given_date));
+      // $first_of_week =  date('Y-m-d', strtotime("- {$day_of_week} day", $given_date));
 
-      $first_of_week = strtotime($first_of_week);
+      // $first_of_week = strtotime($first_of_week);
 
-      for ($x = 0; $x < 7; $x++) {
-         $week_array_.$i = [];
-         $week_array_.$i = date('Y-m-d', strtotime("+ {$x} day", $first_of_week));
-      }
+      // for ($x = 0; $x < 7; $x++) {
+      //    $week_array = date('Y-m-d', strtotime("+ {$x} day", $first_of_week));
+      // }
 
-      var_dump("$week_array_.$i");
+      
    }
+   var_dump($weekNumber);
+
+   // $groupedDates = array();
+   //    foreach($result as $date){
+   //       $dateTime = new DateTime($date);
+   //       $weekNumber = $dateTime->format('W');
+   //       $year = $dateTime->format('Y');
+   //       $groupedDates[$year][$weekNumber][] = $date;
+   //    }
+   //    var_dump($groupedDates);
 
 
    ?>
