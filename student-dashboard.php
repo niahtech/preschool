@@ -5,7 +5,12 @@ $sql=$db->query("SELECT * FROM bio WHERE Email='$id'");
 $result=$sql->fetch_assoc();
 $sd =$result['courses'];
 $sq=explode(',',$sd);
-$ss=count($sq);
+if(empty($result['courses'])){
+    $ss=0;
+}else{
+    $ss=count($sq);
+}
+
 ?>
 
 <div class="page-wrapper">

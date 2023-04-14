@@ -1,15 +1,13 @@
-<?php
-include 'libs/connection.inc.php';
+<!-- <?php include 'libs/connection.inc.php';
+// $id = $_SESSION['id'];
+// $sql = $db->query("SELECT * FROM bio where Email='$id'  ");
+// $result = $sql->fetch_assoc();
 ?>
-
 <?php
-if (!isset($_SESSION['id'])) {
-    header('location:login.php');
-}
+// header('content-disposition:attachment;
+// filename="print-res.php"');
+// readfile('print-res.php');
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +29,7 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" media="print">
 </head>
 
 <body>
@@ -162,92 +161,5 @@ if (!isset($_SESSION['id'])) {
             </ul>
 
         </div>
-
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li class="menu-title">
-                            <span>Main Menu</span>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-user-graduate"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
-                            <ul>
-
-                                <li><a href="student-dashboard.php">Student Dashboard</a></li>
-                                <li><a href="add-student-details.php">Student Biodata</a></li>
-                                <li><a href="student-details.php">Profile</a></li>
-                                <li><a href="student-reg.php">Course Registration</a></li>
-                                <li><a href="student-res.php">Result Checking</a></li>
-                                <li><a hidden href="print-res.php">Print Course Form</a></li>
-                            </ul>
-
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-shield-alt"></i> <span> Payment </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="payment.php">Generate Invoice</a></li>
-                                <li><a href="register.php">Register</a></li>
-                                <li><a href="forgot-password.php">Forgot Password</a></li>
-                                <li><a href="error-404.php">Error Page</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="blank-page.php"><i class="fas fa-file"></i> <span>Blank Page</span></a>
-                        </li>
-                        <li class="menu-title">
-                            <span>Others</span>
-                        </li>
-                        <li>
-
-                        <li class="menu-title">
-                            <span>UI Interface</span>
-                        </li>
-                        <li>
-                            <a href="components.html"><i class="fas fa-vector-square"></i> <span>Components</span></a>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="form-basic-inputs.html">Basic Inputs </a></li>
-                                <li><a href="form-input-groups.html">Input Groups </a></li>
-                                <li><a href="form-horizontal.html">Horizontal Form </a></li>
-                                <li><a href="form-vertical.html"> Vertical Form </a></li>
-                                <li><a href="form-mask.html"> Form Mask </a></li>
-                                <li><a href="form-validation.html"> Form Validation </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fas fa-table"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="tables-basic.html">Basic Tables </a></li>
-                                <li><a href="data-tables.html">Data Table </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fas fa-code"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"> <span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"> <span>Level 2</span></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"> <span>Level 1</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
+</div>    
+</div> -->
