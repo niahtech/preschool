@@ -149,22 +149,19 @@ $student = mysqli_fetch_all($sql);
                            <div class="col-6">
                               <h5 class="card-title">Teaching Activity</h5>
                            </div>
-                           <form method="POST">
                            <div class="col-6">
                               <ul class="list-inline-group text-right mb-0 pl-0">
                                  <li class="list-inline-item">
                                     <div class="form-group mb-0 amount-spent-select">
-                                       <select class="form-control form-control-sm">
-                                          <option><button type="submit" name="daily"
-                                          value="Daily">Daily</button></option>
-                                          <option><button type="submit" name="weekly" value="Weekly">Weekly</button></option>
-                                          <option><button type="submit" name="monthly" value="Monthly">Monthly</button></option>
+                                       <select class="form-control form-control-sm period">
+                                          <option value="daily">Daily</option>
+                                          <option value="weekly">Weekly</option>
+                                          <option value="monthly">Monthly</option>
                                        </select>
                                     </div>
                                  </li>
                               </ul>
                            </div>
-                           </form>
                         </div>
                      </div>
                      <div class="card-body">
@@ -253,21 +250,6 @@ $student = mysqli_fetch_all($sql);
       $month[] = $item;
    }
 
-   $period = $day;
-   $periodly = $daily;
-   // if(isset($_POST['daily'])){
-   //    $period = $day;
-   //    $periodly = $daily;
-   // }
-   // if(isset($_POST['weekly'])){
-   //    $period = $week;
-   //    $periodly = $weekly;
-   // }
-   // if(isset($_POST['monthly'])){
-   //    $period = $month;
-   //    $periodly = $monthly;
-   // }
-
    ?>
 
 
@@ -278,8 +260,7 @@ $student = mysqli_fetch_all($sql);
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <div class="modal-title text-center h3">Schedule New Class</div>
-                  <button class="btn btn-danger close" data-dismiss="modal">&times;</button>
+                  <div clastitle text-center h3">Schedule New Class</div           <button class="btn btn-danger close" data-dismiss="modal">&times;
                </div>
                <div class="modal-body">
                   <ul class="breadcrumb">
@@ -342,13 +323,6 @@ $student = mysqli_fetch_all($sql);
                toolbar: {
                   show: false
                },
-               options: {
-                  scales: {
-                     y: {
-                        beginAtZero: true
-                     }
-                  }
-               }
             },
             dataLabels: {
                enabled: false
@@ -359,10 +333,10 @@ $student = mysqli_fetch_all($sql);
             series: [{
                name: "Classes",
                color: '#FFBC53',
-               data: <?php echo json_encode($period) ?>,
+               data: <?php echo json_encode($day) ?>,
             }],
             xaxis: {
-               categories: <?php echo json_encode($periodly) ?>,
+               categories: <?php echo json_encode($daily) ?>,
             }
          }
          var chart = new ApexCharts(
@@ -370,6 +344,34 @@ $student = mysqli_fetch_all($sql);
             options
          );
          chart.render();
+
+
+         const period = document.querySelector(".period");
+         // function pre(){
+            if(period.value == 'daily'){
+               chart.options.series[0].data = <?php echo json_encode($day)?>;
+               chart.options.xaxis.categories = <?php echo json_encode($daily)?>;
+               chart.update()
+            }
+            else if(period.value == 'weekly'){
+               chart.options.series[0].data = <?php echo json_encode($week)?>;
+               chart.options.xaxis.categories = <?php echo json_encode($weekly)?>;
+               chart.update()
+            }
+            else{
+               chart.options.series[0].data = <?php echo json_encode($month)?>;
+               chart.options.xaxis.categories = <?php echo json_encode($monthly)?>;
+               chart.update()
+            }
+         // }
+         // setInterval(pre, 1000)
+
       }
+
+      
    });
+
+   
+   
+   
 </script>
