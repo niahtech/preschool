@@ -149,19 +149,22 @@ $student = mysqli_fetch_all($sql);
                            <div class="col-6">
                               <h5 class="card-title">Teaching Activity</h5>
                            </div>
+                           <form method="POST">
                            <div class="col-6">
                               <ul class="list-inline-group text-right mb-0 pl-0">
                                  <li class="list-inline-item">
                                     <div class="form-group mb-0 amount-spent-select">
                                        <select class="form-control form-control-sm">
-                                          <option>Daily</option>
-                                          <option>Weekly</option>
-                                          <option>Monthly</option>
+                                          <option><button type="submit" name="daily"
+                                          value="Daily">Daily</button></option>
+                                          <option><button type="submit" name="weekly" value="Weekly">Weekly</button></option>
+                                          <option><button type="submit" name="monthly" value="Monthly">Monthly</button></option>
                                        </select>
                                     </div>
                                  </li>
                               </ul>
                            </div>
+                           </form>
                         </div>
                      </div>
                      <div class="card-body">
@@ -211,44 +214,59 @@ $student = mysqli_fetch_all($sql);
 
    </div>
    <?php
-   $schedule = $db->query("SELECT DISTINCT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
+   $schedule = $db->query("SELECT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
    $result = mysqli_fetch_all($schedule);
 
-   // selecting the dates for each day
-   for ($i = 0; $i < count($result); $i++) {
+   
+   for($i = 0; $i < count($result); $i++) {
       $date = $result[$i][0];
-      $daily[] = $date;
-      $check = $db->query("SELECT date FROM schedule WHERE date='$date'");
-      $day[] = mysqli_num_rows($check);
-
-      // selecting the dates for each week
       $dateTime = new DateTime($date);
-      $weekNumber[] = $dateTime->format('W');
-      // $day_of_week = date('N', strtotime($date));
+      // selecting the dates for each day
+      
+      $dayName[] = $dateTime->format('D');
+      $dayCount = array_count_values($dayName);
+      
 
-      // $given_date = strtotime("$date");
+      // selecting dates for each month
+      $weekName[] = $dateTime->format('W');
+      $weekCount = array_count_values($weekName);
+      
 
-      // $first_of_week =  date('Y-m-d', strtotime("- {$day_of_week} day", $given_date));
-
-      // $first_of_week = strtotime($first_of_week);
-
-      // for ($x = 0; $x < 7; $x++) {
-      //    $week_array = date('Y-m-d', strtotime("+ {$x} day", $first_of_week));
-      // }
-
+      // selecting the dates for each month
+      $monthName[] = $dateTime->format('M');
+      $monthCount = array_count_values($monthName);
       
    }
-   var_dump($weekNumber);
+   // daily chart data
+   foreach($dayCount as $index=>$item){
+      $daily[] = $index;
+      $day[] = $item;
+   }
+   // weekly chart data
+   foreach($weekCount as $index=>$item){
+      $weekly[] = "week_$index";
+      $week[] = $item;
+   }
+   // monthly chart data
+   foreach($monthCount as $index=>$item){
+      $monthly[] = $index;
+      $month[] = $item;
+   }
 
-   // $groupedDates = array();
-   //    foreach($result as $date){
-   //       $dateTime = new DateTime($date);
-   //       $weekNumber = $dateTime->format('W');
-   //       $year = $dateTime->format('Y');
-   //       $groupedDates[$year][$weekNumber][] = $date;
-   //    }
-   //    var_dump($groupedDates);
-
+   $period = $day;
+   $periodly = $daily;
+   // if(isset($_POST['daily'])){
+   //    $period = $day;
+   //    $periodly = $daily;
+   // }
+   // if(isset($_POST['weekly'])){
+   //    $period = $week;
+   //    $periodly = $weekly;
+   // }
+   // if(isset($_POST['monthly'])){
+   //    $period = $month;
+   //    $periodly = $monthly;
+   // }
 
    ?>
 
@@ -341,10 +359,10 @@ $student = mysqli_fetch_all($sql);
             series: [{
                name: "Classes",
                color: '#FFBC53',
-               data: <?php echo json_encode($day) ?>,
+               data: <?php echo json_encode($period) ?>,
             }],
             xaxis: {
-               categories: <?php echo json_encode($daily) ?>,
+               categories: <?php echo json_encode($periodly) ?>,
             }
          }
          var chart = new ApexCharts(
