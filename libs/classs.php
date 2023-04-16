@@ -158,9 +158,8 @@ class New_Life
         $id = $_SESSION['id'];
         $sql = $db->query("SELECT * FROM bio WHERE Email='$id'");
         $result = $sql->fetch_assoc();
-        extract($_POST);
         $name = $result['FirstName'];
-        $fees = getPaymentType($paymenttype, $level);
+        $fees = $_POST['total'];
         $email = $_SESSION['id'];
 
         $curl = curl_init();

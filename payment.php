@@ -60,7 +60,7 @@
               </li>
             </ul>
           </div>
-          <div class="card-body">
+          <div class="card-body invoice">
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">
@@ -79,12 +79,12 @@
                               <div class="col-md-4 mb-3">
                                 <label for="validationCustom01">Payment Type</label>
                                 <div class="form-group">
-                                  <select name="paymenttype" class="custom-select" required>
+                                  <select name="paymenttype" class="custom-select paymenttype" required>
                                     <option value="" selected disabled>Select your payment Type...</option>
                                     <?php $sql = $db->query("SELECT * FROM paymenttype");
                                     while ($payment = mysqli_fetch_array($sql)) {
                                     ?>
-                                      <option value="<?= $payment['id'] ?>"><?= $payment['name'] ?></option>
+                                      <option value="<?= $payment['name'] ?>"><?= $payment['name'] ?></option>
                                     <?php } ?>
                                   </select>
                                   <div class="invalid-feedback">Must Make a selection</div>
@@ -95,10 +95,10 @@
                                 $sql = $db->query("SELECT * FROM level");
                                 ?>
                                 <label for="validationCustom02">Level</label>
-                                <select name="level" class="custom-select" required>
+                                <select name="level" class="custom-select level" required>
                                   <option value="">Select Level</option>
                                   <?php while ($level = $sql->fetch_assoc()) { ?>
-                                    <option value="<?= $level['id']; ?>"><?= $level['name']; ?></option>
+                                    <option value="<?= $level['name']; ?>"><?= $level['name']; ?></option>
                                   <?php } ?>
                                 </select>
                                 <div class="invalid-feedback">Must Make a selection</div>
@@ -135,7 +135,6 @@
                                 <div class="invalid-feedback">Must Make a selection</div>
                               </div>
                             </div>
-                            <button class="btn btn-primary" type="submit" name="submitPayment">Submit form</button>
                             </div>
                             </div>
                             </div>
@@ -144,14 +143,7 @@
                                 <tr>
                                   <th scope="col"></th>
                                   <th scope="col" class="text-left">Total</th>
-                                  <th scope="col" class="text-left">
-                                    <?php if (isset($_POST['submitPayment'])) {
-                                    global $db;
-                                    extract($_POST);
-                                    echo $fees = getPaymentType($paymenttype, $level);
-                                    }
-                                    ?>
-                                  </th>
+                                  <th scope="col" class="text-left"><input type="number" name="total" class="total" style="border: none" readonly></th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -161,7 +153,7 @@
                             <button class="btn btn-primary" type="submit" name="makePayment">Make Payment</button>
                         </form>
                   </div>
-                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Food truck fixie
+                  <!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Food truck fixie
                     locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit,
                     blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee.
                     Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum
@@ -175,7 +167,7 @@
                     locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify
                     squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie
                     etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog
-                    stumptown. Pitchfork sustainable tofu synth chambray yr.</div>
+                    stumptown. Pitchfork sustainable tofu synth chambray yr.</div> -->
                 </div>
               </div>
             </div>
@@ -189,6 +181,7 @@
       </div>
 
 
+      <script src="payment.js"></script>
       <script src="assets/js/jquery-3.6.0.min.js"></script>
 
       <script src="assets/js/popper.min.js"></script>
