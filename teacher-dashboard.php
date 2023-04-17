@@ -109,7 +109,7 @@ $student = mysqli_fetch_all($sql);
                                           </div>
                                        </td>
                                        <td><a href="#" class="status" data-status></a></td>
-                                       <td><button type="submit" class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id']; ?>">Reschedule</button></td>
+                                       <td><button class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id']; ?>">Reschedule</button></td>
                                     </tr>
                                  <?php endforeach; ?>
                               </tbody>
@@ -153,10 +153,10 @@ $student = mysqli_fetch_all($sql);
                               <ul class="list-inline-group text-right mb-0 pl-0">
                                  <li class="list-inline-item">
                                     <div class="form-group mb-0 amount-spent-select">
-                                       <select class="form-control form-control-sm">
-                                          <option>Daily</option>
-                                          <option>Weekly</option>
-                                          <option>Monthly</option>
+                                       <select class="form-control form-control-sm period">
+                                          <option value="daily">Daily</option>
+                                          <option value="weekly">Weekly</option>
+                                          <option value="monthly">Monthly</option>
                                        </select>
                                     </div>
                                  </li>
@@ -211,41 +211,52 @@ $student = mysqli_fetch_all($sql);
 
    </div>
    <?php
-   $schedule = $db->query("SELECT DISTINCT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
-   $result = mysqli_fetch_all($schedule);
+   $dates = $db->query("SELECT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
+   $result = mysqli_fetch_all($dates);
 
-   // selecting the dates for each day
-   for ($i = 0; $i < count($result); $i++) {
+   
+   for($i = 0; $i < count($result); $i++) {
       $date = $result[$i][0];
-      $daily[] = $date;
-      $check = $db->query("SELECT date FROM schedule WHERE date='$date'");
-      $day[] = mysqli_num_rows($check);
+      $dateTime = new DateTime($date);
+      // selecting the dates for each day
+      
+      $dayName[] = $dateTime->format('D');
+      $dayCount = array_count_values($dayName);
+      
 
-      // selecting the dates for each week
-      $day_of_week = date('N', strtotime($date));
+      // selecting dates for each month
+      $weekName[] = $dateTime->format('W');
+      $weekCount = array_count_values($weekName);
+      
 
-      $given_date = strtotime("$date");
-
-      $first_of_week =  date('Y-m-d', strtotime("- {$day_of_week} day", $given_date));
-
-      $first_of_week = strtotime($first_of_week);
-
-      for ($x = 0; $x < 7; $x++) {
-         $week_array_.$i = [];
-         $week_array_.$i = date('Y-m-d', strtotime("+ {$x} day", $first_of_week));
-      }
-
-      var_dump("$week_array_.$i");
+      // selecting the dates for each month
+      $monthName[] = $dateTime->format('M');
+      $monthCount = array_count_values($monthName);
+      
    }
-
+   // daily chart data
+   foreach($dayCount as $index=>$item){
+      $daily[] = $index;
+      $day[] = $item;
+   }
+   // weekly chart data
+   foreach($weekCount as $index=>$item){
+      $weekly[] = "week_$index";
+      $week[] = $item;
+   }
+   // monthly chart data
+   foreach($monthCount as $index=>$item){
+      $monthly[] = $index;
+      $month[] = $item;
+   }
 
    ?>
 
 
    <?php include('lecturer-footer.php'); ?>
 
-   <?php foreach ($schedule as $sch) : ?>
-      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id']; ?>">
+   <?php foreach($schedule as $sch): ?>
+      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id'];?>">
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
@@ -264,39 +275,35 @@ $student = mysqli_fetch_all($sql);
                               <div class="about-info">
                                  <form method="POST">
                                     <div><label for="date">Date</label>
-                                       <input type="date" name="date" value="<?= $sch['date']; ?>" required>
-                                    </div>
+                                    <input type="date" name="date" value="<?= $sch['date'];?>" required></div>
                                     <br>
                                     <div><label for="date">Start Time</label>
-                                       <input type="time" name="startTime" value="<?= $sch['startTime']; ?>" required>
-                                    </div>
+                                    <input type="time" name="startTime" value="<?= $sch['startTime'];?>" required></div>
                                     <br>
                                     <div><label for="date">End Time</label>
-                                       <input type="time" name="endTime" value="<?= $sch['endTime']; ?>" required>
-                                    </div>
+                                    <input type="time" name="endTime" value="<?= $sch['endTime'];?>" required></div>
                                     <br>
                                     <div><label for="date">Course</label>
-                                       <select name="course">
-                                          <?php foreach ($course as $cou) : ?>
-                                             <option value="<?= $cou; ?>"><?= $cou; ?></option>
-                                          <?php endforeach; ?>
-                                       </select>
-                                    </div>
+                                    <select name="course">
+                                       <?php foreach($course as $cou):?>
+                                          <option value="<?= $cou;?>"><?= $cou;?></option>
+                                       <?php endforeach; ?>
+                                    </select></div>
                                     <br>
                                     <input type="submit" class="btn btn-primary" name="reschedule" value="Reschedule">
-                                    <input type="hidden" name="id" value="<?= $sch['id']; ?>">
+                                    <input type="hidden" name="id" value="<?= $sch['id'];?>">
                                  </form>
                               </div>
                            </div>
                         </div>
                      </div>
+                  </div>     
                   </div>
                </div>
             </div>
          </div>
       </div>
-</div>
-<?php endforeach; ?>
+   <?php endforeach; ?>
 
 
 <script src="change-date.js"></script>
@@ -313,13 +320,6 @@ $student = mysqli_fetch_all($sql);
                toolbar: {
                   show: false
                },
-               options: {
-                  scales: {
-                     y: {
-                        beginAtZero: true
-                     }
-                  }
-               }
             },
             dataLabels: {
                enabled: false
@@ -330,10 +330,10 @@ $student = mysqli_fetch_all($sql);
             series: [{
                name: "Classes",
                color: '#FFBC53',
-               data: <?php echo json_encode($day) ?>,
+               data: <?php echo json_encode($day) ?>
             }],
             xaxis: {
-               categories: <?php echo json_encode($daily) ?>,
+               categories: <?php echo json_encode($daily) ?>
             }
          }
          var chart = new ApexCharts(
@@ -342,5 +342,41 @@ $student = mysqli_fetch_all($sql);
          );
          chart.render();
       }
-   });
+
+      const period = document.querySelector(".period");
+      function pre(){
+         if(period.value == 'daily'){
+            chart.updateOptions({
+               series: [{
+                  data: <?php echo json_encode($day) ?>
+               }],
+               xaxis: {
+                  categories: <?php echo json_encode($daily)?>
+               }
+            })
+         }
+         else if(period.value == 'weekly'){
+            chart.updateOptions({
+               series: [{
+                  data: <?php echo json_encode($week) ?>
+               }],
+               xaxis: {
+                  categories: <?php echo json_encode($weekly)?>
+               }
+            })
+         }
+         else{
+            chart.updateOptions({
+               series: [{
+                  data: <?php echo json_encode($month) ?>
+               }],
+               xaxis: {
+                  categories: <?php echo json_encode($monthly)?>
+               }
+            })
+         }
+      }
+      setInterval(pre, 1000)
+   
+   });   
 </script>
