@@ -54,7 +54,7 @@ function countStudents()
 {
     global $db;
     $sql = $db->query("SELECT * FROM bio");
-    $check= mysqli_fetch_array($sql);
+    $check = mysqli_fetch_array($sql);
     return $check;
 }
 
@@ -62,21 +62,21 @@ function countAllStudents()
 {
     global $db;
     $sql = $db->query("SELECT * FROM bio");
-    $check= mysqli_num_rows($sql);
+    $check = mysqli_num_rows($sql);
     return $check;
 }
 function countAllDepartments()
 {
     global $db;
     $sql = $db->query("SELECT * FROM departments");
-    $check= mysqli_num_rows($sql);
+    $check = mysqli_num_rows($sql);
     return $check;
 }
 function countStudentsDept($id)
 {
     global $db;
     $sql = $db->query("SELECT * FROM bio WHERE department='$id'");
-    $check= mysqli_num_rows($sql);
+    $check = mysqli_num_rows($sql);
     return $check;
 }
 
@@ -84,122 +84,179 @@ function countStudentsLevel($id)
 {
     global $db;
     $sql = $db->query("SELECT * FROM bio WHERE class='$id'");
-    $check=mysqli_num_rows($sql);
+    $check = mysqli_num_rows($sql);
     return $check;
 }
 function countCoursesLevel($id)
 {
     global $db;
     $sql = $db->query("SELECT * FROM bio WHERE class='$id'");
-    $check=mysqli_num_rows($sql);
+    $check = mysqli_num_rows($sql);
     return $check;
 }
 function countLevel()
 {
     global $db;
     $sql = $db->query("SELECT * FROM level");
-    $check= mysqli_num_rows($sql);
+    $check = mysqli_num_rows($sql);
     return $check;
 }
-function countGender($gender,$section){
+function countGender($gender, $section)
+{
     global $db;
-    $sql= $db->query("SELECT * FROM bio WHERE gender='$gender' AND session ='$section'");
-    $check= mysqli_num_rows($sql);
+    $sql = $db->query("SELECT * FROM bio WHERE gender='$gender' AND session ='$section'");
+    $check = mysqli_num_rows($sql);
     return $check;
-
 }
-function getPaymentType($paymenttype,$level){
+function getPaymentType($paymenttype, $level)
+{
     global $db;
-    if($paymenttype=='1'){
-        $sql=$db->query("SELECT * FROM level WHERE id='$level'");
-        $fees= mysqli_fetch_array($sql);
+    if ($paymenttype == '1') {
+        $sql = $db->query("SELECT * FROM level WHERE id='$level'");
+        $fees = mysqli_fetch_array($sql);
         return $fees['SchoolFees'];
     }
-
 }
 
- function getLecturer($email, $detail)
-    {
-        global $db;
+function getLecturer($email, $detail)
+{
+    global $db;
 
-        $sql = $db->query("SELECT * FROM lecturers WHERE email='$email'");
-        $row = mysqli_fetch_array($sql);
+    $sql = $db->query("SELECT * FROM lecturers WHERE email='$email'");
+    $row = mysqli_fetch_array($sql);
 
-        return $row[$detail] ?? NULL;
-    }
+    return $row[$detail] ?? NULL;
+}
 
-    function getStudent($email, $detail)
-    {
-        global $db;
+function getStudent($email, $detail)
+{
+    global $db;
 
-        $sql = $db->query("SELECT * FROM bio WHERE Email='$email' ");
-        $row = mysqli_fetch_array($sql);
+    $sql = $db->query("SELECT * FROM bio WHERE Email='$email' ");
+    $row = mysqli_fetch_array($sql);
 
-        return $row[$detail] ?? NULL;
-    }
+    return $row[$detail] ?? NULL;
+}
 
-    function getStudentById($detail, $id) {
-        global $db;
+function getStudentById($detail, $id)
+{
+    global $db;
 
-        $sql = $db->query("SELECT * FROM bio WHERE id='$id' ");
-        $row = mysqli_fetch_array($sql);
+    $sql = $db->query("SELECT * FROM bio WHERE id='$id' ");
+    $row = mysqli_fetch_array($sql);
 
-        return $row[$detail];
-    }
+    return $row[$detail];
+}
 
-    function insertScore(){
-        global $db, $course;
-        $name = $_GET['name'];
-        $students = $db->query("SELECT * FROM bio WHERE Department='$name'");
-        $scores = $_POST['score'];
-        while($student = mysqli_fetch_array($students)){
-            $studentCourses = explode(',', $student['courses']);
-            if(in_array($course, $studentCourses)){
-                $stu[] = $student['studentId'];
-            }
-        }
-        for($i=0; $i<count($stu); $i++){
-            $id = $stu[$i];
-            $sql = "UPDATE bio SET $course = ? WHERE studentId = '$id'";
-            $stmt = $db->prepare($sql);
-            if($stmt){
-                $stmt->bind_param('i', $score);
-                $score = $scores[$i];
-                $stmt->execute();
-            }
-            else{
-                exit('error: failed to prepare sql query');
-            }
-            $stmt->close(); 
+function insertScore()
+{
+    global $db, $course;
+    $name = $_GET['name'];
+    $students = $db->query("SELECT * FROM bio WHERE Department='$name'");
+    $scores = $_POST['score'];
+    while ($student = mysqli_fetch_array($students)) {
+        $studentCourses = explode(',', $student['courses']);
+        if (in_array($course, $studentCourses)) {
+            $stu[] = $student['studentId'];
         }
     }
-
-    function changeDate($detail){
-        $month = ['January','February','March','April','May','June','July','August','September','Octpber','November','December'];
-        $dat = explode('-', $detail);
-        $index = $dat[1]-1;
-        $str = "$dat[2] -$dat[1], $dat[0]";
-        $real = str_replace("-$dat[1]", "$month[$index]", $str);
-
-        echo $real;
-    }
-
-    function timeDifference($start, $end){
-        $difference = strtotime($start) - strtotime($end);
-
-        echo round(abs($difference)/60,2);
-    }
-
-    function status($start, $end){
-        $currentTime = strtotime(date("c"));
-        if(strtotime($start) <= $currentTime && $currentTime < strtotime($end)){
-            echo 'Ongoing';
+    for ($i = 0; $i < count($stu); $i++) {
+        $id = $stu[$i];
+        $sql = "UPDATE bio SET $course = ? WHERE studentId = '$id'";
+        $stmt = $db->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param('i', $score);
+            $score = $scores[$i];
+            $stmt->execute();
+        } else {
+            exit('error: failed to prepare sql query');
         }
-        elseif(strtotime($start) > $currentTime){
-            echo 'Upcoming';
-        }
-        else{
-            echo 'Completed';
-        }
-        echo time();
+        $stmt->close();
     }
+}
+
+function changeDate($detail)
+{
+    $month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octpber', 'November', 'December'];
+    $dat = explode('-', $detail);
+    $index = $dat[1] - 1;
+    $str = "$dat[2] -$dat[1], $dat[0]";
+    $real = str_replace("-$dat[1]", "$month[$index]", $str);
+
+    echo $real;
+}
+
+function timeDifference($start, $end)
+{
+    $difference = strtotime($start) - strtotime($end);
+
+    echo round(abs($difference) / 60, 2);
+}
+
+function status($start, $end)
+{
+    $currentTime = strtotime(date("c"));
+    if (strtotime($start) <= $currentTime && $currentTime < strtotime($end)) {
+        echo 'Ongoing';
+    } elseif (strtotime($start) > $currentTime) {
+        echo 'Upcoming';
+    } else {
+        echo 'Completed';
+    }
+    echo time();
+}
+// function calculateGPA($scores, $units)
+// {   
+//     global $db, $id, $result;
+    
+
+//     $total_units = 0;
+//     $total_points = 0;
+//     foreach ($scores as $score) {
+//         $point = 0;
+//         if ($score >= 70 && $score <= 100) {
+//             $point = 5.0;
+//         } elseif ($score >= 60 && $score <= 69) {
+//             $point = 4.0;
+//         } elseif ($score >= 50 && $score <= 59) {
+//             $point = 3.0;
+//         } elseif ($score >= 45 && $score <= 49) {
+//             $point = 2.0;
+//         } else {
+//             $point = 0.0;
+//         }
+//         $unit = array_shift($units);
+//         $total_units += $unit;
+//         $total_points += ($point * $unit);
+//     }
+//     $gpa = $total_points / $total_units;
+//     return $gpa;
+// }
+// $s = [];
+// $u = [];
+
+// $id = $_SESSION['id'];
+
+// $sql = $db->query("SELECT * FROM bio where Email='$id'");
+
+// $result = $sql->fetch_assoc();
+// $Department = $result['department'];
+// $dept = strtolower(str_replace(' ', '', $Department));
+// $input = $db->query("SELECT * FROM $dept where classId ='1' and semester ='First'");
+
+// while ($course = mysqli_fetch_assoc($input)) :
+//     $units = $course['unit'];
+//     $u[] = $units;
+
+//     $sql = $result['courses'];
+//     $sq = explode(',', $sql);
+//     for ($i = 0; $i < count($sq); $i++) : $c = $sq[$i];
+//         $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'");
+//         $grade = mysqli_fetch_all($grades);
+//         $scores = $grade[0][0];
+//         $s[] = $scores;
+//     endfor;
+// endwhile;
+
+// $gpa = calculateGPA($s, $u);
+// echo "YOUR GPA IS: " . round($gpa, 2);

@@ -26,13 +26,16 @@ $result = $sql->fetch_assoc();
          <br>
          <br>
          <?php
-         $courses = "Courses registered : " . $result['courses'];
+         $courses = "Courses registered : " . '' . $result['courses'];
          echo $courses;
          ?>
          <BR>
          <br>
-
-         <a>GPA for the semester: <input type="text" class="GPA" style="width:30px" disabled> </a>
+         <?
+         $gpa = calculateGPA($s, $u);
+         echo "YOUR GPA IS: " . round($gpa, 2);
+         ?>
+         <a>GPA for the semester:</a>
 
 
          <br>
@@ -76,31 +79,40 @@ $result = $sql->fetch_assoc();
                                     <?php if (!empty($result['courses'])) : ?>
                                        <?php for ($i = 0; $i < count($sq); $i++) : $c = $sq[$i];
                                           $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'");
-                                          
+
                                           $grade = mysqli_fetch_all($grades);
-                                          
+
                                        ?>
 
 
+                                          <?php if(!($grade == 0)) : ?>
+                                             <tr>
 
-                                          <tr>
+                                                <td><?= $sq[$i] ?></td>
+                                                <td><?= $course[$i][0] ?></td>
+                                                <!-- <td><?= $grade[0][0]; ?></td> -->
+                                                <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" disabled></td>
+                                                <td><input type="text" class="Remark" style="width:30px" disabled></td>
 
-                                             <td><?= $sq[$i] ?></td>
-                                             <td><?= $course[$i][0] ?></td>
-                                             <!-- <td><?= $grade[0][0]; ?></td> -->
-                                             <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" disabled></td>
-                                             <td><input type="text" class="Remark" style="width:30px" disabled></td>
+                                             </tr>
+                                          <?php endif; ?>
 
-                                          </tr>
                                        <?php endfor; ?>
                                     <?php endif; ?>
                                  <?php endif; ?>
                               </tbody>
                            </table>
                            <br>
+                           <style>
+                              @media print {
+                                 .no-print {
+                                    display: none;
+                                 }
+                              }
+                           </style>
                            <div class="col-auto text-right float-left mx-auto">
                               <a href="print-res.php">
-                                 <button type="submit" class="btn btn-outline-primary mr-2 w-100" onclick="window.print()"><i class="fas fa-plus"></i> Print
+                                 <button type="submit" class="btn btn-outline-primary no-print  mr-2 w-100" onclick="window.print()"><i class="fas fa-plus"></i> Print
                                  </button>
                               </a>
                            </div>

@@ -25,7 +25,7 @@ $result = $sql->fetch_assoc();
                     <div class="card card-table">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <?php if(empty($result['courses'])) : ?>
+                                <?php if (empty($result['courses'])) : ?>
                                     <form action="" method="POST">
                                         <table class="table table-hover table-center mb-0">
 
@@ -59,8 +59,15 @@ $result = $sql->fetch_assoc();
                                             </tbody>
 
                                         </table>
+                                        <style>
+                                            @media print {
+                                                .no-print {
+                                                    display: none;
+                                                }
+                                            }
+                                        </style>
                                         <div class="col-auto text-right float-left mx-auto">
-                                            <button type="submit" name="registerCourse" class="btn btn-outline-primary mr-2 w-100"><i class="fas fa-plus"></i> Register</button>
+                                            <button type="submit" name="registerCourse" class="btn btn-outline-primary no-print  mr-2 w-100" onclick="window.print()"><i class="fas fa-plus"></i> Register & Print</button>
                                         </div>
                                     </form>
 

@@ -27,7 +27,7 @@ $item = $sql->fetch_assoc()
                             <h4>About Me</h4>
                             <div class="media mt-3">
 
-                                <img src="student_img/<?= $item['image'];?>" class="mr-3" alt="...">
+                                <img src="student_img/<?= $item['image']; ?>" class="mr-3" alt="...">
                                 <div class="media-body">
                                     <ul>
                                         <li>
@@ -73,47 +73,45 @@ $item = $sql->fetch_assoc()
 
                         </div>
                     </div>
-                    <div class="row follow-sec">
+                    <style>
+                       .blue-box{
+                           border-radius: 60px;
+                           
+                           
+                       }
+
+                    </style>
+
+                    <div class="row follow-sec  align-content-sm-around ">
                         <div class="col-md-4 mb-3">
                             <div class="blue-box">
-                                <h3>2850</h3>
-                                <p>Followers</p>
+                                <!-- <h3>2850</h3>
+                                <p>Followers</p> -->
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="blue-box  ">
+                                <!-- <h3>2050</h3>
+                                <p>Following</p> -->
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="blue-box">
-                                <h3>2050</h3>
-                                <p>Following</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="blue-box">
-                                <h3>2950</h3>
-                                <p>Friends</p>
+                                <!-- <h3>2950</h3>
+                                <p>Friends</p> -->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-12">
-                        <h5>Permanent Address</h5>
-                        <p>480, Estern Avenue, Courtage area, New York</p>
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-12">
-                        <h5>Present Address</h5>
-                        <p>480, Estern Avenue, Courtage area, New York</p>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-md-12">
                 <div class="skill-info">
-                    <h4>Skills</h4>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry, simply dummy text of the printing and typesetting industry</p>
-                    <ul>
+                    <!-- <h4>Skills</h4>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry, simply dummy text of the printing and typesetting industry</p> -->
+                    <!-- <ul>
                         <li>
                             <label>Lorem Ipsum is simply</label>
                             <div class="progress">
@@ -138,7 +136,7 @@ $item = $sql->fetch_assoc()
                                 <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%"></div>
                             </div>
                         </li>
-                    </ul>
+                    </ul> -->
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <h5>Education</h5>
@@ -148,7 +146,7 @@ $item = $sql->fetch_assoc()
                             <p>Master of Science at Cdm College of Engineering and Technology, Pune.</p>
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <!-- <div class="row mt-3">
                         <div class="col-md-12">
                             <h5>Certificates</h5>
                             <p class="mt-3">1st Prise in Running Competition.</p>
@@ -156,11 +154,11 @@ $item = $sql->fetch_assoc()
                             <p>Won overall star student in higher secondary education.</p>
                             <p>Lorem Ipsum is simply dummy text.</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
-        <div class="row mt-2">
+        <!-- <div class="row mt-2">
             <div class="col-md-12">
                 <div class="skill-info">
                     <h4>Settings</h4>
@@ -191,7 +189,7 @@ $item = $sql->fetch_assoc()
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 </div>

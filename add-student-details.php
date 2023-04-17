@@ -131,6 +131,7 @@ include 'body.php';
                                     <div class="form-group">
                                         <label>Image</label>
                                         <input type="file" class="form-control" name="image">
+                                        <div><?= $imageErr ?? null; ?></div>
                                     </div>
                                 </div>
 
