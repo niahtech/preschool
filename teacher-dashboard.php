@@ -109,7 +109,7 @@ $student = mysqli_fetch_all($sql);
                                           </div>
                                        </td>
                                        <td><a href="#" class="status" data-status></a></td>
-                                       <td><button type="submit" class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id']; ?>">Reschedule</button></td>
+                                       <td><button class="btn btn-info" data-toggle="modal" data-target="#edit-schedule-<?= $sch['id']; ?>">Reschedule</button></td>
                                     </tr>
                                  <?php endforeach; ?>
                               </tbody>
@@ -211,8 +211,8 @@ $student = mysqli_fetch_all($sql);
 
    </div>
    <?php
-   $schedule = $db->query("SELECT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
-   $result = mysqli_fetch_all($schedule);
+   $dates = $db->query("SELECT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
+   $result = mysqli_fetch_all($dates);
 
    
    for($i = 0; $i < count($result); $i++) {
@@ -255,12 +255,13 @@ $student = mysqli_fetch_all($sql);
 
    <?php include('lecturer-footer.php'); ?>
 
-   <?php foreach ($schedule as $sch) : ?>
-      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id']; ?>">
+   <?php foreach($schedule as $sch): ?>
+      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id'];?>">
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <div clastitle text-center h3">Schedule New Class</div           <button class="btn btn-danger close" data-dismiss="modal">&times;
+                  <div class="modal-title text-center h3">Schedule New Class</div>
+                  <button class="btn btn-danger close" data-dismiss="modal">&times;</button>
                </div>
                <div class="modal-body">
                   <ul class="breadcrumb">
@@ -274,39 +275,35 @@ $student = mysqli_fetch_all($sql);
                               <div class="about-info">
                                  <form method="POST">
                                     <div><label for="date">Date</label>
-                                       <input type="date" name="date" value="<?= $sch['date']; ?>" required>
-                                    </div>
+                                    <input type="date" name="date" value="<?= $sch['date'];?>" required></div>
                                     <br>
                                     <div><label for="date">Start Time</label>
-                                       <input type="time" name="startTime" value="<?= $sch['startTime']; ?>" required>
-                                    </div>
+                                    <input type="time" name="startTime" value="<?= $sch['startTime'];?>" required></div>
                                     <br>
                                     <div><label for="date">End Time</label>
-                                       <input type="time" name="endTime" value="<?= $sch['endTime']; ?>" required>
-                                    </div>
+                                    <input type="time" name="endTime" value="<?= $sch['endTime'];?>" required></div>
                                     <br>
                                     <div><label for="date">Course</label>
-                                       <select name="course">
-                                          <?php foreach ($course as $cou) : ?>
-                                             <option value="<?= $cou; ?>"><?= $cou; ?></option>
-                                          <?php endforeach; ?>
-                                       </select>
-                                    </div>
+                                    <select name="course">
+                                       <?php foreach($course as $cou):?>
+                                          <option value="<?= $cou;?>"><?= $cou;?></option>
+                                       <?php endforeach; ?>
+                                    </select></div>
                                     <br>
                                     <input type="submit" class="btn btn-primary" name="reschedule" value="Reschedule">
-                                    <input type="hidden" name="id" value="<?= $sch['id']; ?>">
+                                    <input type="hidden" name="id" value="<?= $sch['id'];?>">
                                  </form>
                               </div>
                            </div>
                         </div>
                      </div>
+                  </div>     
                   </div>
                </div>
             </div>
          </div>
       </div>
-</div>
-<?php endforeach; ?>
+   <?php endforeach; ?>
 
 
 <script src="change-date.js"></script>
@@ -333,10 +330,10 @@ $student = mysqli_fetch_all($sql);
             series: [{
                name: "Classes",
                color: '#FFBC53',
-               data: <?php echo json_encode($day) ?>,
+               data: <?php echo json_encode($day) ?>
             }],
             xaxis: {
-               categories: <?php echo json_encode($daily) ?>,
+               categories: <?php echo json_encode($daily) ?>
             }
          }
          var chart = new ApexCharts(
@@ -344,34 +341,42 @@ $student = mysqli_fetch_all($sql);
             options
          );
          chart.render();
-
-
-         const period = document.querySelector(".period");
-         // function pre(){
-            if(period.value == 'daily'){
-               chart.options.series[0].data = <?php echo json_encode($day)?>;
-               chart.options.xaxis.categories = <?php echo json_encode($daily)?>;
-               chart.update()
-            }
-            else if(period.value == 'weekly'){
-               chart.options.series[0].data = <?php echo json_encode($week)?>;
-               chart.options.xaxis.categories = <?php echo json_encode($weekly)?>;
-               chart.update()
-            }
-            else{
-               chart.options.series[0].data = <?php echo json_encode($month)?>;
-               chart.options.xaxis.categories = <?php echo json_encode($monthly)?>;
-               chart.update()
-            }
-         // }
-         // setInterval(pre, 1000)
-
       }
 
-      
-   });
-
+      const period = document.querySelector(".period");
+      function pre(){
+         if(period.value == 'daily'){
+            chart.updateOptions({
+               series: [{
+                  data: <?php echo json_encode($day) ?>
+               }],
+               xaxis: {
+                  categories: <?php echo json_encode($daily)?>
+               }
+            })
+         }
+         else if(period.value == 'weekly'){
+            chart.updateOptions({
+               series: [{
+                  data: <?php echo json_encode($week) ?>
+               }],
+               xaxis: {
+                  categories: <?php echo json_encode($weekly)?>
+               }
+            })
+         }
+         else{
+            chart.updateOptions({
+               series: [{
+                  data: <?php echo json_encode($month) ?>
+               }],
+               xaxis: {
+                  categories: <?php echo json_encode($monthly)?>
+               }
+            })
+         }
+      }
+      setInterval(pre, 1000)
    
-   
-   
+   });   
 </script>
