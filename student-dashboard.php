@@ -69,8 +69,8 @@ if (empty($result['courses'])) {
                             </div>
                             <div class="db-info">
 
-                                <h3> </h3> 
-                                <h6>Current GPA </h6>
+                                <h3> </h3>
+                                <h6>Current GPA</h6>
                             </div>
                         </div>
                     </div>
