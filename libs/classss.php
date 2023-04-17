@@ -116,9 +116,7 @@ class student
   }
 
 
-//   function print(){
 
-// }
 
 }
 

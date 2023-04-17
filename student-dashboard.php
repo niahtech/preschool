@@ -68,6 +68,7 @@ if (empty($result['courses'])) {
                                 <i class="fas fa-clipboard-list"></i>
                             </div>
                             <div class="db-info">
+
                                 <h3> </h3>
                                 <h6>Current GPA</h6>
                             </div>
@@ -84,63 +85,73 @@ if (empty($result['courses'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div id="calendar-doctor" class="calendar-container"></div>
-                        <div class="calendar-info calendar-info1">
-                            <div class="calendar-details">
-                                <p>09 am</p>
-                                <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
+                </div>
+                <div class="col-12 col-lg-12 col-xl-3 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-12">
+                                    <h5 class="card-title">Calendar</h5>
+                                </div>
                             </div>
-                            <div class="calendar-details">
-                                <p>10 am</p>
-                                <h6 class="calendar-violet d-flex justify-content-between align-items-center">Pharetra et <span>10am - 11am</span></h6>
-                            </div>
-                            <div class="calendar-details">
-                                <p>11 am</p>
-                                <h6 class="calendar-red d-flex justify-content-between align-items-center">Break <span>11am - 11.30am</span></h6>
-                            </div>
-                            <div class="calendar-details">
-                                <p>12 pm</p>
-                                <h6 class="calendar-orange d-flex justify-content-between align-items-center">Massa <span>11.30am - 12.00pm</span></h6>
-                            </div>
-                            <div class="calendar-details">
-                                <p>09 am</p>
-                                <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
+                        </div>
+                        <div class="card-body">
+                            <div id="calendar-doctor" class="calendar-container"></div>
+                            <div class="calendar-info calendar-info1">
+                                <div class="calendar-details">
+                                    <p>09 am</p>
+                                    <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
+                                </div>
+                                <div class="calendar-details">
+                                    <p>10 am</p>
+                                    <h6 class="calendar-violet d-flex justify-content-between align-items-center">Pharetra et <span>10am - 11am</span></h6>
+                                </div>
+                                <div class="calendar-details">
+                                    <p>11 am</p>
+                                    <h6 class="calendar-red d-flex justify-content-between align-items-center">Break <span>11am - 11.30am</span></h6>
+                                </div>
+                                <div class="calendar-details">
+                                    <p>12 pm</p>
+                                    <h6 class="calendar-orange d-flex justify-content-between align-items-center">Massa <span>11.30am - 12.00pm</span></h6>
+                                </div>
+                                <div class="calendar-details">
+                                    <p>09 am</p>
+                                    <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
+
+        <footer>
+            <p>Copyright © 2020 Dreamguys.</p>
+        </footer>
 
     </div>
 
-    <footer>
-        <p>Copyright © 2020 Dreamguys.</p>
-    </footer>
-
-</div>
-
-</div>
 
 
-<script src="assets/js/jquery-3.6.0.min.js"></script>
 
-<script src="assets/js/popper.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
 
-<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-<script src="assets/plugins/apexchart/chart-data.js"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/apexchart/apexcharts.min.js">
+    </script>
+    <script src="assets/plugins/apexchart/chart-data.js"></script>
 
-<script src="assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
-<script src="assets/js/calander.js"></script>
+    <script src="assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+    <script src="assets/js/calander.js"></script>
 
-<script src="assets/js/circle-progress.min.js"></script>
+    <script src="assets/js/circle-progress.min.js"></script>
 
-<script src="assets/js/script.js"></script>
-</body>
+    <script src="assets/js/script.js"></script>
+    </body>
 
 
-</html>
+    </html>
