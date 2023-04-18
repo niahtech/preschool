@@ -154,58 +154,71 @@ class New_Life
 
     function makePayment()
     {
-        global $db;
+        global $db, $report, $count;
         $id = $_SESSION['id'];
         $sql = $db->query("SELECT * FROM bio WHERE Email='$id'");
         $result = $sql->fetch_assoc();
-        $name = $result['FirstName'];
-        $fees = $_POST['total'];
-        $email = $_SESSION['id'];
-
-        $curl = curl_init();
-
-        $email = $email;
-        $amount = $fees.'00';  //the amount in kobo. This value is actually NGN 300
-
-        // url to go to after payment
-        $callback_url = 'http://localhost/preschool/process.php';
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.paystack.co/transaction/initialize',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => json_encode([
-                'amount' => $amount,
-                'email' => $email,
-                'callback_url' => $callback_url
-            ]),
-            CURLOPT_HTTPHEADER => [
-                'authorization: Bearer sk_test_ed2f8a4d5bac302506e5cad60bd399a5076495a5', //replace this with your own test key
-                "content-type: application/json",
-                "cache-control: no-cache"
-            ],
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        if ($err) {
-            // there was an error contacting the Paystack API
-            die('Curl returned error: ' . $err);
+        extract($_POST);
+        $paymenttype = (str_replace(' ', '', $paymenttype));
+        $studentId=$result['id'];
+        $payDetails = $db->query("SELECT * FROM payment WHERE studentId='$studentId' AND $paymenttype='0'");
+        if($paymentStatus=='1'){
+            return;
         }
+        elseif(mysqli_num_rows($payDetails) >= 0){
+            $name = $result['FirstName'];
+            $fees = $_POST['total'];
+            $email = $_SESSION['id'];
+            $sql = $db->query("INSERT INTO payment (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            
+            $curl = curl_init();
+            $message=$paymenttype;
+            $email = $email;
+            $amount = $fees . '00';  //the amount in kobo. This value is actually NGN 300
 
-        $tranx = json_decode($response, true);
+            // url to go to after payment
+            $callback_url = 'http://localhost/preschool/process.php';
 
-        if (!$tranx['status']) {
-            // there was an error from the API
-            print_r('API returned error: ' . $tranx['message']);
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.paystack.co/transaction/initialize',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode([
+                    'message'=>$message,
+                    'amount' => $amount,
+                    'email' => $email,
+                    'callback_url' => $callback_url
+                ]),
+                CURLOPT_HTTPHEADER => [
+                    'authorization: Bearer sk_test_ed2f8a4d5bac302506e5cad60bd399a5076495a5', //replace this with your own test key
+                    "content-type: application/json",
+                    "cache-control: no-cache",
+                    "Access-Control-Allow-Origin:*"
+                ],
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            if ($err) {
+                // there was an error contacting the Paystack API
+                die('Curl returned error: ' . $err);
+            }
+
+            $tranx = json_decode($response, true);
+
+            if (!$tranx['status']) {
+                // there was an error from the API
+                print_r('API returned error: ' . $tranx['message']);
+            }
+
+            // comment out this line if you want to redirect the user to the payment page
+            print_r($tranx);
+            // redirect to page so User can pay
+            // uncomment this line to allow the user redirect to the payment page
+            header('Location: ' . $tranx['data']['authorization_url']);
+        
         }
-
-        // comment out this line if you want to redirect the user to the payment page
-        print_r($tranx);
-        // redirect to page so User can pay
-        // uncomment this line to allow the user redirect to the payment page
-        header('Location: ' . $tranx['data']['authorization_url']);
     }
 }
 $New_Life = new New_Life;
