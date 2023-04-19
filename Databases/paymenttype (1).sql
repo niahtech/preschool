@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2023 at 10:34 AM
+-- Generation Time: Apr 18, 2023 at 06:14 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -39,7 +39,7 @@ CREATE TABLE `paymenttype` (
 --
 
 INSERT INTO `paymenttype` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'School Fees', '2023-04-10 18:18:01', '2023-04-10 18:18:01');
+(1, 'school Fees', '2023-04-10 18:18:01', '2023-04-17 23:46:20');
 
 --
 -- Indexes for dumped tables
