@@ -30,6 +30,7 @@
                     <div class="login-right">
                         <div class="login-right-wrap">
                             <?php
+                                global $passwordErr;
                                 $selector = $_GET['selector'];
                                 $validator = $_GET['validator'];
 
@@ -43,6 +44,7 @@
                                             <input type="hidden" name="validator" value="<?= $validtor;?>">
                                             <input type="password" name="password" placeholder="Enter a new password">
                                             <input type="password" name="repeatPassword" placeholder="Repeat new password">
+                                            <div style="color:red"><?= $passwordErr ?? NULL?></div>
                                             <button type="submit" name="reset-password-submit">Reset Password</button>
                                         </form>
 

@@ -25,7 +25,7 @@ if(isset($_POST['reset-request-submit'])){
         exit();
     }
 
-    $sql = $db->query("INSERT INTO pwdreset (email, selector, token, expires) VALUES (?,?,?,?)");
+    $sql = $db->query("INSERT INTO pwdreset (email, selector, token, expires) VALUES (?, ?, ?, ?)");
     $stmt = $db->prepare($sql);
     if($stmt){
         $hashedToken = password_hash($token, PASSWORD_BCRYPT);
