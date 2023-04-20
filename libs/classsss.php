@@ -175,7 +175,7 @@ class lecturer {
         if(in_array($course, $result)) {
             insertScore();
         } else{
-            $sql = $db->query("ALTER TABLE bio ADD $course varchar(4)");
+            $sql = $db->query("ALTER TABLE bio ADD $course varchar(4) 0");
             insertScore();
         }
         header('Location: student-result.php');

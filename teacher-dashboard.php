@@ -214,38 +214,38 @@ $student = mysqli_fetch_all($sql);
    $dates = $db->query("SELECT date from schedule WHERE course IN(" . implode(', ', array_map('intval', $course)) . ") ORDER BY date ASC");
    $result = mysqli_fetch_all($dates);
 
-   
-   for($i = 0; $i < count($result); $i++) {
+
+   for ($i = 0; $i < count($result); $i++) {
       $date = $result[$i][0];
       $dateTime = new DateTime($date);
+
+
       // selecting the dates for each day
-      
       $dayName[] = $dateTime->format('D');
       $dayCount = array_count_values($dayName);
-      
 
-      // selecting dates for each month
+
+      // selecting dates for each week
       $weekName[] = $dateTime->format('W');
       $weekCount = array_count_values($weekName);
-      
+
 
       // selecting the dates for each month
       $monthName[] = $dateTime->format('M');
       $monthCount = array_count_values($monthName);
-      
    }
    // daily chart data
-   foreach($dayCount as $index=>$item){
+   foreach ($dayCount as $index => $item) {
       $daily[] = $index;
       $day[] = $item;
    }
    // weekly chart data
-   foreach($weekCount as $index=>$item){
+   foreach ($weekCount as $index => $item) {
       $weekly[] = "week_$index";
       $week[] = $item;
    }
    // monthly chart data
-   foreach($monthCount as $index=>$item){
+   foreach ($monthCount as $index => $item) {
       $monthly[] = $index;
       $month[] = $item;
    }
@@ -255,8 +255,8 @@ $student = mysqli_fetch_all($sql);
 
    <?php include('lecturer-footer.php'); ?>
 
-   <?php foreach($schedule as $sch): ?>
-      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id'];?>">
+   <?php foreach ($schedule as $sch) : ?>
+      <div class="modal fade" tabindex="-1" aria-labelledby="scheduleClass" aria-hidden="true" id="edit-schedule-<?= $sch['id']; ?>">
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
@@ -275,35 +275,39 @@ $student = mysqli_fetch_all($sql);
                               <div class="about-info">
                                  <form method="POST">
                                     <div><label for="date">Date</label>
-                                    <input type="date" name="date" value="<?= $sch['date'];?>" required></div>
+                                       <input type="date" name="date" value="<?= $sch['date']; ?>" required>
+                                    </div>
                                     <br>
                                     <div><label for="date">Start Time</label>
-                                    <input type="time" name="startTime" value="<?= $sch['startTime'];?>" required></div>
+                                       <input type="time" name="startTime" value="<?= $sch['startTime']; ?>" required>
+                                    </div>
                                     <br>
                                     <div><label for="date">End Time</label>
-                                    <input type="time" name="endTime" value="<?= $sch['endTime'];?>" required></div>
+                                       <input type="time" name="endTime" value="<?= $sch['endTime']; ?>" required>
+                                    </div>
                                     <br>
                                     <div><label for="date">Course</label>
-                                    <select name="course">
-                                       <?php foreach($course as $cou):?>
-                                          <option value="<?= $cou;?>"><?= $cou;?></option>
-                                       <?php endforeach; ?>
-                                    </select></div>
+                                       <select name="course">
+                                          <?php foreach ($course as $cou) : ?>
+                                             <option value="<?= $cou; ?>"><?= $cou; ?></option>
+                                          <?php endforeach; ?>
+                                       </select>
+                                    </div>
                                     <br>
                                     <input type="submit" class="btn btn-primary" name="reschedule" value="Reschedule">
-                                    <input type="hidden" name="id" value="<?= $sch['id'];?>">
+                                    <input type="hidden" name="id" value="<?= $sch['id']; ?>">
                                  </form>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>     
                   </div>
                </div>
             </div>
          </div>
       </div>
-   <?php endforeach; ?>
+</div>
+<?php endforeach; ?>
 
 
 <script src="change-date.js"></script>
@@ -344,39 +348,38 @@ $student = mysqli_fetch_all($sql);
       }
 
       const period = document.querySelector(".period");
-      function pre(){
-         if(period.value == 'daily'){
+
+      function pre() {
+         if (period.value == 'daily') {
             chart.updateOptions({
                series: [{
                   data: <?php echo json_encode($day) ?>
                }],
                xaxis: {
-                  categories: <?php echo json_encode($daily)?>
+                  categories: <?php echo json_encode($daily) ?>
                }
             })
-         }
-         else if(period.value == 'weekly'){
+         } else if (period.value == 'weekly') {
             chart.updateOptions({
                series: [{
                   data: <?php echo json_encode($week) ?>
                }],
                xaxis: {
-                  categories: <?php echo json_encode($weekly)?>
+                  categories: <?php echo json_encode($weekly) ?>
                }
             })
-         }
-         else{
+         } else {
             chart.updateOptions({
                series: [{
                   data: <?php echo json_encode($month) ?>
                }],
                xaxis: {
-                  categories: <?php echo json_encode($monthly)?>
+                  categories: <?php echo json_encode($monthly) ?>
                }
             })
          }
       }
       setInterval(pre, 1000)
-   
-   });   
+
+   });
 </script>
