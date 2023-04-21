@@ -32,7 +32,7 @@ $result = $sql->fetch_assoc();
          <BR>
          <br>
          <?
-         $gpa = calculateGPA($s, $u);
+         
          echo "YOUR GPA IS: " . round($gpa, 2);
          ?>
          <a>GPA for the semester:</a>
@@ -83,19 +83,31 @@ $result = $sql->fetch_assoc();
                                           $grade = mysqli_fetch_all($grades);
 
                                        ?>
+                                       foreach
+                                          <?php if($c === null) :  echo 'result not ready'?>;
+                                         
+                                          <?php else : ?>
+
+                                          <tr>
+
+                                             <td><?= $sq[$i] ?></td>
+                                             <td><?= $course[$i][0] ?></td>
+                                             <!-- <td><?= $grade[0][0]; ?></td> -->
+                                             <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" disabled></td>
+                                             <td><input type="text" class="Remark" style="width:30px" disabled style =" border:hidden"></td>
 
 
-                                          <?php if(!($grade == 0)) : ?>
-                                             <tr>
+                                          </tr>
+                                          <?php ?>
 
-                                                <td><?= $sq[$i] ?></td>
-                                                <td><?= $course[$i][0] ?></td>
-                                                <!-- <td><?= $grade[0][0]; ?></td> -->
-                                                <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" disabled></td>
-                                                <td><input type="text" class="Remark" style="width:30px" disabled></td>
+                                          <?php endif ?>
 
-                                             </tr>
-                                          <?php endif; ?>
+
+                                          
+
+
+
+
 
                                        <?php endfor; ?>
                                     <?php endif; ?>

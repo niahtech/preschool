@@ -61,7 +61,7 @@ $item = $sql->fetch_assoc()
                                         </li>
                                         <li>
                                             <span class="title-span">Department : </span>
-                                            <span class="info-span"><?php echo $item['department']; ?></span>
+                                            <span class="info-span"><?php echo   $item['department']; ?></span>
                                         </li>
                                         <li>
                                             <span class="title-span">Country : </span>
@@ -74,17 +74,17 @@ $item = $sql->fetch_assoc()
                         </div>
                     </div>
                     <style>
-                       .blue-box{
-                           border-radius: 60px;
-                           
-                           
-                       }
+                        .blue-box {
+                            border-radius: 60px;
+                            background-color: lightcoral;
+                            margin: 40px;
 
+                        }
                     </style>
 
                     <div class="row follow-sec  align-content-sm-around ">
                         <div class="col-md-4 mb-3">
-                            <div class="blue-box">
+                            <div class="blue-box" >
                                 <!-- <h3>2850</h3>
                                 <p>Followers</p> -->
                             </div>
