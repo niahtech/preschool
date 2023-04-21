@@ -32,7 +32,6 @@ $result = $sql->fetch_assoc();
          <BR>
          <br>
          <?
-         $gpa = calculateGPA($s, $u);
          echo "YOUR GPA IS: " . round($gpa, 2);
          ?>
          <a>GPA for the semester:</a>
