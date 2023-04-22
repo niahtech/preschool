@@ -32,7 +32,7 @@
                             <h1>Forgot Password?</h1>
                             <p class="account-subtitle">Enter your email to get a password reset link</p>
 
-                            <form action="libs/reset-request.inc.php" method="POST">
+                            <form method="POST">
                                 <div class="form-group">
                                     <input class="form-control" type="email" name="email" placeholder="Email">
                                 </div>
@@ -43,7 +43,7 @@
 
                             <?php
                                 if(isset($_GET['reset'])){
-                                    echo '<p class="signupsuccess">A reset link has been successfully sent. Check your e-mail</p>';
+                                    echo '<p style="color:green;">A reset link has been successfully sent. Check your e-mail</p>';
                                 }
                             ?>
 

@@ -25,6 +25,12 @@ class lecturer {
         if(isset($_POST['deleteSchedule'])) {
             $this->deleteSchedule();
         }
+        if(isset($_POST['reset-request-submit'])){
+            $this->resetRequest();
+        }
+        if (isset($_POST['reset-password-submit'])) {
+            $this->resetPassword();
+        }
     }
 
     function register() {
@@ -216,6 +222,138 @@ class lecturer {
 
         header('Location: schedule-class.php');
     }
+
+    function resetRequest(){
+    global $db;
+    // creating two tokens
+    $selector = bin2hex(random_bytes(8));
+    $token = random_bytes(32);
+
+    // creating a link to be sent to the email
+    $url = "www.preSkool.com/create-new-password.php?selector=$selector & validator=" . bin2hex($token);
+
+    // creating an expiry date
+    $expires = date("U") + 3600;
+
+
+    $email =  $_POST['email'];
+
+    $sql = "DELETE FROM pwdreset WHERE email=?";
+    $stmt = $db->prepare($sql);
+    if($stmt){
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+    }else{
+        echo "There was an error!";
+        exit();
+    }
+
+    $sql = "INSERT INTO pwdreset (email, selector, token, expires) VALUES (?, ?, ?, ?)";
+    $stmt = $db->prepare($sql);
+    if($stmt){
+        $hashedToken = password_hash($token, PASSWORD_BCRYPT);
+        $stmt->bind_param("ssss", $email, $selector, $hashedToken, $expires);
+        $stmt->execute();
+    }else{
+        echo "There was an error!";
+        exit();
+    }
+    $stmt->close();
+
+    $to = $email;
+    $subject = 'Reset your password for preSkool';
+    $message = '<p>We received a password reset request. The link to reset your password is below. If you did not make this request, please ignore this email. Thanks!</p>';
+    $message .= '<p>Here is your password reset link: <br>';
+    $message .= '<a href="' . $url . '">' . $url . '</a></p>';
+
+    $headers = "From: preSkool <preSkool@gmail.com>\r\n";
+    $headers .= "Reply-To: isekundayo700@gmail.com\r\n";
+    $headers .= "Content-type: text/html\r\n";
+
+    mail($to, $subject, $message, $headers);
+
+    header("Location: ../forgot-password.php?reset=success");
+    }
+
+    function resetPassword(){
+        global $db, $passwordErr;
+    
+        $selector = $_POST['selector'];
+        $validator = $_POST['validator'];
+        $password = $_POST['password'];
+        $repeatPassword = $_POST['repeatPassword'];
+
+        if (empty($password) || empty($repeatPassword)) {
+            $passwordErr = 'Please Enter your password';
+        } elseif($password !== $repeatPassword){
+            $passwordErr = 'Passwords does not match';
+        }
+
+        $currentDate = date("U");
+        include 'constant.php';
+
+        $sql = "SELECT * FROM pwdreset WHERE selector=? AND expires >= '$currentDate'";
+        $stmt = $db->prepare($sql);
+        if($stmt){
+            $stmt->bind_param('s', $selector);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            if($row = mysqli_fetch_assoc($result)){
+                $tokenBin = hex2bin($validator);
+                if(password_verify($tokenBin, $row['token'])){
+                    $tokenEmail = $row['email'];
+                    $sql = "SELECT * FROM lecturers WHERE email=?";
+                    $stmt = $db->prepare($sql);
+                    if($stmt){
+                        $stmt->bind_param('s', $tokenEmail);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if($row = mysqli_fetch_assoc($result)){
+                            $sql = "UPDATE lecturers SET password=? WHERE email=?";
+                            $stmt = $db->prepare($sql);
+                            if($stmt){
+                                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+                                $stmt->bind_param('ss', $hashedPassword, $tokenEmail);
+                                $stmt->execute();
+
+                                $sql = "DELETE FROM pwdreset WHERE email=?";
+                                $stmt = $db->prepare($sql);
+                                if($stmt){
+                                    $stmt->bind_param('s', $tokenEmail);
+                                    $stmt->execute();
+                                    header('Location: ../login.php?newpwd=passwordupdated');
+                                }else{
+                                    echo '<p style="color:red">There was an error!</p>';
+                                    exit();
+                                }
+                            }else{
+                                echo '<p style="color:red">There was an error!</p>';
+                                exit();
+                            }
+                        }else{
+                            echo '<p style="color:red">This Email is not registered!</p>';
+                            exit();
+                        }
+                    }else{
+                        echo '<p style="color:red">There was an error!</p>';
+                        exit();
+                    }
+                }else {
+                    echo '<p style="color:red">You need to re-submit your reset request.</p>';
+                    exit();
+                }
+            }else {
+                echo '<p style="color:red">You need to re-submit your reset request.</p>';
+                exit();
+            }
+        }else{
+            echo '<p style="color:red">There was an error!</p>';
+            exit();
+        }
+        $stmt->close();
+    }
+
 
 }
 $New_Life = new lecturer;

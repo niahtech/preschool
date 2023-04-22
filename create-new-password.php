@@ -1,4 +1,4 @@
-<?php include 'libs/connection.inc.php' ?>
+<?php include 'libs/connection.inc.php'; global $passwordErr; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,28 +30,37 @@
                     <div class="login-right">
                         <div class="login-right-wrap">
                             <?php
-                                global $passwordErr;
-                                $selector = $_GET['selector'];
-                                $validator = $_GET['validator'];
+                            global $passwordErr;
+                            $selector = bin2hex($_GET['selector']);
+                            $validator = bin2hex($_GET['validator']);
 
-                                if (empty($selector) || empty($validator)) {
-                                    echo "Could not validate yur request!";
-                                }else{
-                                    if (ctype_xdigit($selector) && ctype_xdigit($validator)) {?>
+                            if (empty($selector) || empty($validator)) {
+                                echo '<p style="color:red">Could not validate yur request!</p>';
+                            } else {
+                                if (ctype_xdigit($selector) && ctype_xdigit($validator)) { ?>
 
-                                        <form action="libs/reset-password.inc.php" method="post">
-                                            <input type="hidden" name="selector" value="<?= $selector;?>">
-                                            <input type="hidden" name="validator" value="<?= $validtor;?>">
-                                            <input type="password" name="password" placeholder="Enter a new password">
-                                            <input type="password" name="repeatPassword" placeholder="Repeat new password">
-                                            <div style="color:red"><?= $passwordErr ?? NULL?></div>
-                                            <button type="submit" name="reset-password-submit">Reset Password</button>
-                                        </form>
+                                    <form method="POST">
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="selector" value="<?= $selector; ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="validator" value="<?= $validator; ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="password" name="password" placeholder="Enter a new password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="password" name="repeatPassword" placeholder="Repeat new password">
+                                        </div>
+                                        <div style="color:red"><?= $passwordErr ?? null?></div>
+                                        <div class="form-group mb-0">
+                                            <button class="btn btn-primary btn-block" type="submit" name="reset-password-submit">Reset Password</button>
+                                        </div>
+                                    </form>
 
-
-                                    <?php   
-                                    }
+                            <?php
                                 }
+                            }
                             ?>
                         </div>
                     </div>
