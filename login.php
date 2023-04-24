@@ -47,7 +47,15 @@
                               <button class="btn btn-primary btn-block" type="submit" name="login">Login</button>
                            </div>
                         </form>
-                        <div class="text-center forgotpass"><a href="forgot-password.html">Forgot Password?</a></div>
+
+                        <?php
+                        if(isset($_GET['newpwd'])){
+                           if($_GET['newpwd'] == 'passwordupdated'){
+                              echo '<p class="signupsuccess">Your password has been successfully reset!</p>';
+                           }
+                        }
+                        ?>
+                        <div class="text-center forgotpass"><a href="forgot-password.php">Forgot Password?</a></div>
                         <div class="login-or">
                            <span class="or-line"></span>
                            <span class="span-or">or</span>
