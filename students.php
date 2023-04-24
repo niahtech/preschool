@@ -49,7 +49,7 @@ include 'libs/connection.inc.php';
                                  <tr>
                                     <th>S/N</th>
                                     <th>Name</th>
-                                    <th>Class</th>
+                                    <!-- <th>Class</th> -->
                                     <th>DOB</th>
                                     <th>Parent Name</th>
                                     <th>Mobile Number</th>
@@ -59,7 +59,7 @@ include 'libs/connection.inc.php';
                               </thead>
                               <tbody>
                                  <?php
-                                 $sql = $db->query('SELECT * from student_registered');
+                                 $sql = $db->query('SELECT * from bio');
                                  ?>
                                  <?php $i = 1; ?>
                                  <?php while ($feedback = mysqli_fetch_array($sql)) { ?>
@@ -67,15 +67,15 @@ include 'libs/connection.inc.php';
                                        <td><?= $i ?></td>
                                        <td>
                                           <h2 class="table-avatar">
-                                             <a href="student-view.php?id=<?php echo $feedback['id'] ?>" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="Student_image/<?= $feedback['student_image'] ?>" alt="User Image"></a>
-                                             <a href="student-view.php?id=<?php echo $feedback['id'] ?>"><?= $feedback['first_name'] ?></a>
+                                             <a href="student-view.php?id=<?php echo $feedback['id'] ?>" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="student_img/<?= $feedback['image'] ?>" alt="User Image"></a>
+                                             <a href="student-view.php?id=<?php echo $feedback['id'] ?>"><?= $feedback['FirstName'] ?></a>
                                           </h2>
                                        </td>
-                                       <td><?= getClass($feedback['class'])['name'] ?></td>
-                                       <td><?= $feedback['dob'] ?></td>
-                                       <td><?= $feedback['father_name'] ?></td>
-                                       <td><?= $feedback['mobile_number'] ?></td>
-                                       <td><?= $feedback['present_address'] ?></td>
+                                       <!-- <td><?= getClass($feedback['class'])['name'] ?></td> -->
+                                       <td><?= $feedback['DOB'] ?></td>
+                                       <td><?= $feedback['fathersName'] ?></td>
+                                       <td><?= $feedback['PhoneNumber'] ?></td>
+                                       <td><?= $feedback['presentAddress'] ?></td>
                                        <td class="text-right">
                                           <div class="actions">
                                              <form action="" method="POST">

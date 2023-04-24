@@ -117,29 +117,79 @@ for ($i = 0; $i < count($result); $i++) {
             </div>
             <div class="row">
                <div class="col-md-12 col-lg-6">
-                  <div class="card card-chart">
-                     <div class="card-header">
-                        <div class="row align-items-center">
-                           <div class="col-6">
-                              <h5 class="card-title">Revenue</h5>
-                           </div>
-                           <div class="col-6">
-                              <ul class="list-inline-group text-right mb-0 pl-0">
-                                 <li class="list-inline-item">
-                                    <div class="form-group mb-0 amount-spent-select">
-                                       <select class="form-control form-control-sm">
-                                          <option>Today</option>
-                                          <option>Last Week</option>
-                                          <option>Last Month</option>
-                                       </select>
-                                    </div>
-                                 </li>
-                              </ul>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="card-body">
-                        <div id="apexcharts-area"></div>
+                  <div class="card-header">
+                     <h5 class="card-title">Star Students</h5>
+                  </div>
+                  <div class="card-body">
+                     <div class="table-responsive">
+                        <table class="table table-hover table-center">
+                           <thead class="thead-light">
+                              <tr>
+                                 <th>ID</th>
+                                 <th>Name</th>
+                                 <th class="text-center">Marks</th>
+                                 <th class="text-center">Percentage</th>
+                                 <th class="text-right">Year</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="text-nowrap">
+                                    <div>PRE2209</div>
+                                 </td>
+                                 <td class="text-nowrap">John Smith</td>
+                                 <td class="text-center">1185</td>
+                                 <td class="text-center">98%</td>
+                                 <td class="text-right">
+                                    <div>2019</div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="text-nowrap">
+                                    <div>PRE1245</div>
+                                 </td>
+                                 <td class="text-nowrap">Jolie Hoskins</td>
+                                 <td class="text-center">1195</td>
+                                 <td class="text-center">99.5%</td>
+                                 <td class="text-right">
+                                    <div>2018</div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="text-nowrap">
+                                    <div>PRE1625</div>
+                                 </td>
+                                 <td class="text-nowrap">Pennington Joy</td>
+                                 <td class="text-center">1196</td>
+                                 <td class="text-center">99.6%</td>
+                                 <td class="text-right">
+                                    <div>2017</div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="text-nowrap">
+                                    <div>PRE2516</div>
+                                 </td>
+                                 <td class="text-nowrap">Millie Marsden</td>
+                                 <td class="text-center">1187</td>
+                                 <td class="text-center">98.2%</td>
+                                 <td class="text-right">
+                                    <div>2016</div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="text-nowrap">
+                                    <div>PRE2209</div>
+                                 </td>
+                                 <td class="text-nowrap">John Smith</td>
+                                 <td class="text-center">1185</td>
+                                 <td class="text-center">98%</td>
+                                 <td class="text-right">
+                                    <div>2015</div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
                      </div>
                   </div>
                </div>
@@ -171,118 +221,7 @@ for ($i = 0; $i < count($result); $i++) {
                   </div>
                </div>
             </div>
-            <div class="row">
-               <div class="col-md-6 d-flex">
-                  <div class="card flex-fill">
-                     <div class="card-header">
-                        <h5 class="card-title">Star Students</h5>
-                     </div>
-                     <div class="card-body">
-                        <div class="table-responsive">
-                           <table class="table table-hover table-center">
-                              <thead class="thead-light">
-                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th class="text-center">Marks</th>
-                                    <th class="text-center">Percentage</th>
-                                    <th class="text-right">Year</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr>
-                                    <td class="text-nowrap">
-                                       <div>PRE2209</div>
-                                    </td>
-                                    <td class="text-nowrap">John Smith</td>
-                                    <td class="text-center">1185</td>
-                                    <td class="text-center">98%</td>
-                                    <td class="text-right">
-                                       <div>2019</div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="text-nowrap">
-                                       <div>PRE1245</div>
-                                    </td>
-                                    <td class="text-nowrap">Jolie Hoskins</td>
-                                    <td class="text-center">1195</td>
-                                    <td class="text-center">99.5%</td>
-                                    <td class="text-right">
-                                       <div>2018</div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="text-nowrap">
-                                       <div>PRE1625</div>
-                                    </td>
-                                    <td class="text-nowrap">Pennington Joy</td>
-                                    <td class="text-center">1196</td>
-                                    <td class="text-center">99.6%</td>
-                                    <td class="text-right">
-                                       <div>2017</div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="text-nowrap">
-                                       <div>PRE2516</div>
-                                    </td>
-                                    <td class="text-nowrap">Millie Marsden</td>
-                                    <td class="text-center">1187</td>
-                                    <td class="text-center">98.2%</td>
-                                    <td class="text-right">
-                                       <div>2016</div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="text-nowrap">
-                                       <div>PRE2209</div>
-                                    </td>
-                                    <td class="text-nowrap">John Smith</td>
-                                    <td class="text-center">1185</td>
-                                    <td class="text-center">98%</td>
-                                    <td class="text-right">
-                                       <div>2015</div>
-                                    </td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-6 d-flex">
-                  <div class="card flex-fill">
-                     <div class="card-header">
-                        <h5 class="card-title">Student Activity</h5>
-                     </div>
-                     <div class="card-body">
-                        <ul class="activity-feed">
-                           <li class="feed-item">
-                              <div class="feed-date">Apr 13</div>
-                              <span class="feed-text"><a>John Doe</a> won 1st place in <a>"Chess"</a></span>
-                           </li>
-                           <li class="feed-item">
-                              <div class="feed-date">Mar 21</div>
-                              <span class="feed-text"><a>Justin Lee</a> participated in <a href="invoice.html">"Carrom"</a></span>
-                           </li>
-                           <li class="feed-item">
-                              <div class="feed-date">Feb 2</div>
-                              <span class="feed-text"><a>Justin Lee</a>attended internation conference in <a href="profile.html">"St.John School"</a></span>
-                           </li>
-                           <li class="feed-item">
-                              <div class="feed-date">Apr 13</div>
-                              <span class="feed-text"><a>John Doe</a> won 1st place in <a>"Chess"</a></span>
-                           </li>
-                           <li class="feed-item">
-                              <div class="feed-date">Mar 21</div>
-                              <span class="feed-text"><a>Justin Lee</a> participated in <a href="invoice.html">"Carrom"</a></span>
-                           </li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-            </div>
+      
             <div class="row">
                <div class="col-xl-3 col-sm-6 col-12">
                   <div class="card flex-fill fb sm-box">

@@ -6,6 +6,18 @@ document.querySelector(".invoice").addEventListener('mousemove', (e) => {
     if(paymentType.value == 'school Fees' && level.value == '100 level'){
         total.value = 50000;
     }
+    if(paymentType.value == 'school Fees' && level.value == '200 level'){
+        total.value = 18000;
+    }
+    if(paymentType.value == 'school Fees' && level.value == '300 level'){
+        total.value = 25000;
+    }
+    if(paymentType.value == 'school Fees' && level.value == '400 level'){
+        total.value = 15000;
+    }
+    if(paymentType.value == 'school Fees' && level.value == '500 level'){
+        total.value = 20000;
+    }
 })
 
 const makePayment = document.querySelector(".makePayment");
