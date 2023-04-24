@@ -1,39 +1,36 @@
 <?php
-class lecturer {
-    function __construct() {
-        if(isset($_POST['register'])) {
+class lecturer
+{
+    function __construct()
+    {
+        if (isset($_POST['register'])) {
             $this->register();
         }
-        if(isset($_POST['login'])) {
+        if (isset($_POST['login'])) {
             $this->login();
         }
-        if(isset($_POST['editLecturer'])) {
+        if (isset($_POST['editLecturer'])) {
             $this->editLecturer();
         }
-        if(isset($_POST['changePassword'])) {
+        if (isset($_POST['changePassword'])) {
             $this->changePassword();
         }
-        if(isset($_POST['resultUpdate'])) {
+        if (isset($_POST['resultUpdate'])) {
             $this->resultUpdate();
         }
-        if(isset($_POST['scheduleClass'])) {
+        if (isset($_POST['scheduleClass'])) {
             $this->scheduleClass();
         }
-        if(isset($_POST['reschedule'])) {
+        if (isset($_POST['reschedule'])) {
             $this->reschedule();
         }
-        if(isset($_POST['deleteSchedule'])) {
+        if (isset($_POST['deleteSchedule'])) {
             $this->deleteSchedule();
-        }
-        if(isset($_POST['reset-request-submit'])){
-            $this->resetRequest();
-        }
-        if (isset($_POST['reset-password-submit'])) {
-            $this->resetPassword();
         }
     }
 
-    function register() {
+    function register()
+    {
         global $db, $registeredEmailErr, $passwordErr;
         // sanitizing inputs
         $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -43,12 +40,12 @@ class lecturer {
         $repeatPassword = $_POST['repeatPassword'];
 
         $sql = $db->query("SELECT email FROM bio WHERE Email = '$email' LIMIT 1");
-        if(mysqli_num_rows($sql) > 0){
+        if (mysqli_num_rows($sql) > 0) {
             $registeredEmailErr = 'This Email has already been used';
-        }else {
-            if($password !== $repeatPassword){
+        } else {
+            if ($password !== $repeatPassword) {
                 $passwordErr = 'Passwords does not match';
-            }else {
+            } else {
                 $password = password_hash($password, PASSWORD_BCRYPT);
                 $sql = $db->query("INSERT INTO bio (FirstName, LastName, Email, Password) VALUES('$firstName', '$lastName', '$email', '$password')");
 
@@ -57,45 +54,46 @@ class lecturer {
         }
     }
 
-    function login() {
+    function login()
+    {
         global $db, $loginErr;
         // sanitizing inputs
         $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'];
 
-        if($user == 'Lecturer'){
+        if ($user == 'Lecturer') {
             $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
-            if(mysqli_num_rows($sql) > 0){
-                if(!password_verify($password, $result['password'])) {
+            if (mysqli_num_rows($sql) > 0) {
+                if (!password_verify($password, $result['password'])) {
                     $loginErr = 'Check your Email or Password';
-                }else {
+                } else {
                     $_SESSION['email'] = $email;
                     header('Location: teacher-dashboard.php');
                 }
-            }else {
+            } else {
                 $loginErr = 'You are not a registered user';
             }
-        }
-        else{
+        } else {
             $sql = $db->query("SELECT Email,Password FROM bio WHERE Email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
-            if(mysqli_num_rows($sql) > 0){
-                if(!password_verify($password, $result['Password'])) {
+            if (mysqli_num_rows($sql) > 0) {
+                if (!password_verify($password, $result['Password'])) {
                     $loginErr = 'Check your Email or Password';
-                }else {
+                } else {
                     $_SESSION['email'] = $email;
                     $_SESSION['id'] = $email;
                     header('Location: student-dashboard.php');
                 }
-            }else {
+            } else {
                 $loginErr = 'You are not a registered user';
             }
         }
     }
 
-    function editLecturer() {
+    function editLecturer()
+    {
         global $db, $imageErr, $updated, $courseErr;
         $teacherId = filter_input(INPUT_POST, 'teacherId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -103,7 +101,7 @@ class lecturer {
         $dob = filter_input(INPUT_POST, 'dob', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mobile = filter_input(INPUT_POST, 'mobile', FILTER_SANITIZE_NUMBER_INT);
         $qualification = filter_input(INPUT_POST, 'qualification', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $course= implode(',', $_POST['course']);
+        $course = implode(',', $_POST['course']);
         $experience = filter_input(INPUT_POST, 'experience', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -113,13 +111,13 @@ class lecturer {
         $zipCode = filter_input(INPUT_POST, 'zipCode', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $country = filter_input(INPUT_POST, 'country', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        if(empty($course)){
+        if (empty($course)) {
             $courseErr = 'Please select a course';
         }
-        
+
         // Image handling
         $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
-        if(!empty($_FILES['image']['name'])){
+        if (!empty($_FILES['image']['name'])) {
             $fileName = $_FILES['image']['name'];
             $fileSize = $_FILES['image']['size'];
             $fileTmp = $_FILES['image']['tmp_name'];
@@ -128,8 +126,8 @@ class lecturer {
             $fileExt = strtolower(end($fileExt));
 
             // check if file is an image
-            if(in_array($fileExt, $allowedExt)) {
-                if($fileSize <= 300000) {
+            if (in_array($fileExt, $allowedExt)) {
+                if ($fileSize <= 300000) {
                     move_uploaded_file($fileTmp, $targetDir);
                     $imageErr = '<p style="color:green;">Image Uploaded</p>';
                     $updated = '<p style="color:green;">SUCESSFULLY UPDATED</p>';
@@ -142,15 +140,15 @@ class lecturer {
                     $imageErr = '<p style="color:red;">File is too large</p>';
                 }
             } else {
-                $imageErr = '<p style="color:red;">Invalid file type</p>';   
+                $imageErr = '<p style="color:red;">Invalid file type</p>';
             }
-
-        } else{
+        } else {
             $imageErr = '<p style="color:red;">Please choose a file</p>';
-        }  
+        }
     }
 
-    function changePassword() {
+    function changePassword()
+    {
         global $db, $passwordErr;
         $email = $_POST['email'];
         $currentPassword = $_POST['currentPassword'];
@@ -158,36 +156,37 @@ class lecturer {
         $sql = $db->query("SELECT * FROM lecturers WHERE email='$email'");
         $password = $sql->fetch_assoc();
 
-        if(password_verify($currentPassword, $password['password'])) {
+        if (password_verify($currentPassword, $password['password'])) {
             $newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
             // Update the new password
             $sql = $db->query("UPDATE lecturers SET password='$newPassword'");
             $passwordErr = '<span style="color: green;">Password Successfully Updated</span>';
-            
-        }else {
+        } else {
             $passwordErr = '<span style="color: red;">Incorrect Password</span>';
         }
     }
 
-    function resultUpdate(){
+    function resultUpdate()
+    {
         global $db, $course;
-        
+
         $course = $_GET['course'];
         // Check if the column exists in the table
         $sql = $db->query("SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'preskool' AND TABLE_NAME = 'bio';");
         $result = $sql->fetch_assoc();
         $result = $result["group_concat(COLUMN_NAME)"];
         $result = explode(',', $result);
-        if(in_array($course, $result)) {
+        if (in_array($course, $result)) {
             insertScore();
-        } else{
+        } else {
             $sql = $db->query("ALTER TABLE bio ADD $course varchar(4) 0");
             insertScore();
         }
         header('Location: student-result.php');
     }
 
-    function scheduleClass(){
+    function scheduleClass()
+    {
         global $db;
 
         $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -200,9 +199,10 @@ class lecturer {
         header('Location: schedule-class.php');
     }
 
-    function reschedule(){
+    function reschedule()
+    {
         global $db;
-        $id=$_POST['id'];
+        $id = $_POST['id'];
 
         $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $startTime = filter_input(INPUT_POST, 'startTime', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -214,7 +214,8 @@ class lecturer {
         header('Location: schedule-class.php');
     }
 
-    function deleteSchedule(){
+    function deleteSchedule()
+    {
         global $db;
 
         $id = $_POST['id'];
@@ -222,140 +223,6 @@ class lecturer {
 
         header('Location: schedule-class.php');
     }
-
-    function resetRequest(){
-    global $db;
-    // creating two tokens
-    $selector = bin2hex(random_bytes(8));
-    $token = random_bytes(32);
-
-    // creating a link to be sent to the email
-    $url = "www.preSkool.com/create-new-password.php?selector=$selector & validator=" . bin2hex($token);
-
-    // creating an expiry date
-    $expires = date("U") + 3600;
-
-
-    $email =  $_POST['email'];
-
-    $sql = "DELETE FROM pwdreset WHERE email=?";
-    $stmt = $db->prepare($sql);
-    if($stmt){
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-    }else{
-        echo "There was an error!";
-        exit();
-    }
-
-    $sql = "INSERT INTO pwdreset (email, selector, token, expires) VALUES (?, ?, ?, ?)";
-    $stmt = $db->prepare($sql);
-    if($stmt){
-        $hashedToken = password_hash($token, PASSWORD_BCRYPT);
-        $stmt->bind_param("ssss", $email, $selector, $hashedToken, $expires);
-        $stmt->execute();
-    }else{
-        echo "There was an error!";
-        exit();
-    }
-    $stmt->close();
-
-    $to = $email;
-    $subject = 'Reset your password for preSkool';
-    $message = '<p>We received a password reset request. The link to reset your password is below. If you did not make this request, please ignore this email. Thanks!</p>';
-    $message .= '<p>Here is your password reset link: <br>';
-    $message .= '<a href="' . $url . '">' . $url . '</a></p>';
-
-    $headers = "From: preSkool <preSkool@gmail.com>\r\n";
-    $headers .= "Reply-To: isekundayo700@gmail.com\r\n";
-    $headers .= "Content-type: text/html\r\n";
-
-    mail($to, $subject, $message, $headers);
-
-    header("Location: ../forgot-password.php?reset=success");
-    }
-
-    function resetPassword(){
-        global $db, $passwordErr;
     
-        $selector = $_POST['selector'];
-        $validator = $_POST['validator'];
-        $password = $_POST['password'];
-        $repeatPassword = $_POST['repeatPassword'];
-
-        if (empty($password) || empty($repeatPassword)) {
-            $passwordErr = 'Please Enter your password';
-        } elseif($password !== $repeatPassword){
-            $passwordErr = 'Passwords does not match';
-        }
-
-        $currentDate = date("U");
-        include 'constant.php';
-
-        $sql = "SELECT * FROM pwdreset WHERE selector=? AND expires >= '$currentDate'";
-        $stmt = $db->prepare($sql);
-        if($stmt){
-            $stmt->bind_param('s', $selector);
-            $stmt->execute();
-
-            $result = $stmt->get_result();
-            if($row = mysqli_fetch_assoc($result)){
-                $tokenBin = hex2bin($validator);
-                if(password_verify($tokenBin, $row['token'])){
-                    $tokenEmail = $row['email'];
-                    $sql = "SELECT * FROM lecturers WHERE email=?";
-                    $stmt = $db->prepare($sql);
-                    if($stmt){
-                        $stmt->bind_param('s', $tokenEmail);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        if($row = mysqli_fetch_assoc($result)){
-                            $sql = "UPDATE lecturers SET password=? WHERE email=?";
-                            $stmt = $db->prepare($sql);
-                            if($stmt){
-                                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-                                $stmt->bind_param('ss', $hashedPassword, $tokenEmail);
-                                $stmt->execute();
-
-                                $sql = "DELETE FROM pwdreset WHERE email=?";
-                                $stmt = $db->prepare($sql);
-                                if($stmt){
-                                    $stmt->bind_param('s', $tokenEmail);
-                                    $stmt->execute();
-                                    header('Location: ../login.php?newpwd=passwordupdated');
-                                }else{
-                                    echo '<p style="color:red">There was an error!</p>';
-                                    exit();
-                                }
-                            }else{
-                                echo '<p style="color:red">There was an error!</p>';
-                                exit();
-                            }
-                        }else{
-                            echo '<p style="color:red">This Email is not registered!</p>';
-                            exit();
-                        }
-                    }else{
-                        echo '<p style="color:red">There was an error!</p>';
-                        exit();
-                    }
-                }else {
-                    echo '<p style="color:red">You need to re-submit your reset request.</p>';
-                    exit();
-                }
-            }else {
-                echo '<p style="color:red">You need to re-submit your reset request.</p>';
-                exit();
-            }
-        }else{
-            echo '<p style="color:red">There was an error!</p>';
-            exit();
-        }
-        $stmt->close();
-    }
-
-
 }
 $New_Life = new lecturer;
-
-?>
