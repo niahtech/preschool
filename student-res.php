@@ -1,17 +1,15 @@
-<?php
+<?php 
+include 'body.php';
 
-
-session_start();
-include 'libs/connection.inc.php'
-?>
-<?php
 $id=$_SESSION['id'];
 $sql = $db->query("SELECT * FROM bio where Email='$id'");
 $result = $sql->fetch_assoc();
-echo session_id();
 ?>
-
-<div class="page-header">
+   <div class="main-wrapper">
+      
+      <div class="page-wrapper">
+         <div class="content container-fluid">
+            <div class="page-header">
                <div class="row align-items-center">
                   <div class="col">
                      <h3 class="page-title">Result Checking</h3>
@@ -20,15 +18,15 @@ echo session_id();
                      </ul>
                   </div>
                </div>
-</div>
-<a>Name :<?=$result['FirstName'].   '  ' . $result['LastName']?> </a>
+            </div>
+            <a>Name :<?=$result['FirstName'].   '  ' . $result['LastName']?> </a>
 <br>
 <br>
-<a>Department :<?=$result['Department']?> </a>
+<a>Department :<?=$result['department']?> </a>
 <br>
 <br>
 <?php
-$courses="Courses registered :" . $result['courses']; 
+$courses="Courses registered : " . $result['courses']; 
 ?>
 
 
@@ -48,8 +46,12 @@ $sq =explode(',',$sql);
 <br>
 <br>
 <br>
-
-<form action="" method="POST">
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="card card-table">
+                     <div class="card-body">
+                        <div class="table-responsive">
+                        <form action="" method="POST">
                            <table class="table table-hover table-center mb-0">
                               <thead>
                                  <tr>
@@ -59,25 +61,60 @@ $sq =explode(',',$sql);
                                     <th>Remark</th>
                                  </tr>
                               </thead>
-                              <tbody>         
+                              <tbody>
+                                <?php if(!empty($result['department'])):?>  
                                  <?php
-                                    $Department=$result['Department'];
+                                    $Department=$result['department'];
 
                                     $dept = strtolower(str_replace(' ','',$Department));
                                     $input = $db->query("SELECT courseTitle FROM $dept where classId ='1' and semester ='First'");
                                     $course = mysqli_fetch_all($input);
                                     
                                  ?>
-                                 <?php for($i=0; $i<count($sq); $i++): $c=$sq[$i]; $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'"); $grade=mysqli_fetch_all($grades)?>
-                                    <tr>
+                                 <?php if(!empty($result['courses'])):?>
+                                 <?php for($i=0; $i<count($sq); $i++): $c=$sq[$i]; $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'"); $grade=mysqli_fetch_all($grades);
+                                 ?>
+                                 
+                           
+                                 
+                                 <tr>
+                                 
                                        <td><?= $sq[$i]?></td>
                                        <td><?=$course[$i][0]?></td>
-                                       <td><?= $grade[0][0];?></td>
-                                    </tr>
+                                       <!-- <td><?= $grade[0][0];?></td> -->
+                                       <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0];?>  style="width:40px" disabled></td>
+                                        <td><input type="text" class="Remark" style="width:30px" disabled></td>
+                                    
+                                 </tr>
                                  <?php endfor;?>
-                              </tbody>
-                              
+                                 <?php endif;?>
+                                 <?php endif;?>
+                                 </tbody>    
                            </table>
-                           
+                           <br>
+                           <div class="col-auto text-right float-left mx-auto">
+                               <button type="submit" name="print" class="btn btn-outline-primary mr-2 w-100"><i class="fas fa-plus"></i> Print</button>
+                           </div>
                            </form> 
+                        </div>
+                     </div>
+                        
+                     
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   </div>
+   <script src="assets/js/jquery-3.6.0.min.js"></script>
+   <script src="assets/js/popper.min.js"></script>
+   <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+   <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+   <script src="assets/plugins/datatables/datatables.min.js"></script>
+   <script src="assets/js/script.js"></script>
+   <script src="myfunction.js"></script>
+
+</body>
+
 

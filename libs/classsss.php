@@ -62,7 +62,7 @@ class lecturer {
             $sql = $db->query("SELECT email,password FROM lecturers WHERE email = '$email' LIMIT 1");
             $result = $sql->fetch_assoc();
             if(mysqli_num_rows($sql) > 0){
-                if(!password_verify($password, $result['Password'])) {
+                if(!password_verify($password, $result['password'])) {
                     $loginErr = 'Check your Email or Password';
                 }else {
                     $_SESSION['email'] = $email;
@@ -164,19 +164,18 @@ class lecturer {
     }
 
     function resultUpdate(){
-        global $db, $course, $score;
-        session_start();
+        global $db, $course;
         
         $course = $_GET['course'];
         // Check if the column exists in the table
-        $sql = $db->query("SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'preskool' AND TABLE_NAME = 'students';");
+        $sql = $db->query("SELECT group_concat(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'preskool' AND TABLE_NAME = 'bio';");
         $result = $sql->fetch_assoc();
         $result = $result["group_concat(COLUMN_NAME)"];
         $result = explode(',', $result);
         if(in_array($course, $result)) {
             insertScore();
         } else{
-            $sql = $db->query("ALTER TABLE students ADD $course varchar(4)");
+            $sql = $db->query("ALTER TABLE bio ADD $course varchar(4)");
             insertScore();
         }
         header('Location: student-result.php');

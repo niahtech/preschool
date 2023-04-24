@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2023 at 10:50 AM
+-- Generation Time: Apr 18, 2023 at 06:14 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,42 +18,44 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_life_school`
+-- Database: `preskool`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mathematics`
+-- Table structure for table `payment`
 --
 
-CREATE TABLE `mathematics` (
+CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
-  `courseCode` varchar(255) NOT NULL,
-  `courseTitle` varchar(255) NOT NULL,
-  `unit` int(1) NOT NULL,
-  `semester` varchar(6) NOT NULL,
-  `classId` int(11) NOT NULL,
-  `compulsory` int(11) NOT NULL DEFAULT 1,
-  `createdAt` timestamp NULL DEFAULT NULL,
-  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `studentId` int(11) NOT NULL,
+  `schoolFees` int(255) NOT NULL,
+  `currentPaymentType` varchar(255) NOT NULL,
+  `level` varchar(255) NOT NULL,
+  `semester` varchar(255) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `session` varchar(255) NOT NULL,
+  `paymentId` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `mathematics`
+-- Dumping data for table `payment`
 --
 
-INSERT INTO `mathematics` (`id`, `courseCode`, `courseTitle`, `unit`, `semester`, `classId`, `compulsory`, `createdAt`, `updatedAt`) VALUES
-(1, 'MTS101', 'Introductory Mathematics I', 3, '1', 1, 1, '2023-03-20 07:33:06', '2023-03-20 07:33:06');
+INSERT INTO `payment` (`id`, `studentId`, `schoolFees`, `currentPaymentType`, `level`, `semester`, `amount`, `session`, `paymentId`, `created_at`, `updated_at`) VALUES
+(1, 30, 1, 'schoolFees', '100 level', '1', 50000, '2021/2022', 'j71x2dibhl', '2023-04-18 16:09:39', '2023-04-18 16:09:53');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `mathematics`
+-- Indexes for table `payment`
 --
-ALTER TABLE `mathematics`
+ALTER TABLE `payment`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -61,9 +63,9 @@ ALTER TABLE `mathematics`
 --
 
 --
--- AUTO_INCREMENT for table `mathematics`
+-- AUTO_INCREMENT for table `payment`
 --
-ALTER TABLE `mathematics`
+ALTER TABLE `payment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 

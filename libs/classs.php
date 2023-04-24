@@ -6,17 +6,7 @@ class New_Life
     function __construct()
     {
 
-        if (isset($_POST["register"])) {
-            $this->register();
-        } else if (isset($_POST['login'])) {
-            $this->Login();
-        } else if (isset($_POST['submit'])) {
-            $this->Add_student();
-        } else if (isset($_POST['change_pass'])) {
-            $this->student_details();
-        } else if (isset($_POST['save_changes'])) {
-            $this->student_details();
-        } else if (isset($_POST['deleteStudent'])) {
+        if (isset($_POST['deleteStudent'])) {
             $this->deleteStudent();
         } else if (isset($_POST['deleteLecturer'])) {
             $this->deleteLecturer();
@@ -30,6 +20,8 @@ class New_Life
             $this->registerCourse();
         } else if (array_key_exists('notifications', $_POST)) {
             $this->notifications();
+        } else if (array_key_exists('makePayment', $_POST)) {
+            $this->makePayment();
         }
     }
     function validation($text, $fieldname)
@@ -115,99 +107,6 @@ class New_Life
         return;
     }
 
-    function register()
-    {
-        global $registeredEmailErr, $passwordErr;
-        global $db, $count, $report;
-        $password = $confirm_password = '';
-        $first_name = $this->validation(filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS), 'First Name');
-        $last_name = $this->validation(filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS), 'Last Name');
-        $department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = $this->validation(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL), 'Email');
-        $password = $this->validation($_POST["password"], 'Password');
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $confirm_password = $_POST["confirm_password"];
-        if ($count > 0) {
-            return;
-        }
-        //checking for multiples emails
-        $data = $db->query("SELECT * FROM student_registered WHERE email='$email'");
-        $registeredEmails = $data->fetch_assoc();
-        if (!empty($registeredEmails)) {
-            $registeredEmailErr = 'This Email has already been used';
-        } else {
-            //password confirmation
-            if (password_verify($confirm_password, $hashed_password)) {
-                $db->query("INSERT INTO student_registered (first_name,last_name,email,department, password) VALUES ('$first_name','$last_name','$email','$department','$hashed_password')");
-                //success
-                header('Location:student-dashboard.php');
-                $_SESSION['id'] = $_POST['email'];
-            } else {
-                $passwordErr = "Passwords does not match";
-            }
-        }
-    }
-
-    function Login()
-    {
-        global $db, $report, $count, $user;
-        $user = $_POST['person'];
-        if ($user == "Student") {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-            $data = $db->query("SELECT * FROM student_registered WHERE email='$email'");
-            $result = $data->fetch_assoc();
-            $num = mysqli_num_rows($data);
-            if (password_verify($password, $result['password']) && $num > 0) {
-                $row = mysqli_fetch_array($data);
-                $_SESSION['id'] = $_POST['email'];
-                header("Location: student-dashboard.php");
-            } else {
-                $count++;
-                $report = "<br>Invalid Input!!! Check your email or password <br> Or you are not a registered user";
-            }
-            
-        }
-    }
-    function Add_student()
-    {
-        global $db, $id, $message;
-        extract($_POST);
-        $id = $_SESSION['id'];
-        $student_image = $_FILES['student_image']['name'];
-
-        $allowed_ext = array('png', 'jpg', 'jpeg', 'gif');
-        if (!empty($_FILES['student_image']['name'])) {
-            $image_name = $_FILES['student_image']['name'];
-            $image_size = $_FILES['student_image']['size'];
-            $image_tmp = $_FILES['student_image']['tmp_name'];
-            // upload to where
-            $target_dir = "student_image/${image_name}";
-            //get file extension... th echo $image_ext;at is the end letters after . in the file name
-            //explode() creates an array from a string
-            $image_ext = explode('.', $image_name);
-            $image_ext = strtolower(end($image_ext));
-            //validate image extension
-            if (in_array($image_ext, $allowed_ext)) {
-                if ($image_size <= 1000000) {
-                    move_uploaded_file($image_tmp, $target_dir);
-                } else {
-                    $message = '<p style="color:red;">The file is too large</p>';
-                    return;
-                }
-            } else {
-                $message = '<p style="color:red;">Invalid File Input</p>';
-                return;
-            }
-        }
-        // updating student details
-        $db->query("UPDATE student_registered SET first_name='$first_name',last_name= '$last_name',student_id='$student_id',gender='$gender',dob='$dob',class='$class',religion='$religion',joining_date='$joining_date',mobile_number='$mobile_number',admission_number='$admission_number',section='$section',father_name='$father_name',father_occupation='$father_occupation',father_mobile='$father_mobile',father_email='$father_email',mother_name='$mother_name',mother_occupation='$mother_occupation',mother_mobile='$mother_mobile',mother_email='$mother_email',present_address='$present_address',permanent_address='$permanent_address',student_image='$student_image',department='$department' WHERE email='$id'");
-        header('Location:student-details.php');
-    }
-    function student_details()
-    {
-        confirm_password();
-    }
 
     function deleteStudent()
     {
@@ -250,6 +149,75 @@ class New_Life
         } else {
             $db->query("INSERT INTO notifications(message,recipient) VALUES ('$message','$recipient') ");
             return;
+        }
+    }
+
+    function makePayment()
+    {
+        global $db, $report, $count;
+        $id = $_SESSION['id'];
+        $sql = $db->query("SELECT * FROM bio WHERE Email='$id'");
+        $result = $sql->fetch_assoc();
+        extract($_POST);
+        $paymenttype = (str_replace(' ', '', $paymenttype));
+        $studentId=$result['id'];
+        $payDetails = $db->query("SELECT * FROM payment WHERE studentId='$studentId' AND $paymenttype='0'");
+        if($paymentStatus=='1'){
+            return;
+        }
+        elseif(mysqli_num_rows($payDetails) >= 0){
+            $name = $result['FirstName'];
+            $fees = $_POST['total'];
+            $email = $_SESSION['id'];
+            $sql = $db->query("INSERT INTO payment (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            
+            $curl = curl_init();
+            $message=$paymenttype;
+            $email = $email;
+            $amount = $fees . '00';  //the amount in kobo. This value is actually NGN 300
+
+            // url to go to after payment
+            $callback_url = 'http://localhost/preschool/process.php';
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.paystack.co/transaction/initialize',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode([
+                    'message'=>$message,
+                    'amount' => $amount,
+                    'email' => $email,
+                    'callback_url' => $callback_url
+                ]),
+                CURLOPT_HTTPHEADER => [
+                    'authorization: Bearer sk_test_ed2f8a4d5bac302506e5cad60bd399a5076495a5', //replace this with your own test key
+                    "content-type: application/json",
+                    "cache-control: no-cache",
+                    "Access-Control-Allow-Origin:*"
+                ],
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            if ($err) {
+                // there was an error contacting the Paystack API
+                die('Curl returned error: ' . $err);
+            }
+
+            $tranx = json_decode($response, true);
+
+            if (!$tranx['status']) {
+                // there was an error from the API
+                print_r('API returned error: ' . $tranx['message']);
+            }
+
+            // comment out this line if you want to redirect the user to the payment page
+            print_r($tranx);
+            // redirect to page so User can pay
+            // uncomment this line to allow the user redirect to the payment page
+            header('Location: ' . $tranx['data']['authorization_url']);
+        
         }
     }
 }

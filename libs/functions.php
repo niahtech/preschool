@@ -14,7 +14,7 @@ function confirm_password()
     global $db, $message, $wrongConfirmation, $success, $profile_error, $profile_success;
     extract($_POST);
     $id = $_SESSION['id'];
-    $sql = $db->query("SELECT * FROM student_registered where email='$id'");
+    $sql = $db->query("SELECT * FROM bio where email='$id'");
     $result = $sql->fetch_assoc();
     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
     if (password_verify($current_password, $result['password'])) {
@@ -45,7 +45,7 @@ function getClass($id)
 function getDept($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM departments WHERE id='$id' ");
+    $sql = $db->query("SELECT * FROM departments WHERE name='$id' ");
     return mysqli_fetch_array($sql);
 }
 
@@ -53,7 +53,7 @@ function getDept($id)
 function countStudents()
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered");
+    $sql = $db->query("SELECT * FROM bio");
     $check= mysqli_fetch_array($sql);
     return $check;
 }
@@ -61,7 +61,7 @@ function countStudents()
 function countAllStudents()
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered");
+    $sql = $db->query("SELECT * FROM bio");
     $check= mysqli_num_rows($sql);
     return $check;
 }
@@ -75,7 +75,7 @@ function countAllDepartments()
 function countStudentsDept($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered WHERE department='$id'");
+    $sql = $db->query("SELECT * FROM bio WHERE department='$id'");
     $check= mysqli_num_rows($sql);
     return $check;
 }
@@ -83,14 +83,14 @@ function countStudentsDept($id)
 function countStudentsLevel($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered WHERE class='$id'");
+    $sql = $db->query("SELECT * FROM bio WHERE class='$id'");
     $check=mysqli_num_rows($sql);
     return $check;
 }
 function countCoursesLevel($id)
 {
     global $db;
-    $sql = $db->query("SELECT * FROM student_registered WHERE class='$id'");
+    $sql = $db->query("SELECT * FROM bio WHERE class='$id'");
     $check=mysqli_num_rows($sql);
     return $check;
 }
@@ -103,9 +103,18 @@ function countLevel()
 }
 function countGender($gender,$section){
     global $db;
-    $sql= $db->query("SELECT * FROM student_registered WHERE gender='$gender' AND section ='$section'");
+    $sql= $db->query("SELECT * FROM bio WHERE gender='$gender' AND session ='$section'");
     $check= mysqli_num_rows($sql);
     return $check;
+
+}
+function getPaymentType($paymenttype,$level){
+    global $db;
+    if($paymenttype=='1'){
+        $sql=$db->query("SELECT * FROM level WHERE id='$level'");
+        $fees= mysqli_fetch_array($sql);
+        return $fees['SchoolFees'];
+    }
 
 }
 
@@ -123,7 +132,7 @@ function countGender($gender,$section){
     {
         global $db;
 
-        $sql = $db->query("SELECT * FROM students WHERE email='$email' ");
+        $sql = $db->query("SELECT * FROM bio WHERE Email='$email' ");
         $row = mysqli_fetch_array($sql);
 
         return $row[$detail] ?? NULL;
@@ -132,7 +141,7 @@ function countGender($gender,$section){
     function getStudentById($detail, $id) {
         global $db;
 
-        $sql = $db->query("SELECT * FROM students WHERE id='$id' ");
+        $sql = $db->query("SELECT * FROM bio WHERE id='$id' ");
         $row = mysqli_fetch_array($sql);
 
         return $row[$detail];
@@ -141,26 +150,27 @@ function countGender($gender,$section){
     function insertScore(){
         global $db, $course;
         $name = $_GET['name'];
-        $students = $db->query("SELECT * FROM students WHERE department='$name'");
+        $students = $db->query("SELECT * FROM bio WHERE Department='$name'");
         $scores = $_POST['score'];
-        $i = 0;
-        while($student = mysqli_fetch_array($students)){ 
-            $studentCourses = explode(',', $student['courseRegistered']);
+        while($student = mysqli_fetch_array($students)){
+            $studentCourses = explode(',', $student['courses']);
             if(in_array($course, $studentCourses)){
-                $id = $student['studentId'];
-                $sql = "UPDATE students SET $course = ? WHERE studentId = '$id'";
-                $stmt = $db->prepare($sql);
-                if($stmt){
-                    $stmt->bind_param('i', $score);
-                    $score = $scores[$i];
-                    $stmt->execute();
-                }
-                else{
-                    exit('error: failed to prepare sql query');
-                }
-                $stmt->close();
+                $stu[] = $student['studentId'];
             }
-            $i++;
+        }
+        for($i=0; $i<count($stu); $i++){
+            $id = $stu[$i];
+            $sql = "UPDATE bio SET $course = ? WHERE studentId = '$id'";
+            $stmt = $db->prepare($sql);
+            if($stmt){
+                $stmt->bind_param('i', $score);
+                $score = $scores[$i];
+                $stmt->execute();
+            }
+            else{
+                exit('error: failed to prepare sql query');
+            }
+            $stmt->close(); 
         }
     }
 

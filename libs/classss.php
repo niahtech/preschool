@@ -1,163 +1,119 @@
-<?php 
- class preskool{
-   public function __construct()
-   {
-    if(isset($_POST['Register'])){
-        $this->Register();
-    }
-    elseif(isset($_POST['submit'])){
-        $this->studentdet();
-    
-  }
-   elseif(isset($_POST['Login'])){
-    $this->Login();
-  
-   }
-   elseif(array_key_exists('registerCourse',$_POST)){
-    $this->registerCourse();
-   }
-    }
-
-    function validate($text,$fieldname)
-    {
-        global $count,$report;
-        $text=trim($text);
-        if(strlen($text)<3){
-            $report =$report . '<br>' .$fieldname .'is too short';
-            $count++;
-        }
-        return $text;
-    }
- 
-
-
-
- 
-
- 
-
-  
-
-  function Register()
+<?php
+class student
+{
+  public function __construct()
   {
-    global $db,$id;
-    
-    
-
-
- 
-    $FirstName= $this->validate(filter_input(INPUT_POST,'FirstName',FILTER_SANITIZE_FULL_SPECIAL_CHARS),'UserName');
- 
-    $LastName= $this->validate(filter_input(INPUT_POST,'LastName',FILTER_SANITIZE_FULL_SPECIAL_CHARS),'UserName');
- 
-    $Email=$this->validate(filter_input(INPUT_POST,'Email',FILTER_SANITIZE_EMAIL),'Email');
-    
-
-    $Password=$this->validate($_POST['Password'],'Password');
-     $hashed_password = password_hash($Password, PASSWORD_BCRYPT);
-
-    
-    $sql = "INSERT into bio (FirstName,LastName,Email,Password) values('$FirstName','$LastName','$Email','$hashed_password')";
-       if(mysqli_query($db,$sql)){
-       header('location:login.php');
-       echo 'added';
-       }  
-       else{
-       echo 'error:'.mysqli_error($db);
-       };
-       $id=$_SESSION['id'];
-       $_SESSION['id'] =$Email;
-
-     
-}       
-  
- function Login()  
- {
-   global $db,$text,$user,$id; 
-   
-    $id=$_SESSION['id'];
-   
-   $Email=$this->validate(filter_input(INPUT_POST,'Email',FILTER_SANITIZE_EMAIL),'Email');
-   
-
-    $Password=$this->validate($_POST['Password'],
-   'Password');
-    
-       
-   
-     $sql = $db->query("SELECT * FROM bio WHERE Email='$Email'");
-    $user = $sql->fetch_assoc();
-    
-    if (password_verify($Password, $user['Password'])) {
-    //     // Set session variables
-    $_SESSION['id'] =$user['Email'];
-    
-      header('location:student-dashboard.php');
-     } else {
-      // Display error message
-    $text = '<span style="color:red">Invalid email or password</span>';
+    if (isset($_POST['studentdet'])) {
+      $this->studentdet();
+    } elseif (array_key_exists('registerCourse', $_POST)) {
+      $this->registerCourse();
     }
-    $_SESSION['id'] =$Email;
-
- 
-     
-   
   }
+
+  function validate($text, $fieldname)
+  {
+    global $count, $report;
+    $text = trim($text);
+    if (strlen($text) < 3) {
+      $report = $report . '<br>' . $fieldname . 'is too short';
+      $count++;
+    }
+    return $text;
+  }
+
 
   function studentdet()
   {
-   global $db,$id;
-   extract($_POST);
+    global $db, $id, $imageErr;
+    extract($_POST);
 
-    $id=$_SESSION['id'];
-      $FirstName =$this->validate( filter_input(INPUT_POST, 'FirstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'FirstName');
-   
-  
-     $LastName =$this->validate(filter_input(INPUT_POST, 'LastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'LastName');
-  
-     $Email =$this->validate( filter_input(INPUT_POST, 'Email', FILTER_SANITIZE_EMAIL),'Email');
-   
-    $DOB =$this->validate(filter_input(INPUT_POST, 'DOB', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'DOB');
-  
-    $Religion =$this->validate( filter_input(INPUT_POST, 'Religion', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'Religion');
-  
-    $PhoneNumber =$this->validate( filter_input(INPUT_POST, 'PhoneNumber', FILTER_SANITIZE_NUMBER_INT),'PhoneNumber');
-  
-     $Gender =$this->validate(filter_input(INPUT_POST, 'Gender', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'Gender');
-  
-    $Department =$this->validate( filter_input(INPUT_POST, 'Department', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'Department');
-  
-    $State =$this->validate(filter_input(INPUT_POST, 'State', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'State');
- 
-     $Country =$this->validate(filter_input(INPUT_POST, 'Country', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'Country');
- 
-     $Address =$this->validate( filter_input(INPUT_POST, 'Address', FILTER_SANITIZE_FULL_SPECIAL_CHARS),'Address');
- 
-   
-    $db->query("UPDATE bio set DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber' ,Gender= '$Gender',Department ='$Department',State='$State',Country='$Country',Address='$Address' WHERE Email='$id' ");
-    
-//     //     // Success
-         header('Location:student-details.php');
-//     //     echo 'created';
-//     // } else {
-//     //     // Error
-//     //     echo 'Error: ' . mysqli_error($db);
-//     // }
-    
-   $_SESSION['id'] =$Email;
+    $id = $_SESSION['id'];
+    $FirstName = $this->validate(filter_input(INPUT_POST, 'FirstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'FirstName');
+
+
+    $LastName = $this->validate(filter_input(INPUT_POST, 'LastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'LastName');
+
+    $studentId = $this->validate(filter_input(INPUT_POST, 'studentId', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'studentId');
+    $Email = $this->validate(filter_input(INPUT_POST, 'Email', FILTER_SANITIZE_EMAIL), 'Email');
+
+    $DOB = $this->validate(filter_input(INPUT_POST, 'DOB', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'DOB');
+
+    $Religion = $this->validate(filter_input(INPUT_POST, 'Religion', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Religion');
+
+    $PhoneNumber = $this->validate(filter_input(INPUT_POST, 'PhoneNumber', FILTER_SANITIZE_NUMBER_INT), 'PhoneNumber');
+
+    $Gender = $this->validate(filter_input(INPUT_POST, 'Gender', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Gender');
+
+    $department = $this->validate(filter_input(INPUT_POST, 'department', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'department');
+
+    $session = $this->validate(filter_input(INPUT_POST, 'session', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'session');
+
+
+    $Country = $this->validate(filter_input(INPUT_POST, 'Country', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'Country');
+
+
+    $fathersName = $this->validate(filter_input(INPUT_POST, 'fathersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersName');
+
+
+    $fathersOccupation = $this->validate(filter_input(INPUT_POST, 'fathersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersOccupation');
+
+
+    $fathersMobile = $this->validate(filter_input(INPUT_POST, 'fathersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersMobile');
+
+    $fathersEmail = $this->validate(filter_input(INPUT_POST, 'fathersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'fathersEmail');
+
+    $mothersName = $this->validate(filter_input(INPUT_POST, 'mothersName', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersName');
+
+    $mothersOccupation = $this->validate(filter_input(INPUT_POST, 'mothersOccupation', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersOccupation');
+
+    $mothersMobile = $this->validate(filter_input(INPUT_POST, 'mothersMobile', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersMobile');
+
+
+
+    $mothersEmail = $this->validate(filter_input(INPUT_POST, 'mothersEmail', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'mothersEmail');
+
+    $permanentAddress = $this->validate(filter_input(INPUT_POST, 'permanentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'permanentAddress');
+
+    $presentAddress = $this->validate(filter_input(INPUT_POST, 'presentAddress', FILTER_SANITIZE_FULL_SPECIAL_CHARS), 'presentAddress');
+
+
+    $allowedExt = ['png', 'jpg', 'jpeg', 'gif'];
+    if (!empty($_FILES['image']['name'])) {
+      $image = $_FILES['image']['name'];
+      $fileSize = $_FILES['image']['size'];
+      $fileTmp = $_FILES['image']['tmp_name'];
+      $targetDir = "/student_img/$image";
+      $fileExt = explode('.', $image);
+      $fileExt = strtolower(end($fileExt));
+
+      // check if file is an image
+      if (in_array($fileExt, $allowedExt)) {
+        if ($fileSize <= 3000000) {
+          move_uploaded_file($fileTmp, $targetDir);
+          $imageErr = '<p style="color:green;">Image Uploaded</p>';
+
+          $db->query("UPDATE bio set studentId='$studentId', DOB ='$DOB',Religion='$Religion',PhoneNumber ='$PhoneNumber',Gender='$Gender',department ='$department',session='$session',Country='$Country',fathersName='$fathersName',fathersOccupation='$fathersOccupation',fathersMobile='$fathersMobile',fathersEmail='$fathersEmail',mothersName='$mothersName',mothersOccupation='$mothersOccupation',mothersMobile='$mothersMobile',mothersEmail='$mothersEmail', image='$image',permanentAddress='$permanentAddress',presentAddress='$presentAddress' WHERE Email='$id' ");
+          header('Location:student-details.php');
+        } else {
+          $imageErr = '<p style="color:red;">File is too large</p>';
+        }
+      } else {
+        $imageErr = '<p style="color:red;">Invalid file type</p>';
+      }
+    } else {
+      $imageErr = '<p style="color:red;">Please choose a file</p>';
+    }
+  }
+
+  function registerCourse()
+  {
+    global $db;
+    $id = $_SESSION['id'];
+    $courses = $_POST['course'];
+    $cou = implode(',', $courses);
+    $ql  = $db->query("UPDATE bio SET courses = '$cou' WHERE Email = '$id'");
+    header('Location:student-dashboard.php');
+  }
 }
 
-function registerCourse(){
-  global $db;
-  $id = $_SESSION['id'];
-  $courses = $_POST['course'];
-  $cou = implode(',', $courses);
-  $ql  =$db->query("UPDATE bio SET courses = '$cou' WHERE Email = '$id'");
-  header('Location:student-dashboard.php');
-}
-
-}
-
-$preskool = new preskool;
-
-?>
+$preskool = new student;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2023 at 10:49 AM
+-- Generation Time: Apr 12, 2023 at 12:46 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -18,50 +18,50 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `new_life_school`
+-- Database: `preskool`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `level`
+-- Table structure for table `session`
 --
 
-CREATE TABLE `level` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL
+CREATE TABLE `session` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `level`
+-- Dumping data for table `session`
 --
 
-INSERT INTO `level` (`id`, `name`) VALUES
-(1, '100 level'),
-(2, '200 level'),
-(3, '300 level'),
-(4, '400 level'),
-(5, '500 level');
+INSERT INTO `session` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, '2021/2022', '2023-04-10 16:56:14', '2023-04-10 16:56:59'),
+(2, '2022/2023', '2023-04-10 16:56:47', '2023-04-10 16:56:47'),
+(3, '2023/2024', '2023-04-10 16:57:15', '2023-04-10 16:57:15');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `level`
+-- Indexes for table `session`
 --
-ALTER TABLE `level`
-  ADD UNIQUE KEY `id` (`id`);
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `level`
+-- AUTO_INCREMENT for table `session`
 --
-ALTER TABLE `level`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `session`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
