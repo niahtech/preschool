@@ -196,26 +196,20 @@ function timeDifference($start, $end)
 function timeDifferenceNoti($start, $end)
 {
     $difference = strtotime($start) - strtotime($end);
-    if($difference < 60){
-        echo round(abs($difference)).' secs ago';
-    }
-    elseif($difference < 3600){
-        echo round(abs($difference) / 60).' min(s) ago';
-    }
-    elseif($difference < 86400){
-        echo round(abs($difference) / 3600).' hour(s) ago';
-    }
-    elseif($difference < 604800){
-        echo round(abs($difference) / 86400).' day(s) ago';
-    }
-    elseif($difference < 18144000){
-        echo round(abs($difference) / 604800).' week(s) ago';
-    }
-    elseif($difference < 217728000){
-        echo round(abs($difference) / 18144000).' month(s) ago';
-    }
-    else{
-        echo round(abs($difference) / 217728000).' year(s) ago';
+    if ($difference < 60) {
+        echo round(abs($difference)) . ' secs ago';
+    } elseif ($difference < 3600) {
+        echo round(abs($difference) / 60) . ' min(s) ago';
+    } elseif ($difference < 86400) {
+        echo round(abs($difference) / 3600) . ' hour(s) ago';
+    } elseif ($difference < 604800) {
+        echo round(abs($difference) / 86400) . ' day(s) ago';
+    } elseif ($difference < 18144000) {
+        echo round(abs($difference) / 604800) . ' week(s) ago';
+    } elseif ($difference < 217728000) {
+        echo round(abs($difference) / 18144000) . ' month(s) ago';
+    } else {
+        echo round(abs($difference) / 217728000) . ' year(s) ago';
     }
 }
 

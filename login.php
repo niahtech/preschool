@@ -51,7 +51,7 @@
                         <?php
                         if(isset($_GET['newpwd'])){
                            if($_GET['newpwd'] == 'passwordupdated'){
-                              echo '<p class="signupsuccess">Your password has been successfully reset!</p>';
+                              echo '<p style="color:green">Your password has been successfully reset!</p>';
                            }
                         }
                         ?>
