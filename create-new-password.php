@@ -29,7 +29,7 @@
                     <div class="login-right">
                         <div class="login-right-wrap">
                             <?php
-                            
+
                             $selector = $_GET['selector'];
                             $validator = $_GET['validator'];
 
@@ -38,6 +38,8 @@
                             } else {
                                 if (ctype_xdigit($selector) && ctype_xdigit($validator)) { ?>
 
+                                    <h1>Password Reset</h1>
+                                    <p class="account-subtitle">Enter the new password to your account here!</p>
                                     <form action="libs/reset-password.inc.php" method="POST">
                                         <div class="form-group">
                                             <input class="form-control" type="hidden" name="selector" value="<?= $selector; ?>">
@@ -46,7 +48,7 @@
                                             <input class="form-control" type="hidden" name="validator" value="<?= $validator; ?>">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control" type="password" name="password" placeholder="Enter a new password" required>
+                                            <input class="form-control" type="password" name="password" placeholder="New password" required>
                                         </div>
                                         <div class="form-group">
                                             <input class="form-control" type="password" name="repeatPassword" placeholder="Repeat new password" required>

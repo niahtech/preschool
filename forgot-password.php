@@ -32,6 +32,14 @@
                             <p class="account-subtitle">Enter your email to get a password reset link</p>
 
                             <form action="libs/reset-request.inc.php" method="POST">
+
+                                <div class="form-group">
+                                    <select class="form-control" name="user">
+                                        <option>Select as...</option>
+                                        <option value="lecturers">Lecturer</option>
+                                        <option value="bio">Student</option>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <input class="form-control" type="email" name="email" placeholder="Email">
                                 </div>
@@ -41,18 +49,18 @@
                             </form>
 
                             <?php
-                                if(isset($_GET['reset'])){
-                                    echo '<p style="color:green;">A reset link has been successfully sent to your e-mail</p>';
-                                }
-                                if(isset($_GET['expire'])){
-                                    echo '<p style="color:red;">Your reset link has expired</p>';
-                                }
-                                if(isset($_GET['invalid'])){
-                                    echo '<p style="color:red;">You need to re-submit your reset request.</p>';
-                                }
-                                if(isset($_GET['email'])){
-                                    echo '<p style="color:red;">This E-mail is not registered.</p>';
-                                }
+                            if (isset($_GET['reset'])) {
+                                echo '<p style="color:green;">A reset link has been successfully sent to your e-mail</p>';
+                            }
+                            if (isset($_GET['expire'])) {
+                                echo '<p style="color:red;">Your reset link has expired</p>';
+                            }
+                            if (isset($_GET['invalid'])) {
+                                echo '<p style="color:red;">You need to re-submit your reset request.</p>';
+                            }
+                            if (isset($_GET['email'])) {
+                                echo '<p style="color:red;">This E-mail is not registered.</p>';
+                            }
                             ?>
 
                             <div class="text-center dont-have">Remember your password? <a href="login.php">Login</a></div>

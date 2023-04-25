@@ -10,6 +10,7 @@ if (isset($_POST['reset-password-submit'])) {
 
     if ($password !== $repeatPassword) {
         header('Location: ../create-new-password.php?selector='.$selector.'&validator='.$validator.'&pwderr=passwordmismatch');
+        exit();
     }
 
     $currentDate = date("U");
@@ -25,14 +26,15 @@ if (isset($_POST['reset-password-submit'])) {
             $tokenBin = hex2bin($validator);
             if (password_verify($tokenBin, $row['token'])) {
                 $tokenEmail = $row['email'];
-                $sql = "SELECT * FROM lecturers WHERE email=?";
+                $user = $row['user'];
+                $sql = "SELECT * FROM $user WHERE email=?";
                 $stmt = $db->prepare($sql);
                 if ($stmt) {
                     $stmt->bind_param('s', $tokenEmail);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     if ($row = mysqli_fetch_assoc($result)) {
-                        $sql = "UPDATE lecturers SET password=? WHERE email=?";
+                        $sql = "UPDATE $user SET password=? WHERE email=?";
                         $stmt = $db->prepare($sql);
                         if ($stmt) {
                             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);

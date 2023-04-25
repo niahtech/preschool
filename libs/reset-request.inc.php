@@ -22,6 +22,7 @@ if (isset($_POST['reset-request-submit'])) {
 
 
     $email =  filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $user = filter_input(INPUT_POST, 'user', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     $sql = "DELETE FROM pwdreset WHERE email=?";
     $stmt = $db->prepare($sql);
@@ -33,11 +34,11 @@ if (isset($_POST['reset-request-submit'])) {
         exit();
     }
 
-    $sql = "INSERT INTO pwdreset (email, selector, token, expires) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO pwdreset (email, user, selector, token, expires) VALUES (?, ?, ?, ?, ?)";
     $stmt = $db->prepare($sql);
     if ($stmt) {
         $hashedToken = password_hash($token, PASSWORD_BCRYPT);
-        $stmt->bind_param("ssss", $email, $selector, $hashedToken, $expires);
+        $stmt->bind_param("sssss", $email, $user, $selector, $hashedToken, $expires);
         $stmt->execute();
     } else {
         echo "There was an error!";
