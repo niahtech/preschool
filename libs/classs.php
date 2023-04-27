@@ -16,8 +16,6 @@ class New_Life
             $this->createDepartment();
         } else if (array_key_exists('createCourse', $_POST)) {
             $this->createCourse();
-        } else if (array_key_exists('registerCourse', $_POST)) {
-            $this->registerCourse();
         } else if (array_key_exists('notifications', $_POST)) {
             $this->notifications();
         } else if (array_key_exists('makePayment', $_POST)) {
@@ -112,7 +110,7 @@ class New_Life
     {
         global $db;
         $id = $_POST['deleteStudent'];
-        $sql = $db->query("DELETE FROM student_registered WHERE id='$id'");
+        $sql = $db->query("DELETE FROM bio WHERE id='$id'");
     }
     function deleteLecturer()
     {
@@ -120,25 +118,7 @@ class New_Life
         $id = $_POST['deleteLecturer'];
         $sql = $db->query("DELETE FROM lecturers WHERE id='$id'");
     }
-    function registerCourse()
-    {
-        global $db;
-        $id = $_SESSION['id'];
-        $sql = $db->query("SELECT * FROM student_registered where email='$id'");
-        $result = $sql->fetch_assoc();
-        $studentId = $result['id'];
-        $studentColumn = 'STUD' . $studentId;
-        $departmentName = $result['department'];
-        $department = getDept($departmentName)['name'];
-        $trimmedDept = strtolower(str_replace(' ', '', $department));
-        error_reporting(0);
-        $db->query("ALTER TABLE $trimmedDept ADD $studentColumn int(11)");
-        $deptCourses = $db->query("SELECT * FROM $trimmedDept WHERE semester='First'");
-        while ($regCourses = $deptCourses->fetch_assoc()) {
-            $db->query("UPDATE $trimmedDept SET $studentColumn='$studentId' WHERE semester='First'");
-        }
-        header("location:add-subject.php");
-    }
+    
     function notifications()
     {
         global $db, $report, $status;
