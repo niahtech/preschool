@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment`
+-- Table structure for table `payment200`
 --
 
-CREATE TABLE `payment` (
+CREATE TABLE `payment200` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `schoolFees` int(255) NOT NULL,
@@ -44,20 +44,20 @@ CREATE TABLE `payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `payment`
+-- Dumping data for table `payment200`
 --
 
-INSERT INTO `payment` (`id`, `studentId`, `schoolFees`, `fieldTrip`, `accomodation`, `currentPaymentType`, `level`, `semester`, `amount`, `session`, `paymentId`, `created_at`, `updated_at`) VALUES
-(1, 30, 1, 0, 0, 'schoolFees', '100 level', '3', 50000, '2021/2022', '6sylu7y5d5', '2023-04-26 22:00:31', '2023-04-28 07:40:47');
+INSERT INTO `payment200` (`id`, `studentId`, `schoolFees`, `fieldTrip`, `accomodation`, `currentPaymentType`, `level`, `semester`, `amount`, `session`, `paymentId`, `created_at`, `updated_at`) VALUES
+(1, 30, 1, 0, 0, 'schoolFees', '200 level', '3', 18000, '2022/2023', 'wfuhqy5zl9', '2023-04-28 07:45:39', '2023-04-28 07:46:57');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `payment`
+-- Indexes for table `payment200`
 --
-ALTER TABLE `payment`
+ALTER TABLE `payment200`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -65,9 +65,9 @@ ALTER TABLE `payment`
 --
 
 --
--- AUTO_INCREMENT for table `payment`
+-- AUTO_INCREMENT for table `payment200`
 --
-ALTER TABLE `payment`
+ALTER TABLE `payment200`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 

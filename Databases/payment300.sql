@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment`
+-- Table structure for table `payment300`
 --
 
-CREATE TABLE `payment` (
+CREATE TABLE `payment300` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `schoolFees` int(255) NOT NULL,
@@ -44,20 +44,13 @@ CREATE TABLE `payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`id`, `studentId`, `schoolFees`, `fieldTrip`, `accomodation`, `currentPaymentType`, `level`, `semester`, `amount`, `session`, `paymentId`, `created_at`, `updated_at`) VALUES
-(1, 30, 1, 0, 0, 'schoolFees', '100 level', '3', 50000, '2021/2022', '6sylu7y5d5', '2023-04-26 22:00:31', '2023-04-28 07:40:47');
-
---
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `payment`
+-- Indexes for table `payment300`
 --
-ALTER TABLE `payment`
+ALTER TABLE `payment300`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -65,10 +58,10 @@ ALTER TABLE `payment`
 --
 
 --
--- AUTO_INCREMENT for table `payment`
+-- AUTO_INCREMENT for table `payment300`
 --
-ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `payment300`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
