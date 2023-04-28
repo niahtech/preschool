@@ -113,7 +113,7 @@ $students = $db->query("SELECT * FROM bio ORDER BY Department");
                                        </li>
                                        <li>
                                           <span class="title-span">Department: </span>
-                                          <span class="info-span"><?= $student['Department']; ?></span>
+                                          <span class="info-span"><?= $student['department']; ?></span>
                                        </li>
                                        <li>
                                           <span class="title-span">Mobile: </span>

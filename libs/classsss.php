@@ -160,8 +160,10 @@ class lecturer
             $newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
             // Update the new password
             $sql = $db->query("UPDATE lecturers SET password='$newPassword'");
+            header('Location: teacher-details.php?pwdErr=successful');
             $passwordErr = '<span style="color: green;">Password Successfully Updated</span>';
         } else {
+            header('Location: teacher-details.php?pwdErr=incorrect');
             $passwordErr = '<span style="color: red;">Incorrect Password</span>';
         }
     }

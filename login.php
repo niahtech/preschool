@@ -60,10 +60,10 @@
                            <span class="or-line"></span>
                            <span class="span-or">or</span>
                         </div>
-                        <div class="social-login">
+                        <!-- <div class="social-login">
                            <span>Login with</span>
                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a><a href="#" class="google"><i class="fab fa-google"></i></a>
-                        </div>
+                        </div> -->
                         <div class="text-center dont-have">Don’t have an account? <a href="register.php">Register</a></div>
                      </div>
                   </div>

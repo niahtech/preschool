@@ -183,7 +183,7 @@ $student = mysqli_fetch_all($sql);
                <div class="card-body">
                   <div id="calendar-doctor" class="calendar-container"></div>
                   <div class="calendar-info calendar-info1">
-                     <div class="calendar-details">
+                     <!-- <div class="calendar-details">
                         <p>09 am</p>
                         <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
                      </div>
@@ -202,7 +202,7 @@ $student = mysqli_fetch_all($sql);
                      <div class="calendar-details">
                         <p>09 am</p>
                         <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
-                     </div>
+                     </div> -->
                   </div>
                </div>
             </div>
