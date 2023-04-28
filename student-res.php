@@ -32,6 +32,7 @@ $result = $sql->fetch_assoc();
          <BR>
          <br>
          <?
+         
          echo "YOUR GPA IS: " . round($gpa, 2);
          ?>
          <a>GPA for the semester:</a>
@@ -82,7 +83,10 @@ $result = $sql->fetch_assoc();
                                           $grade = mysqli_fetch_all($grades);
 
                                        ?>
-
+                                       foreach
+                                          <?php if($c === null) :  echo 'result not ready'?>;
+                                         
+                                          <?php else : ?>
 
                                           <?php if(($grades != 'NULL')) :  ?>
                                               
