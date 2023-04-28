@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2023 at 10:58 AM
+-- Generation Time: Apr 28, 2023 at 10:59 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payment`
+-- Table structure for table `payment400`
 --
 
-CREATE TABLE `payment` (
+CREATE TABLE `payment400` (
   `id` int(11) NOT NULL,
   `studentId` int(11) NOT NULL,
   `schoolFees` int(255) NOT NULL,
@@ -44,20 +44,13 @@ CREATE TABLE `payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`id`, `studentId`, `schoolFees`, `fieldTrip`, `accomodation`, `currentPaymentType`, `level`, `semester`, `amount`, `session`, `paymentId`, `created_at`, `updated_at`) VALUES
-(1, 30, 1, 0, 0, 'schoolFees', '100 level', '3', 50000, '2021/2022', '6sylu7y5d5', '2023-04-26 22:00:31', '2023-04-28 07:40:47');
-
---
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `payment`
+-- Indexes for table `payment400`
 --
-ALTER TABLE `payment`
+ALTER TABLE `payment400`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -65,10 +58,10 @@ ALTER TABLE `payment`
 --
 
 --
--- AUTO_INCREMENT for table `payment`
+-- AUTO_INCREMENT for table `payment400`
 --
-ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `payment400`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

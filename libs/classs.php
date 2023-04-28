@@ -20,6 +20,8 @@ class New_Life
             $this->notifications();
         } else if (array_key_exists('makePayment', $_POST)) {
             $this->makePayment();
+        } else if (array_key_exists('adminLogin', $_POST)){
+            $this->adminLogin();
         }
     }
     function validation($text, $fieldname)
@@ -44,7 +46,6 @@ class New_Life
         $department = $sql->fetch_assoc();
         $getDepartment = $department['name'];
         $trimmedDept = strtolower(str_replace(' ', '', $getDepartment));
-        echo $trimmedDept;
         $course_title = $this->validation($_POST['course_title'], 'Course Title');
         $unit = $_POST['unit'];
         $code = $this->validation($_POST['course_code'], 'Course Code');
@@ -149,8 +150,22 @@ class New_Life
             $name = $result['FirstName'];
             $fees = $_POST['total'];
             $email = $_SESSION['id'];
-            $sql = $db->query("INSERT INTO payment (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
-            
+            $level = $result['level'];
+            if($level==="100 level"){
+                $sql = $db->query("INSERT INTO payment (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            }
+            elseif($level==="200 level"){
+                $sql = $db->query("INSERT INTO payment200 (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            }
+            elseif($level==="300 level"){
+                $sql = $db->query("INSERT INTO payment300 (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            }
+            elseif($level==="400 level"){
+                $sql = $db->query("INSERT INTO payment400 (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            }
+            else{
+                $sql = $db->query("INSERT INTO payment500 (studentId, schoolFees,currentPaymentType,level,session,amount,semester) VALUES('$studentId', '0','$paymenttype','$level','$session','$fees','$semester')");
+            }
             $curl = curl_init();
             $message=$paymenttype;
             $email = $email;
@@ -200,5 +215,24 @@ class New_Life
         
         }
     }
+    function adminLogin() {
+        global $db, $loginErr;
+        // sanitizing inputs
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = $_POST['password'];
+            $sql = $db->query("SELECT email,password FROM loginadmin WHERE email = '$email' LIMIT 1");
+            $result = $sql->fetch_assoc();
+            if(mysqli_num_rows($sql) > 0){
+                if($password == $result['password']) {
+                    $loginErr = 'Check your Email or Password';
+                }else {
+                    $_SESSION['id'] = $email;
+                    header('Location: index.php');
+                }
+            }else {
+                $loginErr = 'You are not a registered user';
+            }
+        }
 }
+
 $New_Life = new New_Life;

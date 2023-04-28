@@ -46,16 +46,37 @@ if ('success' == $tranx->data->status) {
   $sql = $db->query("SELECT * FROM bio WHERE Email='$id'");
   $result = $sql->fetch_assoc();
   $studentId = $result['id'];
-  $payment = $db->query("SELECT * FROM payment WHERE studentId='$studentId'");
-  $paymentDetails = $payment->fetch_assoc();
-  $payment = $paymentDetails['currentPaymentType'];
-  $db->query("UPDATE payment SET $payment=1,paymentId='$trimmedRefNo' WHERE studentId='$studentId'");
+  $level = $result['level'];
+  if ($level === "100 level") {
+    $payment = $db->query("SELECT * FROM payment WHERE studentId='$studentId'");
+    $paymentDetails = $payment->fetch_assoc();
+    $payment = $paymentDetails['currentPaymentType'];
+    $db->query("UPDATE payment SET $payment=1,paymentId='$trimmedRefNo' WHERE studentId='$studentId'");
+  } elseif ($level === "200 level") {
+    $payment = $db->query("SELECT * FROM payment200 WHERE studentId='$studentId'");
+    $paymentDetails = $payment->fetch_assoc();
+    $payment = $paymentDetails['currentPaymentType'];
+    $db->query("UPDATE payment200 SET $payment=1,paymentId='$trimmedRefNo' WHERE studentId='$studentId'");
+  } elseif ($level === "300 level") {
+    $payment = $db->query("SELECT * FROM payment300 WHERE studentId='$studentId'");
+    $paymentDetails = $payment->fetch_assoc();
+    $payment = $paymentDetails['currentPaymentType'];
+    $db->query("UPDATE payment300 SET $payment=1,paymentId='$trimmedRefNo' WHERE studentId='$studentId'");
+  } elseif ($level === "400 level") {
+    $payment = $db->query("SELECT * FROM payment400 WHERE studentId='$studentId'");
+    $paymentDetails = $payment->fetch_assoc();
+    $payment = $paymentDetails['currentPaymentType'];
+    $db->query("UPDATE paymen400 SET $payment=1,paymentId='$trimmedRefNo' WHERE studentId='$studentId'");
+  } elseif ($level === "500 level") {
+    $payment = $db->query("SELECT * FROM payment500 WHERE studentId='$studentId'");
+    $paymentDetails = $payment->fetch_assoc();
+    $payment = $paymentDetails['currentPaymentType'];
+    $db->query("UPDATE payment500 SET $payment=1,paymentId='$trimmedRefNo' WHERE studentId='$studentId'");
+  }
 }
 
 ?>
 
-
-?>
 <div class="page-wrapper">
   <div class="content container-fluid">
     <?php echo "<h2 style='color:green'>You have successful paid, kindly confirm payment</h2>"; ?>
@@ -78,9 +99,9 @@ if ('success' == $tranx->data->status) {
             <div class="d-flex justify-content-between mb-2">
               <p class="textmuted">Transaction Id</p>
               <p class="fs-14 fw-bold"><span class="fas pe-1"></span>
-              <?php
-                  
-                  echo ($trimmedRefNo) ?></p>
+                <?php
+
+                echo ($trimmedRefNo) ?></p>
             </div>
             <div class="d-flex justify-content-between mb-2">
               <p class="textmuted">level</p>
@@ -97,7 +118,7 @@ if ('success' == $tranx->data->status) {
           </div>
         </div>
         <div class="text-center m-0">
-          <a href='payment.php'class="btn btn-primary makePayment" type="button" name="confrimPayment">Confirm Payment<span class="fas fa-arrow-right ps-2"></span></a>
+          <a href='payment.php' class="btn btn-primary makePayment" type="button" name="confrimPayment">Confirm Payment<span class="fas fa-arrow-right ps-2"></span></a>
 
         </div>
       </div>

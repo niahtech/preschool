@@ -14,12 +14,12 @@
    <a href="javascript:void(0);" id="toggle_btn">
       <i class="fas fa-align-left"></i>
    </a>
-   <div class="top-nav-search">
+   <!-- <div class="top-nav-search">
       <form>
          <input type="text" class="form-control" placeholder="Search here">
          <button class="btn" type="submit"><i class="fas fa-search"></i></button>
       </form>
-   </div>
+   </div> -->
    <a class="mobile_btn" id="mobile_btn">
       <i class="fas fa-bars"></i>
    </a>
@@ -29,7 +29,7 @@
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#notification">
          Create Notifications
       </button>
-      <li class="nav-item dropdown noti-dropdown">
+      <!-- <li class="nav-item dropdown noti-dropdown">
          <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
             <i class="far fa-bell"></i> <span class="badge badge-pill">3</span>
          </a>
@@ -116,7 +116,7 @@
             <a class="dropdown-item" href="profile.html">My Profile</a>
             <a class="dropdown-item" href="inbox.html">Inbox</a>
             <a class="dropdown-item" href="login.html">Logout</a>
-         </div>
+         </div> -->
       </li>
    </ul>
 </div>
@@ -152,7 +152,7 @@
                   <li><a href="department.php">Department List</a></li>
                </ul>
             </li>
-            <li class="menu-title">
+            <!-- <li class="menu-title">
                <span>Management</span>
             </li>
             <li class="submenu">
@@ -248,7 +248,7 @@
                   </li>
                </ul>
             </li>
-         </ul>
+         </ul> -->
       </div>
    </div>
 </div>
@@ -269,7 +269,7 @@
          </div>
          <div class="modal-body">
             <div class="noti-content">
-               <ul class="notification-list">
+               <!-- <ul class="notification-list">
                   <?php while ($result = $sql->fetch_assoc()) { ?>
                      <li class="notification-message">
                         <a href="#">
@@ -290,7 +290,7 @@
                            </div>
                         </a>
                      </li>
-                  <?php }  ?>
+                  <?php }  ?> -->
 
             </div>
          </div>
