@@ -1,5 +1,10 @@
 <?php include 'libs/connection.inc.php' ?>
 <?php
+// if (!isset($_SESSION['id'])) {
+//     header('location:loginAdmin.php');
+// }
+?>
+<?php
 $sql = $db->query("SELECT DISTINCT session FROM bio");
 $result = mysqli_fetch_all($sql);
 // var_dump($result);
@@ -116,7 +121,7 @@ for ($i = 0; $i < count($result); $i++) {
                </div>
             </div>
             <div class="row">
-               <div class="col-md-12 col-lg-6">
+               <!-- <div class="col-md-12 col-lg-6">
                   <div class="card-header">
                      <h5 class="card-title">Star Students</h5>
                   </div>
@@ -192,7 +197,7 @@ for ($i = 0; $i < count($result); $i++) {
                         </table>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <div class="col-md-12 col-lg-6">
                   <div class="card card-chart">
                      <div class="card-header">
@@ -203,13 +208,7 @@ for ($i = 0; $i < count($result); $i++) {
                            <div class="col-6">
                               <ul class="list-inline-group text-right mb-0 pl-0">
                                  <li class="list-inline-item">
-                                    <div class="form-group mb-0 amount-spent-select">
-                                       <select class="form-control form-control-sm">
-                                          <option>Today</option>
-                                          <option>Last Week</option>
-                                          <option>Last Month</option>
-                                       </select>
-                                    </div>
+                                    
                                  </li>
                               </ul>
                            </div>
@@ -222,36 +221,7 @@ for ($i = 0; $i < count($result); $i++) {
                </div>
             </div>
       
-            <div class="row">
-               <div class="col-xl-3 col-sm-6 col-12">
-                  <div class="card flex-fill fb sm-box">
-                     <i class="fab fa-facebook"></i>
-                     <h6>50,095</h6>
-                     <p>Likes</p>
-                  </div>
-               </div>
-               <div class="col-xl-3 col-sm-6 col-12">
-                  <div class="card flex-fill twitter sm-box">
-                     <i class="fab fa-twitter"></i>
-                     <h6>48,596</h6>
-                     <p>Follows</p>
-                  </div>
-               </div>
-               <div class="col-xl-3 col-sm-6 col-12">
-                  <div class="card flex-fill insta sm-box">
-                     <i class="fab fa-instagram"></i>
-                     <h6>52,085</h6>
-                     <p>Follows</p>
-                  </div>
-               </div>
-               <div class="col-xl-3 col-sm-6 col-12">
-                  <div class="card flex-fill linkedin sm-box">
-                     <i class="fab fa-linkedin-in"></i>
-                     <h6>69,050</h6>
-                     <p>Follows</p>
-                  </div>
-               </div>
-            </div>
+         
          </div>
       </div>
    </div>

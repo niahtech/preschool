@@ -1,59 +1,62 @@
 const paymentType = document.querySelector(".paymenttype");
 const level = document.querySelector(".level");
 const total = document.querySelector(".total");
+const studentLevel = document.querySelector(".studLevel");
+const sessionPaid = document.querySelector(".sessionPaid");
+const session = document.querySelector(".session");
 
 document.querySelector(".invoice").addEventListener('mousemove', (e) => {
-    if(paymentType.value == 'school Fees' && level.value == '100 level'){
+    if (paymentType.value == 'school Fees' && level.value == '100 level') {
         total.value = 50000;
     }
-    if(paymentType.value == 'school Fees' && level.value == '200 level'){
+    if (paymentType.value == 'school Fees' && level.value == '200 level') {
         total.value = 18000;
     }
-    if(paymentType.value == 'school Fees' && level.value == '300 level'){
+    if (paymentType.value == 'school Fees' && level.value == '300 level') {
         total.value = 25000;
     }
-    if(paymentType.value == 'school Fees' && level.value == '400 level'){
+    if (paymentType.value == 'school Fees' && level.value == '400 level') {
         total.value = 15000;
     }
-    if(paymentType.value == 'school Fees' && level.value == '500 level'){
+    if (paymentType.value == 'school Fees' && level.value == '500 level') {
         total.value = 20000;
+    }
+    if (paymentType.value == 'Field Trip' && level.value == '100 level') {
+        total.value = 16000;
+    }
+    if (paymentType.value == 'Field Trip' && level.value == '300 level') {
+      total.value = 15000;
+    }
+    if (paymentType.value == 'Field Trip' && level.value == '400 level') {
+        total.value = 13000;
+    }
+    if (paymentType.value == 'Accomodation' && level.value == '100 level') {
+        total.value = 18000;
+    }
+    if (paymentType.value == 'Accomodation' && level.value == '200 level') {
+        total.value = 18000;
+    }
+    if (paymentType.value == 'Accomodation' && level.value == '300 level') {
+        total.value = 18000;
+    }
+    if (paymentType.value == 'Accomodation' && level.value == '400 level') {
+        total.value = 18000;
+    }
+    if (paymentType.value == 'Accomodation' && level.value == '500 level') {
+        total.value = 18000;
     }
 })
 
 const makePayment = document.querySelector(".makePayment");
-function payment(){
+function payment() {
 
-    if(document.querySelector(".paymentStatus").value =="1" && document.querySelector(".paymenttype").value !=="" && document.querySelector(".level").value !=="" && document.querySelector(".status").value !=="" && document.querySelector(".session").value !=="" && document.querySelector(".semester").value !==""){
+    if (document.querySelector(".paymentStatus").value == "1" && document.querySelector(".paymenttype").value !== "" && document.querySelector(".level").value !== "" && document.querySelector(".status").value !== "" && document.querySelector(".session").value !== "" && document.querySelector(".semester").value !== "") {
         window.alert("You've do not have an outstanding");
-
-//         makePayment.setAttribute("data-toggle", "modal");
-//         makePayment.setAttribute("data-target", "#paid");
-//         makePayment.removeAttribute("name");
-//         makePayment.removeAttribute("type");
-//         console.log(makePayment)
-//         $("#paid").modal('show');
-
-//     }else if(document.querySelector(".paymentStatus").value =="0"){
-//         $.ajax({
-//             method:"POST",
-//             url:"libs/connection.inc.php",
-//             data:{
-//                 makePayment:'fghjkl;',
-//                 total
-//             }
-//         }).done(res=>{
-//             console.log(res);
-//         }).fail(res=>{
-//             console.log(res);
-//         })
     }
-    
-
-    
 }
-$(".makePayment").click(function(e){
+$(".makePayment").click(function (e) {
 
-//     const total = $("input.total").val();
-//     console.log("rertytr");
+    //     const total = $("input.total").val();
+    //     console.log("rertytr");
     payment();
 })
