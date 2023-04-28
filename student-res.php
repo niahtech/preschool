@@ -81,12 +81,12 @@ $result = $sql->fetch_assoc();
                                           $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'");
 
                                           $grade = mysqli_fetch_all($grades);
-
+                                          
                                        ?>
-                                       foreach
-                                          <?php if($c === null) :  echo 'result not ready'?>;
+                                       
+                                          <!-- <?php if($c === null) :  echo 'result not ready'?>; -->
                                          
-                                          <?php else : ?>
+                                          
 
                                           <?php if(($grades != 'NULL')) :  ?>
                                               
@@ -106,6 +106,7 @@ $result = $sql->fetch_assoc();
                                              echo "Result not ready";
                                           }
                                           ?>
+                                          <!-- <?php endif;?> -->
 
                                        <?php endfor; ?>
                                     <?php endif; ?>
