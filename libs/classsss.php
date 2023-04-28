@@ -49,6 +49,7 @@ class lecturer {
                 header('Location: login.php');
             }
         }
+        
     }
 
     function login() {

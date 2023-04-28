@@ -15,7 +15,7 @@ if (empty($result['courses'])) {
 
 <div class="page-wrapper">
     <div class="content container-fluid">
-
+      
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -27,11 +27,16 @@ if (empty($result['courses'])) {
                 </div>
             </div>
         </div>
+        <style>
+        .cardbg-two,.cardbg-three{
+            display: flex;
+        }
 
+        </style>
 
         <div class="row">
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-nine w-100">
+                <div class="card bg-one w-100">
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-icon">
@@ -46,7 +51,7 @@ if (empty($result['courses'])) {
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-six w-100">
+                <div class="card bg-two w-100">
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-icon">
@@ -60,12 +65,40 @@ if (empty($result['courses'])) {
                     </div>
                 </div>
             </div>
+            <?php
+            // $s = [];
+            // $u = [];
+
+            // // $id = $_SESSION['id'];
+
+            // // $sql = $db->query("SELECT * FROM bio where Email='$id'");
+
+            // // $result = $sql->fetch_assoc();
+            // // $Department = $result['department'];
+            // // $dept = strtolower(str_replace(' ', '', $Department));
+            // // $input = $db->query("SELECT * FROM $dept where classId ='1' and semester ='First'");
+
+            // // while ($course = mysqli_fetch_assoc($input)) :
+            // //     $units = $course['unit'];
+            // //     $u[] = $units;
+
+            // //     $sql = $result['courses'];
+            // //     $sq = explode(',', $sql);
+            // //     for ($i = 0; $i < count($sq); $i++) : $c = $sq[$i];
+            // //         $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'");
+            // //         $grade = mysqli_fetch_all($grades);
+            // //         $scores = $grade[0][0];
+            // //         $s[] = $scores;
+            // //     endfor;
+            // // endwhile;
+            // // ?>
+
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-ten w-100">
+                <div class="card bg-three w-100">
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-icon">
-                                <i class="fas fa-clipboard-list"></i>
+                                <i class="fas fa-scroll"></i>
                             </div>
                             <div class="db-info">
 

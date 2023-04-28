@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 $db = new mysqli('localhost', 'root', '', 'preskool');
 $sql="UPDATE bio set CSC101='45' ,CHEM101 ='67',CHEM103='89',BIO101='67',GNS101='77',MEE101='',MTS101='56',PHY101='77',PHY107='46' WHERE id= ";
 
@@ -42,4 +42,4 @@ else{
 }
 
 
-?>
+?> -->

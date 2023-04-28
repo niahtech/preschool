@@ -84,17 +84,24 @@ $result = $sql->fetch_assoc();
                                        ?>
 
 
-                                          <?php if(!($grade == 0)) : ?>
+                                          <?php if(($grades != 'NULL')) :  ?>
+                                              
                                              <tr>
 
                                                 <td><?= $sq[$i] ?></td>
                                                 <td><?= $course[$i][0] ?></td>
                                                 <!-- <td><?= $grade[0][0]; ?></td> -->
-                                                <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" disabled></td>
-                                                <td><input type="text" class="Remark" style="width:30px" disabled></td>
+                                                <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" style="border: none;"   disabled></td>
+                                                <td><input type="text" class="Remark" style="border: none;" style="width:30px" disabled ></td>
 
                                              </tr>
+                                             
                                           <?php endif; ?>
+
+                                          <?php if(($grades == 'NULL')){
+                                             echo "Result not ready";
+                                          }
+                                          ?>
 
                                        <?php endfor; ?>
                                     <?php endif; ?>

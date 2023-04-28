@@ -82,26 +82,7 @@ $item = $sql->fetch_assoc()
 
                     </style>
 
-                    <div class="row follow-sec  align-content-sm-around ">
-                        <div class="col-md-4 mb-3">
-                            <div class="blue-box">
-                                <!-- <h3>2850</h3>
-                                <p>Followers</p> -->
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="blue-box  ">
-                                <!-- <h3>2050</h3>
-                                <p>Following</p> -->
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="blue-box">
-                                <!-- <h3>2950</h3>
-                                <p>Friends</p> -->
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
             </div>
@@ -139,11 +120,9 @@ $item = $sql->fetch_assoc()
                     </ul> -->
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <h5>Education</h5>
-                            <p class="mt-3">Secondary Schooling at xyz school of secondary education, Mumbai.</p>
-                            <p>Higher Secondary Schooling at xyz school of higher secondary education, Mumbai.</p>
-                            <p>Bachelor of Science at Abc College of Art and Science, Chennai.</p>
-                            <p>Master of Science at Cdm College of Engineering and Technology, Pune.</p>
+                            <p>Latest Degree: SSCE Certificate</h5>
+                            <p>Degree To Obtain:B.tech </h5>
+                            
                         </div>
                     </div>
                     <!-- <div class="row mt-3">
