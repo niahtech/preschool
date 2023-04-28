@@ -130,7 +130,7 @@ include 'body.php';
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Image</label>
-                                        <input type="file" class="form-control" name="image">
+                                        <input type="file" class="form-control" name="image" required>
                                         <div><?= $imageErr ?? null; ?></div>
                                     </div>
                                 </div>

@@ -181,6 +181,7 @@ if (!isset($_SESSION['id'])) {
                                 <li><a href="student-details.php">Profile</a></li>
                                 <li><a href="student-reg.php">Course Registration</a></li>
                                 <li><a href="student-res.php">Result Checking</a></li>
+                                <!-- <li><a href="transcript.php">Transcript</a></li> -->
                                 <li><a hidden href="print-res.php">Print Course Form</a></li>
                             </ul>
 
@@ -193,7 +194,7 @@ if (!isset($_SESSION['id'])) {
                                 <li><a href="error-404.php">Error Page</a></li>
                             </ul>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="blank-page.php"><i class="fas fa-file"></i> <span>Blank Page</span></a>
                         </li>
                         <li class="menu-title">
@@ -206,8 +207,8 @@ if (!isset($_SESSION['id'])) {
                         </li>
                         <li>
                             <a href="components.html"><i class="fas fa-vector-square"></i> <span>Components</span></a>
-                        </li>
-                        <li class="submenu">
+                        </li> -->
+                        <!-- <li class="submenu">
                             <a href="#"><i class="fas fa-columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="form-basic-inputs.html">Basic Inputs </a></li>
@@ -244,7 +245,7 @@ if (!isset($_SESSION['id'])) {
                                 </li>
                                 <li>
                                     <a href="javascript:void(0);"> <span>Level 1</span></a>
-                                </li>
+                                </li> -->
                             </ul>
                         </li>
                     </ul>

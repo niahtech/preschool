@@ -32,7 +32,7 @@ $result = $sql->fetch_assoc();
          <BR>
          <br>
          <?
-         $gpa = calculateGPA($s, $u);
+         
          echo "YOUR GPA IS: " . round($gpa, 2);
          ?>
          <a>GPA for the semester:</a>
@@ -81,21 +81,32 @@ $result = $sql->fetch_assoc();
                                           $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'");
 
                                           $grade = mysqli_fetch_all($grades);
-
+                                          
                                        ?>
+                                       
+                                          <!-- <?php if($c === null) :  echo 'result not ready'?>; -->
+                                         
+                                          
 
-
-                                          <?php if(!($grade == 0)) : ?>
+                                          <?php if(($grades != 'NULL')) :  ?>
+                                              
                                              <tr>
 
                                                 <td><?= $sq[$i] ?></td>
                                                 <td><?= $course[$i][0] ?></td>
                                                 <!-- <td><?= $grade[0][0]; ?></td> -->
-                                                <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" disabled></td>
-                                                <td><input type="text" class="Remark" style="width:30px" disabled></td>
+                                                <td><input type="number" class="score" name="$grade[]" value=<?= $grade[0][0]; ?> style="width:40px" style="border: none;"   disabled></td>
+                                                <td><input type="text" class="Remark" style="border: none;" style="width:30px" disabled ></td>
 
                                              </tr>
+                                             
                                           <?php endif; ?>
+
+                                          <?php if(($grades == 'NULL')){
+                                             echo "Result not ready";
+                                          }
+                                          ?>
+                                          <!-- <?php endif;?> -->
 
                                        <?php endfor; ?>
                                     <?php endif; ?>

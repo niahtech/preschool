@@ -2284,12 +2284,13 @@ footer p {
     width: 150px;
 }
 .blue-box {
-    background-color: #faeb18;
+    background-color: #fa18a3;
     padding: 40px 30px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	color: #fff;
 	text-align: center;
+	justify-self: center;
 }
 .follow-sec h3 {
     font-size: 35px;

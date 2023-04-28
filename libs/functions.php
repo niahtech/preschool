@@ -225,58 +225,34 @@ function status($start, $end)
     }
     echo time();
 }
-// function calculateGPA($scores, $units)
-// {   
-//     global $db, $id, $result;
-    
+function calculateGPA($scores, $units)
+{
+    global $db, $id, $result;
 
-//     $total_units = 0;
-//     $total_points = 0;
-//     foreach ($scores as $score) {
-//         $point = 0;
-//         if ($score >= 70 && $score <= 100) {
-//             $point = 5.0;
-//         } elseif ($score >= 60 && $score <= 69) {
-//             $point = 4.0;
-//         } elseif ($score >= 50 && $score <= 59) {
-//             $point = 3.0;
-//         } elseif ($score >= 45 && $score <= 49) {
-//             $point = 2.0;
-//         } else {
-//             $point = 0.0;
-//         }
-//         $unit = array_shift($units);
-//         $total_units += $unit;
-//         $total_points += ($point * $unit);
-//     }
-//     $gpa = $total_points / $total_units;
-//     return $gpa;
-// }
-// $s = [];
-// $u = [];
 
-// $id = $_SESSION['id'];
+    $total_units = 0;
+    $total_points = 0;
+    foreach ($scores as $score) {
+        $point = 0;
+        if ($score >= 70 && $score <= 100) {
+            $point = 5.0;
+        } elseif ($score >= 60 && $score <= 69) {
+            $point = 4.0;
+        } elseif ($score >= 50 && $score <= 59) {
+            $point = 3.0;
+        } elseif ($score >= 45 && $score <= 49) {
+            $point = 2.0;
+        } else {
+            $point = 0.0;
+        }
+        $unit = array_shift($units);
+        $total_units += $unit;
+        $total_points += ($point * $unit);
+    }
+    $gpa = $total_points / $total_units;
+    return $gpa;
+}
 
-// $sql = $db->query("SELECT * FROM bio where Email='$id'");
-
-// $result = $sql->fetch_assoc();
-// $Department = $result['department'];
-// $dept = strtolower(str_replace(' ', '', $Department));
-// $input = $db->query("SELECT * FROM $dept where classId ='1' and semester ='First'");
-
-// while ($course = mysqli_fetch_assoc($input)) :
-//     $units = $course['unit'];
-//     $u[] = $units;
-
-//     $sql = $result['courses'];
-//     $sq = explode(',', $sql);
-//     for ($i = 0; $i < count($sq); $i++) : $c = $sq[$i];
-//         $grades = $db->query("SELECT $c FROM bio WHERE Email='$id'");
-//         $grade = mysqli_fetch_all($grades);
-//         $scores = $grade[0][0];
-//         $s[] = $scores;
-//     endfor;
-// endwhile;
 
 // $gpa = calculateGPA($s, $u);
-// echo "YOUR GPA IS: " . round($gpa, 2);
+//  echo "YOUR GPA IS: " . round($gpa, 2);
