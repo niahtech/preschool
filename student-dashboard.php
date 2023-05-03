@@ -111,7 +111,7 @@ if (empty($result['courses'])) {
             </div>
         </div>
 
-        <div class="col-12 col-lg-12 col-xl-3 d-flex">
+        <div class="col-12 col-lg-12 d-flex">
             <div class="card flex-fill">
                <div class="card-header">
                   <div class="row align-items-center">
@@ -123,7 +123,7 @@ if (empty($result['courses'])) {
                <div class="card-body">
                   <div id="calendar-doctor" class="calendar-container"></div>
                   <div class="calendar-info calendar-info1">
-                     <div class="calendar-details">
+                     <!-- <div class="calendar-details">
                         <p>09 am</p>
                         <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
                      </div>
@@ -142,7 +142,7 @@ if (empty($result['courses'])) {
                      <div class="calendar-details">
                         <p>09 am</p>
                         <h6 class="calendar-blue d-flex justify-content-between align-items-center">Fermentum <span>09am - 10pm</span></h6>
-                     </div>
+                     </div> -->
                   </div>
                </div>
             </div>
