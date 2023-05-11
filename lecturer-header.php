@@ -6,7 +6,8 @@ if (!isset($_SESSION['email'])) {
     header('Location: login.php');
 }
 
-$notifications =  $db->query("SELECT * FROM notifications WHERE recipient = 'lecturer' ORDER BY createdAt DESC LIMIT 4");
+$notifications =  $db->query("SELECT * FROM notifications WHERE recipient='lecturer'  ORDER BY updatedAt DESC LIMIT 4");
+$noti = $notifications->fetch_assoc();
 $currentTime = date("c");
 ?>
 
@@ -72,8 +73,8 @@ $currentTime = date("c");
             <ul class="nav user-menu">
 
                 <li class="nav-item dropdown noti-dropdown">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <i class="far fa-bell"></i><!-- <span class="badge badge-pill">3</span> -->
+                    <a href="#" class="dropdown-toggle nav-link bell" data-toggle="dropdown">
+                        <i class="far fa-bell"></i><span class="badge badge-pill notiNum"></span>
                     </a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
@@ -82,22 +83,22 @@ $currentTime = date("c");
                         </div>
                         <div class="noti-content">
                             <ul class="notification-list">
-                                <?php foreach($notifications as $notification): ?>
-                                <li class="notification-message">
-                                    <a href="#">
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <p class="noti-details"><span class="noti-title"><?= $notification['message']?></span></p>
-                                                <p class="noti-time"><span class="notification-time"><?php timeDifferenceNoti($currentTime, $notification['updatedAt']);?></span></p>
+                                <?php foreach ($notifications as $notification) : ?>
+                                    <li class="notification-message">
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <p class="noti-details"><span class="noti-title"><?= $notification['message'] ?></span></p>
+                                                    <p class="noti-time"><span class="notification-time"><?php timeDifferenceNoti($currentTime, $notification['updatedAt']); ?></span></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                         <div class="topnav-dropdown-footer">
-                            <!-- <a href="#">View all Notifications</a> -->
+                            <a href="inbox.php">View all Notifications</a>
                         </div>
                     </div>
                 </li>
@@ -118,7 +119,7 @@ $currentTime = date("c");
                             </div>
                         </div>
                         <a class="dropdown-item" href="teacher-details.php">My Profile</a>
-                        <!-- <a class="dropdown-item" href="inbox.html">Inbox</a> -->
+                        <a class="dropdown-item" href="inbox.php">Inbox</a>
                         <a class="dropdown-item" href="logout.php">Logout</a>
                     </div>
                 </li>
@@ -165,3 +166,34 @@ $currentTime = date("c");
                 </div>
             </div>
         </div>
+
+
+        <script>
+            // getting the number of unread messages
+            setInterval(function() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'notification.php', true);
+
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        document.querySelector('.notiNum').innerHTML = this.responseText;
+                    }
+                }
+
+                xhr.send();
+            }, 1000)
+
+            // setting the messages to read when it is opened
+            document.querySelector('.bell').addEventListener('click', (e) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', "read-noti.php", true);
+
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        document.querySelector('.notiNum').innerHTML = this.responseText;
+                    }
+                }
+
+                xhr.send();
+            })
+        </script>
