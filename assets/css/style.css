@@ -3261,7 +3261,7 @@ table.table-inbox tbody tr.checked {
 		display: none;
 	}
 	.user-menu.nav > li > a > span:not(.user-img) {
-		display: none;
+		/* display: none; */
 	}
 	.navbar-nav .open .dropdown-menu {
 		float: left;
