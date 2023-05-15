@@ -82,19 +82,7 @@ $currentTime = date("c");
                             <!-- <a href="javascript:void(0)" class="clear-noti"> Clear All </a> -->
                         </div>
                         <div class="noti-content">
-                            <ul class="notification-list">
-                                <?php foreach ($notifications as $notification) : ?>
-                                    <li class="notification-message">
-                                        <a href="#">
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <p class="noti-details"><span class="noti-title"><?= $notification['message'] ?></span></p>
-                                                    <p class="noti-time"><span class="notification-time"><?php timeDifferenceNoti($currentTime, $notification['updatedAt']); ?></span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
+                            <ul class="notification-list bold">
                             </ul>
                         </div>
                         <div class="topnav-dropdown-footer">
@@ -170,7 +158,6 @@ $currentTime = date("c");
 
         <script>
             // getting the number of unread messages
-            setInterval(function() {
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', 'notification.php', true);
 
@@ -181,7 +168,6 @@ $currentTime = date("c");
                 }
 
                 xhr.send();
-            }, 1000)
 
             // setting the messages to read when it is opened
             document.querySelector('.bell').addEventListener('click', (e) => {
@@ -190,7 +176,13 @@ $currentTime = date("c");
 
                 xhr.onload = function() {
                     if (this.status == 200) {
-                        document.querySelector('.notiNum').innerHTML = this.responseText;
+                        var response = JSON.parse(this.responseText);
+
+                        document.querySelector('.notiNum').innerHTML = response.result1;
+
+                        var array = response.result2;
+                        var result2 = array.join("");
+                        document.querySelector('.bold').innerHTML = result2;
                     }
                 }
 
